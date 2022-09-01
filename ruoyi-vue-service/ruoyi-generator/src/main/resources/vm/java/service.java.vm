@@ -1,0 +1,39 @@
+package ${packageName}.service;
+
+import com.baomidou.mybatisplus.extension.service.IService;
+import ${packageName}.domain.${ClassName};
+
+import java.util.List;
+
+/**
+ * ${functionName}Service接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface I${ClassName}Service extends IService<${ClassName} {
+
+    /**
+     * 分页查询
+     *
+     * @param entity
+     * @return
+     */
+    List<${ClassName}> queryList(${ClassName} entity);
+
+    /**
+     * 查询全部
+     *
+     * @param entity
+     * @return
+     */
+    List<${ClassName}> queryAll(${ClassName} entity);
+
+    /**
+     * 根据ID查询
+     *
+     * @param ${pkColumn.javaField}
+     * @return
+     */
+    ${ClassName} queryById(Long ${pkColumn.javaField});
+}

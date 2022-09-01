@@ -1,0 +1,40 @@
+package ${packageName}.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.utils.PageUtils;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.mapper.${ClassName}Mapper;
+import ${packageName}.service.I${ClassName}Service;
+import org.springframework.stereotype.Service;
+
+#if($table.sub)
+import java.util.ArrayList;
+import ${packageName}.domain.${subClassName};
+#end
+import java.util.List;
+
+/**
+ * ${functionName}Service业务层处理
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${ClassName}> implements I${ClassName}Service {
+
+    @Override
+    public List<${ClassName}> queryList(${ClassName} entity) {
+        return PageUtils.buildDataInfo(this.baseMapper.queryList(PageUtils.buildPage(), entity));
+    }
+
+    @Override
+    public List<${ClassName}> queryAll(${ClassName} entity) {
+        return this.baseMapper.queryAll(entity);
+    }
+
+    @Override
+    public ${ClassName} queryById(${pkColumn.javaType} ${pkColumn.javaField}) {
+        return this.baseMapper.queryById(${pkColumn.javaField});
+    }
+}

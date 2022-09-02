@@ -36,6 +36,13 @@
         "navigationBarTitleText": "我的",
 				"navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/login/default-login",
+      "style": {
+        "navigationBarTitleText": "账号密码登录",
+        "navigationStyle": "custom"
+      }
     }
   ],
   "tabBar": {

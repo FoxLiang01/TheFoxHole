@@ -13,6 +13,28 @@ Vue.prototype.$store = store
 
 Vue.config.productionTip = false
 
+import config from './common/config.js'
+import {validator} from './common/validator.js'
+Vue.prototype.$config = config;
+Vue.prototype.$validator = validator;
+Vue.prototype.$msg = (title, complete, icon = 'none', duration = 1500, mask = false) => {
+    //统一提示方便全局修改
+    if (Boolean(title) === false) {
+        return;
+    }
+    uni.showToast({
+        title,
+        duration,
+        mask,
+        icon,
+        complete: complete ? function () {
+            setTimeout(function() {
+                complete()
+            }, duration);
+        } : null
+    });
+};
+
 App.mpType = 'app'
 Vue.use(uView)
 

@@ -98,6 +98,19 @@ public class SysMenu extends BaseEntity {
      */
     private List<SysMenu> children = new ArrayList<SysMenu>();
 
+    /**
+     * 备注
+     */
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Long getMenuId() {
         return menuId;
     }

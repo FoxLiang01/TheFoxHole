@@ -41,6 +41,19 @@ public class SysNotice extends BaseEntity {
      */
     private String status;
 
+    /**
+     * 备注
+     */
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Long getNoticeId() {
         return noticeId;
     }

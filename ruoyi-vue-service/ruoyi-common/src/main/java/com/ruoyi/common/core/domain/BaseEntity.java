@@ -50,11 +50,6 @@ public class BaseEntity implements Serializable {
     private Date updateTime;
 
     /**
-     * 备注
-     */
-    private String remark;
-
-    /**
      * 删除状态
      */
     @TableField(fill = FieldFill.INSERT)

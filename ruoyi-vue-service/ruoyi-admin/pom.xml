@@ -61,10 +61,10 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
-        <!-- 测试模块 -->
+        <!-- 业务模块 -->
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>module-test</artifactId>
+            <artifactId>module-business</artifactId>
         </dependency>
     </dependencies>
 

@@ -93,6 +93,19 @@ public class SysRole extends BaseEntity {
 
     }
 
+    /**
+     * 备注
+     */
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public SysRole(Long roleId) {
         this.roleId = roleId;
     }

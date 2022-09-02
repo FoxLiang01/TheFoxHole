@@ -205,7 +205,7 @@
             <!-- 测试模块-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
-                <artifactId>module-test</artifactId>
+                <artifactId>module-business</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
@@ -219,7 +219,7 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
-        <module>module-test</module>
+        <module>module-business</module>
     </modules>
     <packaging>pom</packaging>
 

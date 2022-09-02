@@ -3,9 +3,10 @@ package ${packageName}.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${packageName}.domain.${ClassName};
-    #if($table.sub)
-    import ${packageName}.domain.${subClassName};
-    #end
+import ${packageName}.vo.${ClassName}Vo;
+#if($table.sub)
+import ${packageName}.domain.${subClassName};
+#end
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,10 +19,10 @@ import java.util.List;
  */
 public interface ${ClassName}Mapper extends BaseMapper<${ClassName}> {
 
-    Page<${ClassName}> queryList(Page<?> page, @Param("entity") ${ClassName} entity);
+    Page<${ClassName}Vo> queryList(Page<?> page, @Param("entity") ${ClassName}Vo entity);
 
-    List<${ClassName}> queryList(@Param("entity") ${ClassName} entity);
+    List<${ClassName}Vo> queryList(@Param("entity") ${ClassName}Vo entity);
 
-    ${ClassName} queryById(@Param("id") ${pkColumn.javaType} ${pkColumn.javaField});
+    ${ClassName}Vo queryById(@Param("id") ${pkColumn.javaType} ${pkColumn.javaField});
 
 }

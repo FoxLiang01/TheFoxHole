@@ -10,7 +10,7 @@
         <include refid="search"/>
     </sql>
 
-    <select id="queryList" resultType="${packageName}.domain.${ClassName}">
+    <select id="queryList" resultType="${packageName}.vo.${ClassName}Vo">
         <include refid="querySql"/>
         #foreach ($column in $columns)
         #if($column.query)
@@ -28,7 +28,7 @@
         order by A.create_time desc
     </select>
 
-    <select id="queryById" resultType="${packageName}.domain.${ClassName}">
+    <select id="queryById" resultType="${packageName}.vo.${ClassName}Vo">
         <include refid="querySql"/>
         and A.id = #{id}
     </select>

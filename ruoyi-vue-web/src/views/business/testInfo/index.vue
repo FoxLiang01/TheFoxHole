@@ -31,7 +31,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['test:storeInfo:add']"
+          v-hasPermi="['business:testInfo:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -42,7 +42,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['test:storeInfo:edit']"
+          v-hasPermi="['business:testInfo:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -53,7 +53,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['test:storeInfo:remove']"
+          v-hasPermi="['business:testInfo:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -63,13 +63,13 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['test:storeInfo:export']"
+          v-hasPermi="['business:testInfo:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="storeInfoList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="testInfoList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="门店名称" align="center" prop="storeName" />
@@ -81,19 +81,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['test:storeInfo:edit']"
+            v-hasPermi="['business:testInfo:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['test:storeInfo:remove']"
+            v-hasPermi="['business:testInfo:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -102,7 +102,7 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改门店管理对话框 -->
+    <!-- 添加或修改测试对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="门店名称" prop="storeName">
@@ -121,12 +121,14 @@
 </template>
 
 <script>
-import { listStoreInfo, getStoreInfo, delStoreInfo, addStoreInfo, updateStoreInfo } from "@/api/test/storeInfo";
+import { listTestInfo, getTestInfo, delTestInfo, addTestInfo, updateTestInfo } from "@/api/business/testInfo";
 
 export default {
-  name: "StoreInfo",
+  name: "TestInfo",
   data() {
     return {
+      // 根路径
+      baseURL: process.env.VUE_APP_BASE_API,
       // 遮罩层
       loading: true,
       // 选中数组
@@ -139,8 +141,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 门店管理表格数据
-      storeInfoList: [],
+      // 测试表格数据
+      testInfoList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -163,11 +165,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询门店管理列表 */
+    /** 查询测试列表 */
     getList() {
       this.loading = true;
-      listStoreInfo(this.queryParams).then(response => {
-        this.storeInfoList = response.rows;
+      listTestInfo(this.queryParams).then(response => {
+        this.testInfoList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -211,16 +213,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加门店管理";
+      this.title = "添加测试";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getStoreInfo(id).then(response => {
+      getTestInfo(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改门店管理";
+        this.title = "修改测试";
       });
     },
     /** 提交按钮 */
@@ -228,13 +230,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateStoreInfo(this.form).then(response => {
+            updateTestInfo(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addStoreInfo(this.form).then(response => {
+            addTestInfo(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -246,8 +248,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除门店管理编号为"' + ids + '"的数据项？').then(function() {
-        return delStoreInfo(ids);
+      this.$modal.confirm('是否确认删除测试编号为"' + ids + '"的数据项？').then(function() {
+        return delTestInfo(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -255,9 +257,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('test/storeInfo/export', {
+      this.download('business/testInfo/export', {
         ...this.queryParams
-      }, `storeInfo_${new Date().getTime()}.xlsx`)
+      }, `testInfo_${new Date().getTime()}.xlsx`)
     }
   }
 };

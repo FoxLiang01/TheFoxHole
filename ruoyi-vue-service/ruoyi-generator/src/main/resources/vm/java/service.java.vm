@@ -1,7 +1,9 @@
 package ${packageName}.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ruoyi.common.core.page.TableDataInfo;
 import ${packageName}.domain.${ClassName};
+import ${packageName}.vo.${ClassName}Vo;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * @author ${author}
  * @date ${datetime}
  */
-public interface I${ClassName}Service extends IService<${ClassName} {
+public interface I${ClassName}Service extends IService<${ClassName}> {
 
     /**
      * 分页查询
@@ -19,7 +21,7 @@ public interface I${ClassName}Service extends IService<${ClassName} {
      * @param entity
      * @return
      */
-    List<${ClassName}> queryList(${ClassName} entity);
+    TableDataInfo<${ClassName}Vo> queryList(${ClassName}Vo entity);
 
     /**
      * 查询全部
@@ -27,7 +29,7 @@ public interface I${ClassName}Service extends IService<${ClassName} {
      * @param entity
      * @return
      */
-    List<${ClassName}> queryAll(${ClassName} entity);
+    List<${ClassName}Vo> queryAll(${ClassName}Vo entity);
 
     /**
      * 根据ID查询
@@ -35,5 +37,5 @@ public interface I${ClassName}Service extends IService<${ClassName} {
      * @param ${pkColumn.javaField}
      * @return
      */
-    ${ClassName} queryById(Long ${pkColumn.javaField});
+    ${ClassName}Vo queryById(Long ${pkColumn.javaField});
 }

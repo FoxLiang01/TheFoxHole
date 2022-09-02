@@ -1,18 +1,19 @@
-package com.ruoyi.test.service;
+package com.ruoyi.business.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.test.domain.TStoreInfo;
+import com.ruoyi.business.domain.TTestInfo;
+import com.ruoyi.business.vo.TTestInfoVo;
 
 import java.util.List;
 
 /**
- * 门店Service接口
+ * 测试Service接口
  *
  * @author Tellsea
- * @date 2022-09-01
+ * @date 2022-09-02
  */
-public interface ITStoreInfoService extends IService<TStoreInfo> {
+public interface ITTestInfoService extends IService<TTestInfo> {
 
     /**
      * 分页查询
@@ -20,7 +21,7 @@ public interface ITStoreInfoService extends IService<TStoreInfo> {
      * @param entity
      * @return
      */
-    TableDataInfo queryList(TStoreInfo entity);
+    TableDataInfo<TTestInfoVo> queryList(TTestInfoVo entity);
 
     /**
      * 查询全部
@@ -28,7 +29,7 @@ public interface ITStoreInfoService extends IService<TStoreInfo> {
      * @param entity
      * @return
      */
-    List<TStoreInfo> queryAll(TStoreInfo entity);
+    List<TTestInfoVo> queryAll(TTestInfoVo entity);
 
     /**
      * 根据ID查询
@@ -36,5 +37,5 @@ public interface ITStoreInfoService extends IService<TStoreInfo> {
      * @param id
      * @return
      */
-    TStoreInfo queryById(Long id);
+    TTestInfoVo queryById(Long id);
 }

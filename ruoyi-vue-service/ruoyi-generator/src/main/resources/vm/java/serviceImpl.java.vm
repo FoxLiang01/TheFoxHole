@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.utils.PageUtils;
 import ${packageName}.domain.${ClassName};
+import ${packageName}.vo.${ClassName}Vo;
 import ${packageName}.mapper.${ClassName}Mapper;
 import ${packageName}.service.I${ClassName}Service;
 import org.springframework.stereotype.Service;
@@ -24,17 +25,17 @@ import java.util.List;
 public class ${ClassName}ServiceImpl extends ServiceImpl<${ClassName}Mapper, ${ClassName}> implements I${ClassName}Service {
 
     @Override
-    public List<${ClassName}> queryList(${ClassName} entity) {
+    public TableDataInfo<${ClassName}Vo> queryList(${ClassName}Vo entity) {
         return PageUtils.buildDataInfo(this.baseMapper.queryList(PageUtils.buildPage(), entity));
     }
 
     @Override
-    public List<${ClassName}> queryAll(${ClassName} entity) {
-        return this.baseMapper.queryAll(entity);
+    public List<${ClassName}Vo> queryAll(${ClassName}Vo entity) {
+        return this.baseMapper.queryList(entity);
     }
 
     @Override
-    public ${ClassName} queryById(${pkColumn.javaType} ${pkColumn.javaField}) {
+    public ${ClassName}Vo queryById(${pkColumn.javaType} ${pkColumn.javaField}) {
         return this.baseMapper.queryById(${pkColumn.javaField});
     }
 }

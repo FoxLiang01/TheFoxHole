@@ -128,7 +128,7 @@
 #elseif($column.list && $column.htmlType == "datetime")
       <el-table-column label="${comment}" align="center" prop="${javaField}" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.${javaField}, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.${javaField}) }}</span>
         </template>
       </el-table-column>
 #elseif($column.list && $column.htmlType == "imageUpload")
@@ -170,7 +170,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -356,6 +356,8 @@ export default {
 #end
   data() {
     return {
+      // 根路径
+      baseURL: process.env.VUE_APP_BASE_API,
       // 遮罩层
       loading: true,
       // 选中数组

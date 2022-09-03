@@ -31,25 +31,27 @@ service.interceptors.request.use(config => {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
   // 请求参数加密
-  if (config.data) {
-    console.log(JSON.stringify(config.data));
-    config.data = {
-      // 加密参数
-      aesData: encodeURIComponent(aes.encrypt(JSON.stringify(config.data)))
-    }
-  } else if (config.params) {
-    console.log(JSON.stringify(config.params));
-    config.params = {
-      // 加密参数
-      aesData: encodeURIComponent(aes.encrypt(JSON.stringify(config.params)))
-    }
-  } else {
-    let noData = {
-      noData: "noData"
-    }
-    config.params = {
-      // 加密参数
-      aesData: encodeURIComponent(aes.encrypt(JSON.stringify(noData)))
+  if (process.env.VUE_APP_AES_KEY) {
+    if (config.data) {
+      console.log(JSON.stringify(config.data));
+      config.data = {
+        // 加密参数
+        aesData: encodeURIComponent(aes.encrypt(JSON.stringify(config.data)))
+      }
+    } else if (config.params) {
+      console.log(JSON.stringify(config.params));
+      config.params = {
+        // 加密参数
+        aesData: encodeURIComponent(aes.encrypt(JSON.stringify(config.params)))
+      }
+    } else {
+      let noData = {
+        noData: new Date().getTime()
+      }
+      config.params = {
+        // 加密参数
+        aesData: encodeURIComponent(aes.encrypt(JSON.stringify(noData)))
+      }
     }
   }
   // get请求映射params参数

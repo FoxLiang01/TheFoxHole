@@ -43,6 +43,11 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+        </dependency>
+
         <!-- 核心模块-->
         <dependency>
             <groupId>com.ruoyi</groupId>

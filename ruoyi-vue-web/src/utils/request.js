@@ -6,6 +6,7 @@ import errorCode from '@/utils/errorCode'
 import { tansParams, blobValidate } from "@/utils/ruoyi";
 import cache from '@/plugins/cache'
 import { saveAs } from 'file-saver'
+import aes from './aes.js'
 
 let downloadLoadingInstance;
 // 是否显示重新登录
@@ -17,7 +18,7 @@ const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
   baseURL: process.env.VUE_APP_BASE_API,
   // 超时
-  timeout: 10000
+  timeout: 60 * 60 * 1000
 })
 
 // request拦截器
@@ -28,6 +29,28 @@ service.interceptors.request.use(config => {
   const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
   if (getToken() && !isToken) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+  }
+  // 请求参数加密
+  if (config.data) {
+    console.log(JSON.stringify(config.data));
+    config.data = {
+      // 加密参数
+      aesData: encodeURIComponent(aes.encrypt(JSON.stringify(config.data)))
+    }
+  } else if (config.params) {
+    console.log(JSON.stringify(config.params));
+    config.params = {
+      // 加密参数
+      aesData: encodeURIComponent(aes.encrypt(JSON.stringify(config.params)))
+    }
+  } else {
+    let noData = {
+      noData: "noData"
+    }
+    config.params = {
+      // 加密参数
+      aesData: encodeURIComponent(aes.encrypt(JSON.stringify(noData)))
+    }
   }
   // get请求映射params参数
   if (config.method === 'get' && config.params) {

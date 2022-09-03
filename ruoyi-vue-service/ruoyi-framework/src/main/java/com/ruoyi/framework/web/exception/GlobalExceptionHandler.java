@@ -4,6 +4,7 @@ import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.exception.DemoModeException;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.exception.user.CaptchaException;
 import com.ruoyi.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,11 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage());
         Integer code = e.getCode();
         return StringUtils.isNotNull(code) ? AjaxResult.error(code, e.getMessage()) : AjaxResult.error(e.getMessage());
+    }
+
+    @ExceptionHandler(CaptchaException.class)
+    public AjaxResult handleCaptchaException(CaptchaException e, HttpServletRequest request) {
+        return AjaxResult.error(e.getMessage());
     }
 
     /**

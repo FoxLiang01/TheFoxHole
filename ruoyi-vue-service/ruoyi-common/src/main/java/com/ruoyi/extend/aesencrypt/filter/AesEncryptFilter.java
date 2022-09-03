@@ -1,10 +1,13 @@
-package com.ruoyi.encryption;
+package com.ruoyi.extend.aesencrypt.filter;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.HttpMethod;
+import com.ruoyi.extend.aesencrypt.utils.AesEncryptUtils;
+import com.ruoyi.extend.aesencrypt.wrapper.GetParamsRequestWrapper;
+import com.ruoyi.extend.aesencrypt.wrapper.PostParamsRequestWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

@@ -2,6 +2,7 @@ package com.ruoyi.business.domain;
 
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.extend.dbcolumn.annotation.EncryptField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,19 +19,20 @@ import lombok.experimental.Accessors;
 public class TTestInfo extends BaseEntity {
 
     /**
-    * ID
-    */
+     * ID
+     */
     private Long id;
 
     /**
-    * 门店名称
-    */
+     * 门店名称
+     */
     @Excel(name = "门店名称")
+    @EncryptField
     private String storeName;
 
     /**
-    * 门店图片
-    */
+     * 门店图片
+     */
     @Excel(name = "门店图片")
     private String picture;
 

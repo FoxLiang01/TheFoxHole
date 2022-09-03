@@ -1,4 +1,4 @@
-package com.ruoyi.encryption;
+package com.ruoyi.extend.aesencrypt.wrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;

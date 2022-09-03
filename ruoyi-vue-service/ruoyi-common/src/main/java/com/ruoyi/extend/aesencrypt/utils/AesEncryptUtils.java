@@ -1,4 +1,4 @@
-package com.ruoyi.encryption;
+package com.ruoyi.extend.aesencrypt.utils;
 
 import org.apache.commons.codec.binary.Base64;
 

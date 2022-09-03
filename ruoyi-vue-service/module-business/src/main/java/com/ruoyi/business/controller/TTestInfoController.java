@@ -7,6 +7,8 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.business.vo.TTestInfoVo;
 import com.ruoyi.business.service.ITTestInfoService;
+import com.ruoyi.extend.dbcolumn.annotation.NeedDecrypt;
+import com.ruoyi.extend.dbcolumn.annotation.NeedEncrypt;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,7 @@ public class TTestInfoController extends BaseController {
     @ApiOperation("查询测试列表")
     @PreAuthorize("@ss.hasPermi('business:testInfo:list')")
     @GetMapping("/list")
+    @NeedDecrypt
     public TableDataInfo<TTestInfoVo> list(TTestInfoVo entity) {
         return tTestInfoService.queryList(entity);
     }
@@ -67,6 +70,7 @@ public class TTestInfoController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:testInfo:add')")
     @Log(title = "测试", businessType = BusinessType.INSERT)
     @PostMapping("add")
+    @NeedEncrypt
     public AjaxResult add(@RequestBody TTestInfoVo entity) {
         return toAjax(tTestInfoService.save(entity));
     }

@@ -7,7 +7,6 @@ import java.lang.annotation.Target;
 
 /**
  * 加密字段
- * https://blog.csdn.net/qq_35387940/article/details/121374918
  *
  * @author Tellsea
  * @date 2022/9/3

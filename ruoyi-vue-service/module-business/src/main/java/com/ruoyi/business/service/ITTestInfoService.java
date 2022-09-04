@@ -1,9 +1,9 @@
 package com.ruoyi.business.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.business.domain.TTestInfo;
 import com.ruoyi.business.vo.TTestInfoVo;
+import com.ruoyi.common.core.page.TableDataInfo;
 
 import java.util.List;
 
@@ -38,4 +38,19 @@ public interface ITTestInfoService extends IService<TTestInfo> {
      * @return
      */
     TTestInfoVo queryById(Long id);
+
+    /**
+     * 测试MySQL加密
+     *
+     * @param entity
+     */
+    void saveEntity(TTestInfoVo entity);
+
+    /**
+     * 测试MySQL解密
+     *
+     * @param id
+     * @return
+     */
+    TTestInfoVo getEntityById(int id);
 }

@@ -72,7 +72,9 @@ public class TTestInfoController extends BaseController {
     @PostMapping("add")
     @NeedEncrypt
     public AjaxResult add(@RequestBody TTestInfoVo entity) {
-        return toAjax(tTestInfoService.save(entity));
+        //return toAjax(tTestInfoService.save(entity));
+        tTestInfoService.saveEntity(entity);
+        return AjaxResult.success();
     }
 
     @ApiOperation("修改测试")

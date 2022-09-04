@@ -3,6 +3,7 @@ package com.ruoyi.business.vo;
 import com.ruoyi.business.domain.TTestInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -13,7 +14,9 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class TTestInfoVo extends TTestInfo {
 
+    private String test;
 }

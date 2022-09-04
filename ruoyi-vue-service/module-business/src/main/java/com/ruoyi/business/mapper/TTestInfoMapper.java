@@ -22,4 +22,7 @@ public interface TTestInfoMapper extends BaseMapper<TTestInfo> {
 
     TTestInfoVo queryById(@Param("id") Long id);
 
+    void saveEntity(@Param("entity") TTestInfoVo entity);
+
+    TTestInfoVo getEntityById(@Param("id") int id);
 }

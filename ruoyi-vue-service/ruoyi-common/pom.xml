@@ -164,6 +164,10 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>com.gitee.china-zhz</groupId>
+            <artifactId>privacy-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

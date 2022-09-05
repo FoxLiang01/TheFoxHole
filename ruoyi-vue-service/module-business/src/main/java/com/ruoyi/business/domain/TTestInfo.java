@@ -1,5 +1,6 @@
 package com.ruoyi.business.domain;
 
+import cn.zhz.privacy.annotation.FieldEncrypt;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.extend.dbcolumn.annotation.EncryptField;
@@ -36,6 +37,7 @@ public class TTestInfo extends BaseEntity {
      * 门店图片
      */
     @Excel(name = "门店图片")
+    @FieldEncrypt
     private String picture;
 
 }

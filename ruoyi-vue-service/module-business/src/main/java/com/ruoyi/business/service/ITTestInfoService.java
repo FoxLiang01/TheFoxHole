@@ -38,19 +38,4 @@ public interface ITTestInfoService extends IService<TTestInfo> {
      * @return
      */
     TTestInfoVo queryById(Long id);
-
-    /**
-     * 测试MySQL加密
-     *
-     * @param entity
-     */
-    void saveEntity(TTestInfoVo entity);
-
-    /**
-     * 测试MySQL解密
-     *
-     * @param id
-     * @return
-     */
-    TTestInfoVo getEntityById(int id);
 }

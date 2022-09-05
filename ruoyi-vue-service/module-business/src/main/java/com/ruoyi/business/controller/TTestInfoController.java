@@ -1,12 +1,13 @@
 package com.ruoyi.business.controller;
 
+import com.ruoyi.business.service.ITTestInfoService;
+import com.ruoyi.business.vo.TTestInfoVo;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.business.vo.TTestInfoVo;
-import com.ruoyi.business.service.ITTestInfoService;
 import com.ruoyi.extend.dbcolumn.annotation.NeedDecrypt;
 import com.ruoyi.extend.dbcolumn.annotation.NeedEncrypt;
 import io.swagger.annotations.Api;
@@ -15,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import com.ruoyi.common.core.page.TableDataInfo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
@@ -45,6 +45,7 @@ public class TTestInfoController extends BaseController {
 
     @ApiOperation("查询测试所有列表")
     @GetMapping("/listAll")
+    @NeedDecrypt
     public AjaxResult listAll(TTestInfoVo entity) {
         return AjaxResult.success("查询成功", tTestInfoService.queryAll(entity));
     }
@@ -53,6 +54,7 @@ public class TTestInfoController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:testInfo:export')")
     @Log(title = "测试", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
+    @NeedDecrypt
     public void export(HttpServletResponse response, TTestInfoVo entity) {
         List<TTestInfoVo> list = tTestInfoService.queryAll(entity);
         ExcelUtil<TTestInfoVo> util = new ExcelUtil<>(TTestInfoVo.class);
@@ -62,6 +64,7 @@ public class TTestInfoController extends BaseController {
     @ApiOperation("获取测试详细信息")
     @PreAuthorize("@ss.hasPermi('business:testInfo:query')")
     @GetMapping(value = "/getInfo/{id}")
+    @NeedDecrypt
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success("查询成功", tTestInfoService.queryById(id));
     }
@@ -72,15 +75,14 @@ public class TTestInfoController extends BaseController {
     @PostMapping("add")
     @NeedEncrypt
     public AjaxResult add(@RequestBody TTestInfoVo entity) {
-        //return toAjax(tTestInfoService.save(entity));
-        tTestInfoService.saveEntity(entity);
-        return AjaxResult.success();
+        return toAjax(tTestInfoService.save(entity));
     }
 
     @ApiOperation("修改测试")
     @PreAuthorize("@ss.hasPermi('business:testInfo:edit')")
     @Log(title = "测试", businessType = BusinessType.UPDATE)
     @PostMapping("edit")
+    @NeedEncrypt
     public AjaxResult edit(@RequestBody TTestInfoVo entity) {
         return toAjax(tTestInfoService.updateById(entity));
     }
@@ -88,7 +90,7 @@ public class TTestInfoController extends BaseController {
     @ApiOperation("删除测试")
     @PreAuthorize("@ss.hasPermi('business:testInfo:remove')")
     @Log(title = "测试", businessType = BusinessType.DELETE)
-	@GetMapping("/remove/{ids}")
+    @GetMapping("/remove/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(tTestInfoService.removeByIds(Arrays.asList(ids)) ? 1 : 0);
     }

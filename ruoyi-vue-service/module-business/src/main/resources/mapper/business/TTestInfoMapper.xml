@@ -26,23 +26,6 @@
         and A.id = #{id}
     </select>
 
-    <insert id="saveEntity" parameterType="com.ruoyi.business.vo.TTestInfoVo">
-        insert into t_test_info(store_name, picture) values (#{entity.storeName}, AES_ENCRYPT(#{entity.picture}, 'ruoyi-vue-service@123456'));
-    </insert>
-
-    <select id="getEntityById" resultType="com.ruoyi.business.vo.TTestInfoVo">
-        select A.id,
-               A.store_name,
-               AES_DECRYPT(A.picture, 'ruoyi-vue-service@123456') picture,
-               A.create_by,
-               A.create_time,
-               A.update_by,
-               A.update_time,
-               A.delete_status
-        from t_test_info A
-        where A.delete_status = 1 and A.id = #{id}
-    </select>
-
     <sql id="allField">
         A.id,
         A.store_name,

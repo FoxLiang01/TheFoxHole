@@ -18,5 +18,4 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = true)
 public class TTestInfoVo extends TTestInfo {
 
-    private String test;
 }

@@ -14,16 +14,6 @@ class RuoYiApplicationTest {
     private ITTestInfoService testInfoService;
 
     @Test
-    public void saveEntity() {
-        TTestInfoVo testInfoVo = new TTestInfoVo();
-        testInfoVo.setStoreName("烧烤店");
-        testInfoVo.setPicture("烧烤店123456");
-        testInfoService.saveEntity(testInfoVo);
-    }
-
-    @Test
-    public void getEntityById() {
-        TTestInfoVo testInfoVo = testInfoService.getEntityById(7);
-        System.out.println(JSON.toJSONString(testInfoVo));
+    public void test() {
     }
 }

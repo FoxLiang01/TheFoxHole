@@ -34,14 +34,4 @@ public class TTestInfoServiceImpl extends ServiceImpl<TTestInfoMapper, TTestInfo
     public TTestInfoVo queryById(Long id) {
         return this.baseMapper.queryById(id);
     }
-
-    @Override
-    public void saveEntity(TTestInfoVo entity) {
-        this.baseMapper.saveEntity(entity);
-    }
-
-    @Override
-    public TTestInfoVo getEntityById(int id) {
-        return this.baseMapper.getEntityById(id);
-    }
 }

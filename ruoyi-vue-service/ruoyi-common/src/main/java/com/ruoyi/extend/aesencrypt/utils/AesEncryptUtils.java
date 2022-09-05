@@ -76,6 +76,7 @@ public class AesEncryptUtils {
             String decode = URLDecoder.decode("IoKtcl0qjqPJKDtNb5cPbA%3D%3D", "UTF-8");
             System.out.println(decode);
             System.out.println(decrypt(decode));
+            System.out.println(decrypt(decode));
         } catch (Exception e) {
             e.printStackTrace();
         }

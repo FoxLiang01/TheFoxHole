@@ -1,4 +1,4 @@
-package com.ruoyi.extend.aesencrypt.wrapper;
+package com.ruoyi.extend.datasecurity.aesencrypt.wrapper;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.utils.ServletUtils;
-import com.ruoyi.extend.aesencrypt.utils.AesEncryptUtils;
+import com.ruoyi.extend.datasecurity.aesencrypt.utils.AesEncryptUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;

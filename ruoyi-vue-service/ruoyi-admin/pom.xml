@@ -72,6 +72,12 @@
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
 
+        <!-- 扩展功能 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>module-extend</artifactId>
+        </dependency>
+
         <!-- 业务模块 -->
         <dependency>
             <groupId>com.ruoyi</groupId>

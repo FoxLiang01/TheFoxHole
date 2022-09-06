@@ -164,6 +164,7 @@
             </exclusions>
         </dependency>
 
+        <!-- 数据库字段加密 -->
         <dependency>
             <groupId>com.gitee.china-zhz</groupId>
             <artifactId>privacy-spring-boot-starter</artifactId>

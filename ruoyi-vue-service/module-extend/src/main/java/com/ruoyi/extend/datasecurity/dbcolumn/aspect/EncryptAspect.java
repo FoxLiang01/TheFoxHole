@@ -1,7 +1,7 @@
-package com.ruoyi.extend.dbcolumn.aspect;
+package com.ruoyi.extend.datasecurity.dbcolumn.aspect;
 
-import com.ruoyi.extend.aesencrypt.utils.AesEncryptUtils;
-import com.ruoyi.extend.dbcolumn.annotation.EncryptField;
+import com.ruoyi.extend.datasecurity.aesencrypt.utils.AesEncryptUtils;
+import com.ruoyi.extend.datasecurity.dbcolumn.annotation.EncryptField;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -23,7 +23,7 @@ import java.util.Objects;
 @Component
 public class EncryptAspect {
 
-    @Pointcut("@annotation(com.ruoyi.extend.dbcolumn.annotation.NeedEncrypt)")
+    @Pointcut("@annotation(com.ruoyi.extend.datasecurity.dbcolumn.annotation.NeedEncrypt)")
     public void pointCut() {
     }
 

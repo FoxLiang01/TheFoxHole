@@ -1,4 +1,4 @@
-package com.ruoyi.extend.dbcolumn.annotation;
+package com.ruoyi.extend.datasecurity.dbcolumn.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -8,8 +8,6 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.extend.dbcolumn.annotation.NeedDecrypt;
-import com.ruoyi.extend.dbcolumn.annotation.NeedEncrypt;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -38,14 +36,12 @@ public class TTestInfoController extends BaseController {
     @ApiOperation("查询测试列表")
     @PreAuthorize("@ss.hasPermi('business:testInfo:list')")
     @GetMapping("/list")
-    @NeedDecrypt
     public TableDataInfo<TTestInfoVo> list(TTestInfoVo entity) {
         return tTestInfoService.queryList(entity);
     }
 
     @ApiOperation("查询测试所有列表")
     @GetMapping("/listAll")
-    @NeedDecrypt
     public AjaxResult listAll(TTestInfoVo entity) {
         return AjaxResult.success("查询成功", tTestInfoService.queryAll(entity));
     }
@@ -54,7 +50,6 @@ public class TTestInfoController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:testInfo:export')")
     @Log(title = "测试", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    @NeedDecrypt
     public void export(HttpServletResponse response, TTestInfoVo entity) {
         List<TTestInfoVo> list = tTestInfoService.queryAll(entity);
         ExcelUtil<TTestInfoVo> util = new ExcelUtil<>(TTestInfoVo.class);
@@ -64,7 +59,6 @@ public class TTestInfoController extends BaseController {
     @ApiOperation("获取测试详细信息")
     @PreAuthorize("@ss.hasPermi('business:testInfo:query')")
     @GetMapping(value = "/getInfo/{id}")
-    @NeedDecrypt
     public AjaxResult getInfo(@PathVariable("id") Long id) {
         return AjaxResult.success("查询成功", tTestInfoService.queryById(id));
     }
@@ -73,7 +67,6 @@ public class TTestInfoController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:testInfo:add')")
     @Log(title = "测试", businessType = BusinessType.INSERT)
     @PostMapping("add")
-    @NeedEncrypt
     public AjaxResult add(@RequestBody TTestInfoVo entity) {
         return toAjax(tTestInfoService.save(entity));
     }
@@ -82,7 +75,6 @@ public class TTestInfoController extends BaseController {
     @PreAuthorize("@ss.hasPermi('business:testInfo:edit')")
     @Log(title = "测试", businessType = BusinessType.UPDATE)
     @PostMapping("edit")
-    @NeedEncrypt
     public AjaxResult edit(@RequestBody TTestInfoVo entity) {
         return toAjax(tTestInfoService.updateById(entity));
     }

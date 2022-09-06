@@ -1,4 +1,4 @@
-package com.ruoyi.extend.dbcolumn.annotation;
+package com.ruoyi.extend.datasecurity.dbcolumn.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,12 +6,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 加密
+ * 解密
  *
  * @author Tellsea
  * @date 2022/9/3
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NeedEncrypt {
+public @interface NeedDecrypt {
+
 }

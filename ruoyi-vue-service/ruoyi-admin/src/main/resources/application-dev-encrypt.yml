@@ -4,20 +4,20 @@ business:
   aes-encrypt:
     # 是否启用
     enabled: true
+# 微信配置
+wx:
+  mp:
+    configs:
+      - appId: mpw:X4E5aVoRXmJOpEq/TBhqAZDd+UrJainme0VBL5RJpxg=
+        secret: mpw:XH2UDbmvPoZAkwpKVN3LVBaV3fEI6QnrypDhjFrIjqbwXGPA9g7Y4Ohe4sG8Ubqv
+        token:
+        aesKey:
 # 日志配置
 logging:
   level:
     org.springframework.web: INFO
     com.github.binarywang.demo.wx.mp: DEBUG
     me.chanjar.weixin: DEBUG
-# 微信配置
-wx:
-  mp:
-    configs:
-      - appId: wxfed44936431200f0
-        secret: 8486ea1cf41d2fb20f81fa810b5b26e6
-        token:
-        aesKey:
 
 # 数据源配置
 spring:
@@ -27,12 +27,9 @@ spring:
     druid:
       # 主库数据源
       master:
-        url: jdbc:mysql://127.0.0.1:3306/ruoyi-vue-service?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-        username: root
-        password: 123456
-        # url: mpw:qTaNIyvTORcbdv5K00Bm0PSEkW2QhQRQ7qGfbWg+OxZEsh4+N7ojg1SUqMk2lolusXzEegXFpfH3f2n11N3N6Ws33dtkYN7Sg1ySRd1uQ1lWAhLLl1JDs7oM6QBbDiCTHnLnDfU2zi9xmFrVxjUXOKCJIRSPvWbkG4olkdAD8sC4Bprhb4n8H9B2bzKRDALg7Q7m9aW+EBuep4VmvdrlXQ==
-        # username: mpw:MpkqZJ82X0adfa+KsWmuzQ==
-        # password: mpw:Gzu2CuEX7QjN60nwUgbSgQ==
+        url: mpw:x8606dx1Jz3sey0jyqP4Kn9naKLPO2/G/qR4oExixWkZImgVtoVV7gw5v5tN8nEtL6IJ7+BohNe88yLiPJoBP9a6CJ5pW0gE4RhBsEgmEUvAN1m+H1OMMT///jtJw1L4n36U8+VeCTLyVinhydS5//RG/B5+uC5wjSZ3Nqmob62aFdltAFuajzeEVW0C20aI9SaBjQ92ZEJ2HR/Ep6lTmA==
+        username: mpw:KJQKeYAUfv43NgTztzbk1Q==
+        password: mpw:S5qmpDOVTontgyyeUT3IXQ==
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭
@@ -67,8 +64,8 @@ spring:
         allow:
         url-pattern: /druid/*
         # 控制台管理用户名和密码
-        login-username: admin
-        login-password: 123456
+        login-username: mpw:W010sLxhMrgunLW7Z9syJA==
+        login-password: mpw:OtqHwmZvuS1YJq8hqSjgSw==
       filter:
         stat:
           enabled: true

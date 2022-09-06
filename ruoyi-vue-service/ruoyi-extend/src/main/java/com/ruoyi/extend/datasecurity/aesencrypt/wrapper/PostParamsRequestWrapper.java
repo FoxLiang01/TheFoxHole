@@ -58,13 +58,13 @@ public class PostParamsRequestWrapper extends HttpServletRequestWrapper {
         HttpServletResponse response = ServletUtils.getResponse();
         ObjectMapper om = new ObjectMapper();
         response.setContentType(CONTENT_TYPE_CHARSET);
-        if (ObjectUtil.isNull(JSON.parseObject(reqBodyStr).get("aesData"))) {
+        if (ObjectUtil.isNull(JSON.parseObject(reqBodyStr).get("dataParams"))) {
             om.writeValue(response.getWriter(), AjaxResult.error("参数异常"));
             return null;
         }
         try {
             //reqBodyStr转为Map对象
-            Map<String, Object> paramMap = new ObjectMapper().readValue(AesEncryptUtils.decrypt(JSON.parseObject(reqBodyStr).get("aesData").toString()), new TypeReference<HashMap<String, Object>>() {
+            Map<String, Object> paramMap = new ObjectMapper().readValue(AesEncryptUtils.decrypt(JSON.parseObject(reqBodyStr).get("dataParams").toString()), new TypeReference<HashMap<String, Object>>() {
             });
             //重新构造一个输入流对象
             byte[] bytes = JSON.toJSONString(paramMap).getBytes("utf-8");

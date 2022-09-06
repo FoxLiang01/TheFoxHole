@@ -75,7 +75,7 @@
         <!-- 扩展功能 -->
         <dependency>
             <groupId>com.ruoyi</groupId>
-            <artifactId>module-extend</artifactId>
+            <artifactId>ruoyi-extend</artifactId>
         </dependency>
 
         <!-- 业务模块 -->

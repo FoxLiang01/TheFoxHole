@@ -221,7 +221,7 @@
             <!-- 扩展功能 -->
             <dependency>
                 <groupId>com.ruoyi</groupId>
-                <artifactId>module-extend</artifactId>
+                <artifactId>ruoyi-extend</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
@@ -242,8 +242,8 @@
         <module>ruoyi-quartz</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
+        <module>ruoyi-extend</module>
         <module>module-business</module>
-        <module>module-extend</module>
     </modules>
     <packaging>pom</packaging>
 

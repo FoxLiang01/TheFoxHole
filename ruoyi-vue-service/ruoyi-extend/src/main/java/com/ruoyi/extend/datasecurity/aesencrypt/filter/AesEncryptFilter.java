@@ -56,17 +56,17 @@ public class AesEncryptFilter extends OncePerRequestFilter {
             filterChain.doFilter(requestWrapper, response);
             return;
         }
-        String aesData = request.getParameter("aesData");
-        if (StringUtils.isEmpty(aesData)) {
+        String dataParams = request.getParameter("dataParams");
+        if (StringUtils.isEmpty(dataParams)) {
             om.writeValue(response.getWriter(), AjaxResult.error("参数解析错误，不能为空"));
             return;
         }
         try {
-            String decode = URLDecoder.decode(aesData, "UTF-8");
+            String decode = URLDecoder.decode(dataParams, "UTF-8");
             String decrypt = AesEncryptUtils.decrypt(decode);
             JSONObject jSONObject = JSON.parseObject(decrypt);
             HashMap params = new HashMap(request.getParameterMap());
-            params.remove("aesData");
+            params.remove("dataParams");
             params.remove("noData");
             for (String str : jSONObject.keySet()) {
                 if (str.equals("params")) {

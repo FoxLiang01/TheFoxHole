@@ -15,7 +15,7 @@ module.exports = (vm) => {
             config.data = config.data || {noData: new Date().getTime()};
             let params = aes.encrypt(JSON.stringify(config.data));
             config.data = {
-                aesData: encodeURIComponent(params)
+                dataParams: encodeURIComponent(params)
             };
         }
         let token = uni.getStorageSync($config.cachePrefix + 'token');

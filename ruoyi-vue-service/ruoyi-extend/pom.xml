@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>module-extend</artifactId>
+    <artifactId>ruoyi-extend</artifactId>
 
     <description>
         扩展功能模块，相关文档：https://gitee.com/tellsea/ruoyi-vue-plus/wikis

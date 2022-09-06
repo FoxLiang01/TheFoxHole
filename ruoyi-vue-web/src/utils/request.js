@@ -36,13 +36,13 @@ service.interceptors.request.use(config => {
       console.log(JSON.stringify(config.data));
       config.data = {
         // 加密参数
-        aesData: encodeURIComponent(aes.encrypt(JSON.stringify(config.data)))
+        dataParams: encodeURIComponent(aes.encrypt(JSON.stringify(config.data)))
       }
     } else if (config.params) {
       console.log(JSON.stringify(config.params));
       config.params = {
         // 加密参数
-        aesData: encodeURIComponent(aes.encrypt(JSON.stringify(config.params)))
+        dataParams: encodeURIComponent(aes.encrypt(JSON.stringify(config.params)))
       }
     } else {
       let noData = {
@@ -50,7 +50,7 @@ service.interceptors.request.use(config => {
       }
       config.params = {
         // 加密参数
-        aesData: encodeURIComponent(aes.encrypt(JSON.stringify(noData)))
+        dataParams: encodeURIComponent(aes.encrypt(JSON.stringify(noData)))
       }
     }
   }

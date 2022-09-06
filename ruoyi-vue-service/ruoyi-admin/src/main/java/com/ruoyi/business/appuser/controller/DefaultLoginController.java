@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 账号密码登录
+ * 默认登录
  *
  * @author Tellsea
  * @date 2022/9/2
  */
-@Api("账号密码登录")
+@Api("默认登录")
 @RestController
 @RequestMapping("/au/defaultLogin")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
@@ -39,5 +39,23 @@ public class DefaultLoginController {
     @GetMapping("getInfo")
     public AjaxResult getInfo() {
         return defaultLoginService.getInfo();
+    }
+
+    @ApiOperation("获取验证码")
+    @GetMapping("getCode/{username}")
+    public AjaxResult getCode(@PathVariable String username) {
+        return defaultLoginService.getCode(username);
+    }
+
+    @ApiOperation("账号验证码登录")
+    @PostMapping("loginByCode")
+    public AjaxResult loginByCode(@RequestBody LoginBody entity) {
+        return defaultLoginService.loginByCode(entity);
+    }
+
+    @ApiOperation("注册验证码登录")
+    @PostMapping("register")
+    public AjaxResult register(@RequestBody LoginBody entity) {
+        return defaultLoginService.register(entity);
     }
 }

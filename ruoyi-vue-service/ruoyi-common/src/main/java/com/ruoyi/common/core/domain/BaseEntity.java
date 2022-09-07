@@ -52,7 +52,7 @@ public class BaseEntity implements Serializable {
     /**
      * 删除状态
      */
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT, exist = false)
     private Integer deleteStatus;
 
     /**

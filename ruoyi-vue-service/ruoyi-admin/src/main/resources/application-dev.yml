@@ -4,12 +4,16 @@ business:
   aes-encrypt:
     # 是否启用
     enabled: true
-# 日志配置
-logging:
-  level:
-    org.springframework.web: INFO
-    com.github.binarywang.demo.wx.mp: DEBUG
-    me.chanjar.weixin: DEBUG
+  # 服务端根路径
+  serviceUrl: http://tellsea.4kb.cn/ruoyi-vue-service
+  # 用户端根路径
+  appUserUrl: http://192.168.0.105:8081/ruoyi-vue-app-user/#
+  # 微信配置
+  weiXinMp:
+    # 公众号授权登录回调地址
+    callbackUrl: ${business.serviceUrl}/au/weiXinMp/callback
+    # 回调完成重定向前端地址
+    loginUrl: ${business.appUserUrl}/login/login-weixin-mp
 # 微信配置
 wx:
   mp:
@@ -18,6 +22,12 @@ wx:
         secret: 8486ea1cf41d2fb20f81fa810b5b26e6
         token:
         aesKey:
+# 日志配置
+logging:
+  level:
+    org.springframework.web: INFO
+    com.github.binarywang.demo.wx.mp: DEBUG
+    me.chanjar.weixin: DEBUG
 
 # 数据源配置
 spring:

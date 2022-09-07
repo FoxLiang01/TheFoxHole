@@ -3,18 +3,14 @@ package com.ruoyi.business.appuser.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.ruoyi.business.appuser.service.DefaultLoginService;
 import com.ruoyi.common.constant.CacheConstants;
-import com.ruoyi.common.constant.RoleConstants;
 import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.LoginBody;
-import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.framework.web.service.SysLoginService;
 import com.ruoyi.framework.web.service.SysPermissionService;
 import com.ruoyi.framework.web.service.TokenService;
-import com.ruoyi.system.domain.SysUserRole;
 import com.ruoyi.system.mapper.SysUserRoleMapper;
 import com.ruoyi.system.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +18,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * 默认登录
@@ -43,8 +37,6 @@ public class DefaultLoginServiceImpl implements DefaultLoginService {
     private final SysPermissionService permissionService;
     private final RedisCache redisCache;
     private final ISysUserService sysUserService;
-    private final TokenService tokenService;
-    private final SysUserRoleMapper sysUserRoleMapper;
 
     @Override
     public AjaxResult login(LoginBody entity) {
@@ -112,34 +104,7 @@ public class DefaultLoginServiceImpl implements DefaultLoginService {
         if (list.size() > 1) {
             return AjaxResult.error("账号异常，存在多个");
         }
-        String token;
-        if (CollectionUtils.isEmpty(list)) {
-            SysUser sysUser = new SysUser();
-            sysUser.setNickName(entity.getUsername());
-            sysUser.setPhonenumber(entity.getUsername());
-            sysUser.setUserName(entity.getUsername());
-            sysUser.setDeptId(0L);
-            sysUser.setPassword(SecurityUtils.encryptPassword("123456"));
-            sysUser.setRoleIds(new Long[]{RoleConstants.USER.getRoleId()});
-            sysUserService.insertUser(sysUser);
-            // 生成token
-            sysUser = sysUserService.selectUserByUserName(sysUser.getUserName());
-            LoginUser loginUser = new LoginUser(sysUser, permissionService.getMenuPermission(sysUser));
-            token = tokenService.createToken(loginUser);
-            return AjaxResult.success("注册成功", token);
-        } else {
-            SysUser user = list.get(0);
-            SysUser sysUser = sysUserService.selectUserByUserName(user.getUserName());
-            List<SysRole> roles = sysUser.getRoles();
-            List<String> roleKeys = roles.stream().map(SysRole::getRoleKey).collect(Collectors.toList());
-            if (!roleKeys.contains(RoleConstants.USER.getRoleKey())) {
-                // 如果没有用户角色，给角色用户
-                sysUserRoleMapper.insert(new SysUserRole().setUserId(user.getUserId()).setRoleId(RoleConstants.USER.getRoleId()));
-                sysUser = sysUserService.selectUserByUserName(user.getUserName());
-            }
-            LoginUser loginUser = new LoginUser(sysUser, permissionService.getMenuPermission(sysUser));
-            token = tokenService.createToken(loginUser);
-        }
+        String token = loginService.getToken(list, entity.getUsername(), entity.getUsername());
         return AjaxResult.success("登录成功", token);
     }
 }

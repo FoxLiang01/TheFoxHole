@@ -14,6 +14,7 @@ public class MybatisPlusEncryptTest {
         // 生成 16 位随机 AES 密钥
         String randomKey = AES.generateRandomKey();
         randomKey = "b8123298c638fb4c";
+        // --mpw=b8123298c638fb4c
         // 随机密钥加密
         System.out.println("随机密钥：" + randomKey);
         String url = "jdbc:mysql://127.0.0.1:3306/ruoyi-vue-service?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8";

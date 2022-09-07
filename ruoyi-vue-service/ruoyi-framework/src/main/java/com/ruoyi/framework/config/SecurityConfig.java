@@ -109,6 +109,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 业务放开接口
                 // 账号密码登录
                 .antMatchers("/au/defaultLogin/login").anonymous()
+                // 获取验证码
+                .antMatchers("/au/defaultLogin/getCode/**").anonymous()
+                // 账号验证码登录
+                .antMatchers("/au/defaultLogin/loginByCode").anonymous()
+                // 注册验证码登录
+                .antMatchers("/au/defaultLogin/register").anonymous()
+                // 获取授权登录Url
+                .antMatchers("/au/weiXinMp/getLoginUrl").anonymous()
+                // 授权登录回调地址
+                .antMatchers("/au/weiXinMp/callback").anonymous()
 
                 // 对于登录login 注册register 验证码captchaImage 允许匿名访问
                 .antMatchers("/login", "/register", "/captchaImage").anonymous()

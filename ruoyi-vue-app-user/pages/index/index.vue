@@ -3,8 +3,8 @@
     <view style="font-size: 20px; line-height: 50px; text-align: center;">若依MybatisPlus纯净版</view>
     <view class="container">
       <u-cell-group>
-        <u-cell title="账号密码登录" :isLink="true" @click="toPage('/pages/login/default-login')"></u-cell>
-        <u-cell title="微信公众号授权登录" :isLink="true"></u-cell>
+        <u-cell title="账号密码登录" :isLink="true" @click="toPage('/pages/login/login-default')"></u-cell>
+        <u-cell title="微信公众号授权登录" :isLink="true" @click="toPage('/pages/login/login-weixin-mp')"></u-cell>
         <u-cell title="微信小程序授权登录" :isLink="true"></u-cell>
       </u-cell-group>
     </view>

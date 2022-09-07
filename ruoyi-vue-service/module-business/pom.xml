@@ -21,5 +21,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common</artifactId>
         </dependency>
+        <!-- 扩展功能 -->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-extend</artifactId>
+        </dependency>
     </dependencies>
 </project>

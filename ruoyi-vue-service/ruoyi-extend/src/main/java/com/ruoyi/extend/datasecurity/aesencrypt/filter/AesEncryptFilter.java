@@ -41,13 +41,24 @@ public class AesEncryptFilter extends OncePerRequestFilter {
 
     @Override
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        List<String> whiteUrl = Arrays.asList(
+        List<String> whiteUrlList = Arrays.asList(
+                "/ruoyi-vue-service/au/weiXinMp/callback",
+
                 "/ruoyi-vue-service/common",
-                "/ruoyi-vue-service/au/weiXin/callBack"
+                "/ruoyi-vue-service/profile",
+                "/ruoyi-vue-service/common/download",
+                "/ruoyi-vue-service/common/download/resource",
+                "/ruoyi-vue-service/doc.html",
+                "/ruoyi-vue-service/swagger-resources",
+                "/ruoyi-vue-service/webjars",
+                "/ruoyi-vue-service/druid",
+                "/ruoyi-vue-service/actuator"
         );
-        if (whiteUrl.contains(request.getRequestURI())) {
-            filterChain.doFilter(request, response);
-            return;
+        for (String whiteUrl : whiteUrlList) {
+            if (request.getRequestURI().startsWith(whiteUrl)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
         }
         ObjectMapper om = new ObjectMapper();
         response.setContentType(CONTENT_TYPE_CHARSET);

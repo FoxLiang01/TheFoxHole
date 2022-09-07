@@ -1,7 +1,10 @@
 package com.ruoyi.framework.web.service;
 
+import cn.hutool.core.comparator.CompareUtil;
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.constant.RoleConstants;
+import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.core.redis.RedisCache;
@@ -9,14 +12,13 @@ import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.exception.user.CaptchaException;
 import com.ruoyi.common.exception.user.CaptchaExpireException;
 import com.ruoyi.common.exception.user.UserPasswordNotMatchException;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.common.utils.MessageUtils;
-import com.ruoyi.common.utils.ServletUtils;
-import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.*;
 import com.ruoyi.common.utils.ip.IpUtils;
 import com.ruoyi.framework.manager.AsyncManager;
 import com.ruoyi.framework.manager.factory.AsyncFactory;
 import com.ruoyi.framework.security.context.AuthenticationContextHolder;
+import com.ruoyi.system.domain.SysUserRole;
+import com.ruoyi.system.mapper.SysUserRoleMapper;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 登录校验方法
@@ -38,18 +42,20 @@ import javax.servlet.http.HttpServletRequest;
 public class SysLoginService {
     @Autowired
     private TokenService tokenService;
-
     @Resource
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private RedisCache redisCache;
-
     @Autowired
     private ISysUserService userService;
-
     @Autowired
     private ISysConfigService configService;
+    @Autowired
+    private SysPermissionService permissionService;
+    @Autowired
+    private ISysUserService sysUserService;
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
 
     /**
      * 登录验证
@@ -157,5 +163,74 @@ public class SysLoginService {
         sysUser.setLoginIp(IpUtils.getIpAddr(ServletUtils.getRequest()));
         sysUser.setLoginDate(DateUtils.getNowDate());
         userService.updateUserProfile(sysUser);
+    }
+
+    public String getToken(List<SysUser> list, String userName, String nickName) {
+        return getToken(list, userName, nickName, null, null);
+    }
+
+    /**
+     * 用户不存在，创建用户，存在则更新用户
+     *
+     * @param list
+     * @param userName 账号
+     * @param nickName 昵称
+     * @param avatar   头像
+     * @param sex      1-男  2-女
+     * @return
+     */
+    public String getToken(List<SysUser> list, String userName, String nickName, String avatar, Integer sex) {
+        String token;
+        if (CollectionUtils.isEmpty(list)) {
+            SysUser sysUser = new SysUser();
+            sysUser.setUserName(userName);
+            sysUser.setNickName(nickName);
+            sysUser.setAvatar(avatar);
+            handleSex(sysUser, sex);
+            sysUser.setDeptId(0L);
+            sysUser.setPassword(SecurityUtils.encryptPassword("123456"));
+            sysUser.setRoleIds(new Long[]{RoleConstants.USER.getRoleId()});
+            sysUserService.insertUser(sysUser);
+            // 生成token
+            sysUser = sysUserService.selectUserByUserName(sysUser.getUserName());
+            LoginUser loginUser = new LoginUser(sysUser, permissionService.getMenuPermission(sysUser));
+            token = tokenService.createToken(loginUser);
+        } else {
+            SysUser user = list.get(0);
+            user.setNickName(nickName);
+            user.setAvatar(avatar);
+            handleSex(user, sex);
+            sysUserService.updateById(user);
+            user.setAvatar(StringUtils.isNotEmpty(avatar) ? avatar : user.getAvatar());
+            SysUser sysUser = sysUserService.selectUserByUserName(user.getUserName());
+            List<String> roleKeys = sysUser.getRoles().stream().map(SysRole::getRoleKey).collect(Collectors.toList());
+            if (!roleKeys.contains(RoleConstants.USER.getRoleKey())) {
+                // 如果没有用户角色，给角色用户
+                sysUserRoleMapper.insert(new SysUserRole().setUserId(user.getUserId()).setRoleId(RoleConstants.USER.getRoleId()));
+                sysUser = sysUserService.selectUserByUserName(user.getUserName());
+            }
+            LoginUser loginUser = new LoginUser(sysUser, permissionService.getMenuPermission(sysUser));
+            token = tokenService.createToken(loginUser);
+        }
+        return token;
+    }
+
+    /**
+     * 处理性别
+     *
+     * @param sysUser
+     * @param sex
+     */
+    public void handleSex(SysUser sysUser, Integer sex) {
+        if (sex == null) {
+            return;
+        }
+        String sexValue = "2";
+        if (CompareUtil.compare(sex, 1) == 0) {
+            sexValue = "0";
+        } else if (CompareUtil.compare(sex, 2) == 0) {
+            sexValue = "1";
+        }
+        sysUser.setSex(sexValue);
     }
 }

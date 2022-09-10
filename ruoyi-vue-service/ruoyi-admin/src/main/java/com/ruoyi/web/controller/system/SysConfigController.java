@@ -52,7 +52,7 @@ public class SysConfigController extends BaseController {
      * 根据参数编号获取详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:config:query')")
-    @GetMapping(value = "/{configId}")
+    @GetMapping(value = "/getInfo/{configId}")
     public AjaxResult getInfo(@PathVariable Long configId) {
         return AjaxResult.success(configService.selectConfigById(configId));
     }
@@ -70,7 +70,7 @@ public class SysConfigController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:config:add')")
     @Log(title = "参数管理", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("add")
     public AjaxResult add(@Validated @RequestBody SysConfig config) {
         if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
             return AjaxResult.error("新增参数'" + config.getConfigName() + "'失败，参数键名已存在");
@@ -84,7 +84,7 @@ public class SysConfigController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:config:edit')")
     @Log(title = "参数管理", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PostMapping("edit")
     public AjaxResult edit(@Validated @RequestBody SysConfig config) {
         if (UserConstants.NOT_UNIQUE.equals(configService.checkConfigKeyUnique(config))) {
             return AjaxResult.error("修改参数'" + config.getConfigName() + "'失败，参数键名已存在");
@@ -98,7 +98,7 @@ public class SysConfigController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:config:remove')")
     @Log(title = "参数管理", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{configIds}")
+    @DeleteMapping("/remove/{configIds}")
     public AjaxResult remove(@PathVariable Long[] configIds) {
         configService.deleteConfigByIds(configIds);
         return success();

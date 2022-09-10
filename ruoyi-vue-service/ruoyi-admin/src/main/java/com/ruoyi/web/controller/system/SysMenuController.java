@@ -40,7 +40,7 @@ public class SysMenuController extends BaseController {
      * 根据菜单编号获取详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:menu:query')")
-    @GetMapping(value = "/{menuId}")
+    @GetMapping(value = "/getInfo/{menuId}")
     public AjaxResult getInfo(@PathVariable Long menuId) {
         return AjaxResult.success(menuService.selectMenuById(menuId));
     }
@@ -71,7 +71,7 @@ public class SysMenuController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:menu:add')")
     @Log(title = "菜单管理", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("add")
     public AjaxResult add(@Validated @RequestBody SysMenu menu) {
         if (UserConstants.NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu))) {
             return AjaxResult.error("新增菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
@@ -87,7 +87,7 @@ public class SysMenuController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:menu:edit')")
     @Log(title = "菜单管理", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PostMapping("edit")
     public AjaxResult edit(@Validated @RequestBody SysMenu menu) {
         if (UserConstants.NOT_UNIQUE.equals(menuService.checkMenuNameUnique(menu))) {
             return AjaxResult.error("修改菜单'" + menu.getMenuName() + "'失败，菜单名称已存在");
@@ -105,7 +105,7 @@ public class SysMenuController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:menu:remove')")
     @Log(title = "菜单管理", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{menuId}")
+    @GetMapping("/remove/{menuId}")
     public AjaxResult remove(@PathVariable("menuId") Long menuId) {
         if (menuService.hasChildByMenuId(menuId)) {
             return AjaxResult.error("存在子菜单,不允许删除");

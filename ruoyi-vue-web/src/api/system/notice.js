@@ -12,7 +12,7 @@ export function listNotice(query) {
 // 查询公告详细
 export function getNotice(noticeId) {
   return request({
-    url: '/system/notice/' + noticeId,
+    url: '/system/notice/getInfo/' + noticeId,
     method: 'get'
   })
 }
@@ -20,7 +20,7 @@ export function getNotice(noticeId) {
 // 新增公告
 export function addNotice(data) {
   return request({
-    url: '/system/notice',
+    url: '/system/notice/add',
     method: 'post',
     data: data
   })
@@ -29,8 +29,8 @@ export function addNotice(data) {
 // 修改公告
 export function updateNotice(data) {
   return request({
-    url: '/system/notice',
-    method: 'put',
+    url: '/system/notice/edit',
+    method: 'post',
     data: data
   })
 }
@@ -38,7 +38,7 @@ export function updateNotice(data) {
 // 删除公告
 export function delNotice(noticeId) {
   return request({
-    url: '/system/notice/' + noticeId,
-    method: 'delete'
+    url: '/system/notice/remove/' + noticeId,
+    method: 'get'
   })
 }

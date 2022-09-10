@@ -52,7 +52,7 @@ public class SysPostController extends BaseController {
      * 根据岗位编号获取详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:post:query')")
-    @GetMapping(value = "/{postId}")
+    @GetMapping(value = "/getInfo/{postId}")
     public AjaxResult getInfo(@PathVariable Long postId) {
         return AjaxResult.success(postService.selectPostById(postId));
     }
@@ -62,7 +62,7 @@ public class SysPostController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:post:add')")
     @Log(title = "岗位管理", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("add")
     public AjaxResult add(@Validated @RequestBody SysPost post) {
         if (UserConstants.NOT_UNIQUE.equals(postService.checkPostNameUnique(post))) {
             return AjaxResult.error("新增岗位'" + post.getPostName() + "'失败，岗位名称已存在");
@@ -78,7 +78,7 @@ public class SysPostController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:post:edit')")
     @Log(title = "岗位管理", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PostMapping("edit")
     public AjaxResult edit(@Validated @RequestBody SysPost post) {
         if (UserConstants.NOT_UNIQUE.equals(postService.checkPostNameUnique(post))) {
             return AjaxResult.error("修改岗位'" + post.getPostName() + "'失败，岗位名称已存在");
@@ -94,7 +94,7 @@ public class SysPostController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('system:post:remove')")
     @Log(title = "岗位管理", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{postIds}")
+    @GetMapping("/remove/{postIds}")
     public AjaxResult remove(@PathVariable Long[] postIds) {
         return toAjax(postService.deletePostByIds(postIds));
     }

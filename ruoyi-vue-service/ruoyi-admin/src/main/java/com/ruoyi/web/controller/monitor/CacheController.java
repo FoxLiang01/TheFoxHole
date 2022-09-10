@@ -35,7 +35,7 @@ public class CacheController {
     }
 
     @PreAuthorize("@ss.hasPermi('monitor:cache:list')")
-    @GetMapping()
+    @GetMapping("getInfo")
     public AjaxResult getInfo() throws Exception {
         Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info());
         Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));

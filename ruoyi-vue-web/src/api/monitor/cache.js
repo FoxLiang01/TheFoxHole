@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 查询缓存详细
 export function getCache() {
   return request({
-    url: '/monitor/cache',
+    url: '/monitor/cache/getInfo',
     method: 'get'
   })
 }
@@ -36,7 +36,7 @@ export function getCacheValue(cacheName, cacheKey) {
 export function clearCacheName(cacheName) {
   return request({
     url: '/monitor/cache/clearCacheName/' + cacheName,
-    method: 'delete'
+    method: 'get'
   })
 }
 
@@ -44,7 +44,7 @@ export function clearCacheName(cacheName) {
 export function clearCacheKey(cacheKey) {
   return request({
     url: '/monitor/cache/clearCacheKey/' + cacheKey,
-    method: 'delete'
+    method: 'get'
   })
 }
 
@@ -52,6 +52,6 @@ export function clearCacheKey(cacheKey) {
 export function clearCacheAll() {
   return request({
     url: '/monitor/cache/clearCacheAll',
-    method: 'delete'
+    method: 'get'
   })
 }

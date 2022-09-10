@@ -59,7 +59,7 @@ public class SysJobController extends BaseController {
      * 获取定时任务详细信息
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:query')")
-    @GetMapping(value = "/{jobId}")
+    @GetMapping(value = "/getInfo/{jobId}")
     public AjaxResult getInfo(@PathVariable("jobId") Long jobId) {
         return AjaxResult.success(jobService.selectJobById(jobId));
     }
@@ -69,7 +69,7 @@ public class SysJobController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:add')")
     @Log(title = "定时任务", businessType = BusinessType.INSERT)
-    @PostMapping
+    @PostMapping("add")
     public AjaxResult add(@RequestBody SysJob job) throws SchedulerException, TaskException {
         if (!CronUtils.isValid(job.getCronExpression())) {
             return error("新增任务'" + job.getJobName() + "'失败，Cron表达式不正确");
@@ -93,7 +93,7 @@ public class SysJobController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:edit')")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
-    @PutMapping
+    @PostMapping("edit")
     public AjaxResult edit(@RequestBody SysJob job) throws SchedulerException, TaskException {
         if (!CronUtils.isValid(job.getCronExpression())) {
             return error("修改任务'" + job.getJobName() + "'失败，Cron表达式不正确");
@@ -117,7 +117,7 @@ public class SysJobController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:changeStatus')")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
-    @PutMapping("/changeStatus")
+    @GetMapping("/changeStatus")
     public AjaxResult changeStatus(@RequestBody SysJob job) throws SchedulerException {
         SysJob newJob = jobService.selectJobById(job.getJobId());
         newJob.setStatus(job.getStatus());
@@ -129,7 +129,7 @@ public class SysJobController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:changeStatus')")
     @Log(title = "定时任务", businessType = BusinessType.UPDATE)
-    @PutMapping("/run")
+    @PostMapping("/run")
     public AjaxResult run(@RequestBody SysJob job) throws SchedulerException {
         boolean result = jobService.run(job);
         return result ? success() : error("任务不存在或已过期！");
@@ -140,7 +140,7 @@ public class SysJobController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('monitor:job:remove')")
     @Log(title = "定时任务", businessType = BusinessType.DELETE)
-    @DeleteMapping("/{jobIds}")
+    @GetMapping("/remove/{jobIds}")
     public AjaxResult remove(@PathVariable Long[] jobIds) throws SchedulerException, TaskException {
         jobService.deleteJobByIds(jobIds);
         return success();

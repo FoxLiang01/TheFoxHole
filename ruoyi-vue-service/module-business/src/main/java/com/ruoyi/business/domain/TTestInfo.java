@@ -3,7 +3,7 @@ package com.ruoyi.business.domain;
 import cn.zhz.privacy.annotation.FieldEncrypt;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
-import com.ruoyi.extend.datasecurity.privacy.config.PrivacyCrypto;
+import com.ruoyi.extend.datasecurity.privacy.config.PrivacyCryptoConfig;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -30,7 +30,7 @@ public class TTestInfo extends BaseEntity {
      * 门店名称
      */
     @Excel(name = "门店名称")
-    @FieldEncrypt(iCrypto = PrivacyCrypto.class)
+    @FieldEncrypt(iCrypto = PrivacyCryptoConfig.class)
     private String storeName;
 
     /**

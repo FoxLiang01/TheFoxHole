@@ -10,7 +10,7 @@ import com.ruoyi.extend.datasecurity.aesencrypt.utils.AesEncryptUtils;
  * @author Tellsea
  * @date 2022/9/6
  */
-public class PrivacyCrypto implements ICrypto {
+public class PrivacyCryptoConfig implements ICrypto {
 
     @Override
     public String encrypt(Algorithm algorithm, String s, String s1) throws Exception {

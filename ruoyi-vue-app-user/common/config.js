@@ -9,5 +9,5 @@ export default {
     // 请求、响应数据加密
     aesEncryptEnabled: true,
     // 请求数据加密秘钥串
-    aesEncryptKey: 'ruoyi-vue-service@123456',
+    aesEncryptKey: 'b8123298c638fb4c',
 }

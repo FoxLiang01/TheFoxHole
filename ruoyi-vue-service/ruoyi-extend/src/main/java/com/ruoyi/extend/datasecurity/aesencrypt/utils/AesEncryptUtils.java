@@ -5,7 +5,6 @@ import org.apache.commons.codec.binary.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -18,7 +17,7 @@ public class AesEncryptUtils {
     /**
      * 可配置到Constant中，并读取配置文件注入,16位,自己定义
      */
-    private static final String KEY = "ruoyi-vue-service@123456";
+    private static final String KEY = "b8123298c638fb4c";
 
     /**
      * 参数分别代表 算法名称/加密模式/数据填充方式
@@ -71,14 +70,8 @@ public class AesEncryptUtils {
         return decrypt(encryptStr, KEY);
     }
 
-    public static void main(String[] args) {
-        try {
-            String decode = URLDecoder.decode("IoKtcl0qjqPJKDtNb5cPbA%3D%3D", "UTF-8");
-            System.out.println(decode);
-            System.out.println(decrypt(decode));
-            System.out.println(decrypt(decode));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) throws Exception {
+        String str = "k6+wTGwofEyVXoaBqxYmwYVqhjuwplmV7ZBRLOvAy9Q=";
+        System.out.println(decrypt(str));
     }
 }

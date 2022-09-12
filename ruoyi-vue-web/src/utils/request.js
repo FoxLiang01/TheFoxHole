@@ -31,7 +31,7 @@ service.interceptors.request.use(config => {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
   // 请求参数加密
-  if (process.env.VUE_APP_AES_KEY) {
+  if (process.env.VUE_APP_AES_ENCRYPT_ENABLED == 'true') {
     if (config.data) {
       console.log(JSON.stringify(config.data));
       config.data = {

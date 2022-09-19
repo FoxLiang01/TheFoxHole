@@ -1,8 +1,4 @@
-# 若依 MybatisPlus 纯净版
-
-
-
-RuoYi-Vue + MybatisPlus 纯净版、项目全栈脚手架
+## RuoYi-Vue + MybatisPlus 纯净版、项目全栈脚手架
 
 
 

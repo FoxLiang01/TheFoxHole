@@ -118,7 +118,7 @@ public class GenController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('tool:gen:remove')")
     @Log(title = "代码生成", businessType = BusinessType.DELETE)
-    @DeleteMapping("/remove/{tableIds}")
+    @GetMapping("/remove/{tableIds}")
     public AjaxResult remove(@PathVariable Long[] tableIds) {
         genTableService.deleteGenTableByIds(tableIds);
         return AjaxResult.success();

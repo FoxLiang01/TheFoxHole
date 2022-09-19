@@ -34,7 +34,6 @@
         <poi.version>4.1.2</poi.version>
         <velocity.version>2.3</velocity.version>
         <jwt.version>0.9.1</jwt.version>
-        <privacy-spring-boot.version>1.0.0.RELEASE</privacy-spring-boot.version>
         <weixin-java-mp.version>4.4.0</weixin-java-mp.version>
     </properties>
 
@@ -167,13 +166,6 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
-            </dependency>
-
-            <!-- privacy加密工具 -->
-            <dependency>
-                <groupId>com.gitee.china-zhz</groupId>
-                <artifactId>privacy-spring-boot-starter</artifactId>
-                <version>${privacy-spring-boot.version}</version>
             </dependency>
 
             <!-- 公众号（包括订阅号和服务号） -->

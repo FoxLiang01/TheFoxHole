@@ -3,7 +3,7 @@ business:
   # 请求、响应数据加密
   aes-encrypt:
     # 是否启用
-    enabled: true
+    enabled: false
   # 服务端根路径
   serviceUrl: http://tellsea.4kb.cn/ruoyi-vue-service
   # 用户端根路径

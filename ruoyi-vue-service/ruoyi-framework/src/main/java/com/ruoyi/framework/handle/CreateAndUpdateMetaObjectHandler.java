@@ -38,9 +38,9 @@ public class CreateAndUpdateMetaObjectHandler implements MetaObjectHandler {
                 baseEntity.setCreateBy(username);
                 // 当前已登录 且 更新人为空 则填充
                 baseEntity.setUpdateBy(username);
-                // 默认设置状态1
-                baseEntity.setDeleteStatus(1);
             }
+			// 默认设置状态1
+            this.setFieldValByName("deleteStatus", 1, metaObject);
         } catch (Exception e) {
             throw new ServiceException("自动注入异常 => " + e.getMessage(), HttpStatus.HTTP_UNAUTHORIZED);
         }

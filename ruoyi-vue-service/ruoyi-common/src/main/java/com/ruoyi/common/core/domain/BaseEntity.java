@@ -50,12 +50,6 @@ public class BaseEntity implements Serializable {
     private Date updateTime;
 
     /**
-     * 删除状态
-     */
-    @TableField(fill = FieldFill.INSERT, exist = false)
-    private Integer deleteStatus;
-
-    /**
      * 请求参数
      */
     @TableField(exist = false)

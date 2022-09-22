@@ -406,7 +406,7 @@ export default {
       // 表单校验
       rules: {
 #foreach ($column in $columns)
-#if($column.required)
+#if($column.javaField != 'createBy' && $column.javaField != 'createTime' && $column.javaField != 'updateBy' && $column.javaField != 'updateTime' && $column.javaField != 'deleteStatus')
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
 #set($comment=$column.columnComment.substring(0, $parentheseIndex))
@@ -458,7 +458,8 @@ export default {
     reset() {
       this.form = {
 #foreach ($column in $columns)
-#if($column.htmlType == "radio")
+#if($column.javaField == 'createBy' || $column.javaField == 'createTime' || $column.javaField == 'updateBy' || $column.javaField == 'updateTime' || $column.javaField == 'deleteStatus')
+#elseif($column.htmlType == "radio")
         $column.javaField: #if($column.javaType == "Integer" || $column.javaType == "Long")0#else"0"#end#if($foreach.count != $columns.size()),#end
 #elseif($column.htmlType == "checkbox")
         $column.javaField: []#if($foreach.count != $columns.size()),#end

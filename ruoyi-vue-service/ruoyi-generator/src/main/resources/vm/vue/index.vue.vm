@@ -198,15 +198,15 @@
           <el-input v-model="form.${field}" placeholder="请输入${comment}" />
         </el-form-item>
 #elseif($column.htmlType == "imageUpload")
-        <el-form-item label="${comment}">
+        <el-form-item label="${comment}" prop="${field}">
           <image-upload v-model="form.${field}"/>
         </el-form-item>
 #elseif($column.htmlType == "fileUpload")
-        <el-form-item label="${comment}">
+        <el-form-item label="${comment}" prop="${field}">
           <file-upload v-model="form.${field}"/>
         </el-form-item>
 #elseif($column.htmlType == "editor")
-        <el-form-item label="${comment}">
+        <el-form-item label="${comment}" prop="${field}">
           <editor v-model="form.${field}" :min-height="192"/>
         </el-form-item>
 #elseif($column.htmlType == "select" && "" != $dictType)

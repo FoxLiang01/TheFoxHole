@@ -1,5 +1,6 @@
 package com.ruoyi.common.utils.file;
 
+import cn.hutool.core.util.IdUtil;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.exception.file.FileNameLengthLimitExceededException;

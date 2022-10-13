@@ -109,8 +109,11 @@ public class FileUploadUtils {
      * 编码文件名
      */
     public static final String extractFilename(MultipartFile file) {
-        return StringUtils.format("{}/{}_{}.{}", DateUtils.datePath(),
-                FilenameUtils.getBaseName(file.getOriginalFilename()), Seq.getId(Seq.uploadSeqType), getExtension(file));
+        /*return StringUtils.format("{}/{}_{}.{}", DateUtils.datePath(),
+                FilenameUtils.getBaseName(file.getOriginalFilename()), Seq.getId(Seq.uploadSeqType), getExtension(file));*/
+        String extension = getExtension(file);
+        String fileName = DateUtils.datePath() + "/" + IdUtil.fastUUID() + "." + extension;
+        return fileName;
     }
 
     public static final File getAbsoluteFile(String uploadDir, String fileName) throws IOException {

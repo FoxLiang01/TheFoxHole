@@ -40,9 +40,6 @@ spring:
         url: jdbc:mysql://127.0.0.1:3306/ruoyi-vue-service?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
         username: root
         password: 123456
-        # url: mpw:qTaNIyvTORcbdv5K00Bm0PSEkW2QhQRQ7qGfbWg+OxZEsh4+N7ojg1SUqMk2lolusXzEegXFpfH3f2n11N3N6Ws33dtkYN7Sg1ySRd1uQ1lWAhLLl1JDs7oM6QBbDiCTHnLnDfU2zi9xmFrVxjUXOKCJIRSPvWbkG4olkdAD8sC4Bprhb4n8H9B2bzKRDALg7Q7m9aW+EBuep4VmvdrlXQ==
-        # username: mpw:MpkqZJ82X0adfa+KsWmuzQ==
-        # password: mpw:Gzu2CuEX7QjN60nwUgbSgQ==
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭

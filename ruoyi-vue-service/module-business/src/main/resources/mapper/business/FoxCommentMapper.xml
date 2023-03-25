@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.FoxCommentMapper">
+
+    <sql id="querySql">
+        select <include refid="allField"/>
+        from fox_comment A
+        <include refid="search"/>
+    </sql>
+
+    <select id="queryList" resultType="com.ruoyi.business.vo.FoxCommentVo">
+        <include refid="querySql"/>
+        <if test="entity.email != null and entity.email != ''">
+            and A.email like concat('%', #{entity.email}, '%')
+        </if>
+        <if test="entity.content != null and entity.content != ''">
+            and A.content like concat('%', #{entity.content}, '%')
+        </if>
+        <if test="entity.metaComment != null and entity.metaComment != 0">
+            and A.meta_comment = #{entity.metaComment}
+        </if>
+        order by A.create_time desc
+    </select>
+
+    <select id="queryById" resultType="com.ruoyi.business.vo.FoxCommentVo">
+        <include refid="querySql"/>
+        and A.id = #{id}
+    </select>
+
+    <sql id="allField">
+        A.id,
+        A.create_by,
+        A.create_time,
+        A.update_by,
+        A.update_time,
+        A.email,
+        A.content,
+        A.meta_comment,
+        A.del_flag
+    </sql>
+
+    <sql id="search">
+        where A.delete_status = 1
+    </sql>
+</mapper>

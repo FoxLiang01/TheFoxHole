@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/TheFoxHole.iml" filepath="$PROJECT_DIR$/.idea/TheFoxHole.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ruoyi-vue-service/module-business/module-business.iml" filepath="$PROJECT_DIR$/ruoyi-vue-service/module-business/module-business.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ruoyi-vue-service/ruoyi-admin/ruoyi-admin.iml" filepath="$PROJECT_DIR$/ruoyi-vue-service/ruoyi-admin/ruoyi-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ruoyi-vue-service/ruoyi-common/ruoyi-common.iml" filepath="$PROJECT_DIR$/ruoyi-vue-service/ruoyi-common/ruoyi-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ruoyi-vue-service/ruoyi-extend/ruoyi-extend.iml" filepath="$PROJECT_DIR$/ruoyi-vue-service/ruoyi-extend/ruoyi-extend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ruoyi-vue-service/ruoyi-framework/ruoyi-framework.iml" filepath="$PROJECT_DIR$/ruoyi-vue-service/ruoyi-framework/ruoyi-framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ruoyi-vue-service/ruoyi-generator/ruoyi-generator.iml" filepath="$PROJECT_DIR$/ruoyi-vue-service/ruoyi-generator/ruoyi-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ruoyi-vue-service/ruoyi-quartz/ruoyi-quartz.iml" filepath="$PROJECT_DIR$/ruoyi-vue-service/ruoyi-quartz/ruoyi-quartz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ruoyi-vue-service/ruoyi-system/ruoyi-system.iml" filepath="$PROJECT_DIR$/ruoyi-vue-service/ruoyi-system/ruoyi-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ruoyi-vue-service/ruoyi-vue-service.iml" filepath="$PROJECT_DIR$/ruoyi-vue-service/ruoyi-vue-service.iml" />
+    </modules>
+  </component>
+</project>

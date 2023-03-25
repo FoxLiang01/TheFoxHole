@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.business.mapper.FoxArticleMapper">
+
+    <resultMap type="FoxArticle" id="FoxArticleResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="title"    column="title"    />
+        <result property="summary"    column="summary"    />
+        <result property="note"    column="note"    />
+        <result property="content"    column="content"    />
+        <result property="click"    column="click"    />
+        <result property="kudos"    column="kudos"    />
+        <result property="status"    column="status"    />
+        <result property="isComment"    column="is_comment"    />
+        <result property="isTop"    column="is_top"    />
+        <result property="banner"    column="banner"    />
+        <result property="workId"    column="work_id"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="chapter"    column="chapter"    />
+    </resultMap>
+
+    <sql id="selectFoxArticleVo">
+        select id, create_by, create_time, update_by, update_time, del_flag, title, summary, note, content, click, kudos, status, is_comment, is_top, banner, work_id, category_id, chapter from fox_article
+    </sql>
+
+    <select id="selectFoxArticleList" parameterType="FoxArticle" resultMap="FoxArticleResult">
+        <include refid="selectFoxArticleVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
+            <if test="note != null  and note != ''"> and note = #{note}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="click != null "> and click = #{click}</if>
+            <if test="kudos != null "> and kudos = #{kudos}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="isComment != null  and isComment != ''"> and is_comment = #{isComment}</if>
+            <if test="isTop != null  and isTop != ''"> and is_top = #{isTop}</if>
+            <if test="banner != null  and banner != ''"> and banner = #{banner}</if>
+            <if test="workId != null "> and work_id = #{workId}</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+            <if test="chapter != null "> and chapter = #{chapter}</if>
+        </where>
+    </select>
+
+    <select id="selectFoxArticleById" parameterType="Long" resultMap="FoxArticleResult">
+        <include refid="selectFoxArticleVo"/>
+        where id = #{id}
+    </select>
+</mapper>

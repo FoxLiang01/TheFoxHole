@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 订阅对象 fox_subscribe
@@ -15,10 +17,10 @@ import lombok.experimental.Accessors;
  * @author Foxx
  * @date 2023-03-25
  */
-@Data
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+//@Data
+//@Accessors(chain = true)
+//@ToString(callSuper = true)
+//@EqualsAndHashCode(callSuper = true)
 public class FoxSubscribe extends BaseEntity {
 
     /**
@@ -49,4 +51,62 @@ public class FoxSubscribe extends BaseEntity {
      */
     private String delFlag;
 
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    public Long getId()
+    {
+        return id;
+    }
+    public void setSubscriber(String subscriber)
+    {
+        this.subscriber = subscriber;
+    }
+
+    public String getSubscriber()
+    {
+        return subscriber;
+    }
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+    public void setWorkId(Long workId)
+    {
+        this.workId = workId;
+    }
+
+    public Long getWorkId()
+    {
+        return workId;
+    }
+    public void setDelFlag(String delFlag)
+    {
+        this.delFlag = delFlag;
+    }
+
+    public String getDelFlag()
+    {
+        return delFlag;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("id", getId())
+                .append("subscriber", getSubscriber())
+                .append("email", getEmail())
+                .append("createTime", getCreateTime())
+                .append("updateTime", getUpdateTime())
+                .append("workId", getWorkId())
+                .append("delFlag", getDelFlag())
+                .toString();
+    }
 }

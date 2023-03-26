@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 合集对象 fox_category
@@ -15,10 +17,10 @@ import lombok.experimental.Accessors;
  * @author Foxx
  * @date 2023-03-25
  */
-@Data
-@Accessors(chain = true)
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+//@Data
+//@Accessors(chain = true)
+//@ToString(callSuper = true)
+//@EqualsAndHashCode(callSuper = true)
 public class FoxCategory extends BaseEntity {
 
     /**
@@ -50,4 +52,65 @@ public class FoxCategory extends BaseEntity {
     @Excel(name = "备注或描述")
     private String remark;
 
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    public Long getId()
+    {
+        return id;
+    }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+    public void setStatus(String status)
+    {
+        this.status = status;
+    }
+
+    public String getStatus()
+    {
+        return status;
+    }
+    public void setMetaCategory(Long metaCategory)
+    {
+        this.metaCategory = metaCategory;
+    }
+
+    public Long getMetaCategory()
+    {
+        return metaCategory;
+    }
+
+    public void setRemark(String remark)
+    {
+        this.remark = remark;
+    }
+
+    public String getRemark()
+    {
+        return remark;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
+                .append("id", getId())
+                .append("name", getName())
+                .append("status", getStatus())
+                .append("metaCategory", getMetaCategory())
+                .append("createBy", getCreateBy())
+                .append("createTime", getCreateTime())
+                .append("updateBy", getUpdateBy())
+                .append("updateTime", getUpdateTime())
+                .append("remark", getRemark())
+                .toString();
+    }
 }

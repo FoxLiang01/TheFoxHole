@@ -7,33 +7,53 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <search id="header-search" class="right-menu-item" />
-
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
-
-        <el-tooltip content="布局大小" effect="dark" placement="bottom">
-          <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip>
-
+        <router-link class="right-menu-item" to="/user/profile">
+          <div>
+            <span><i class="ri-user-3-line"></i>{{username}}</span>
+          </div>
+        </router-link>
+        <div class="right-menu-item">
+          <div>
+            <span><i class="ri-settings-3-line"></i>设置</span>
+          </div>
+        </div>
+        <div class="right-menu-item last-one" @click="logout">
+          <div>
+            <span ><i class="ri-logout-circle-r-line"></i>退出</span>
+          </div>
+        </div>
       </template>
 
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
-        </div>
-        <el-dropdown-menu slot="dropdown">
-          <router-link to="/user/profile">
-            <el-dropdown-item>个人中心</el-dropdown-item>
-          </router-link>
-          <el-dropdown-item @click.native="setting = true">
-            <span>布局设置</span>
-          </el-dropdown-item>
-          <el-dropdown-item divided @click.native="logout">
-            <span>退出登录</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+
+
+<!--      <template v-if="device!=='mobile'">-->
+<!--        <search id="header-search" class="right-menu-item" />-->
+
+<!--        <screenfull id="screenfull" class="right-menu-item hover-effect" />-->
+
+<!--        <el-tooltip content="布局大小" effect="dark" placement="bottom">-->
+<!--          <size-select id="size-select" class="right-menu-item hover-effect" />-->
+<!--        </el-tooltip>-->
+
+<!--      </template>-->
+
+<!--      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">-->
+<!--        <div class="avatar-wrapper">-->
+<!--          <img :src="avatar" class="user-avatar">-->
+<!--          <i class="el-icon-caret-bottom" />-->
+<!--        </div>-->
+<!--        <el-dropdown-menu slot="dropdown">-->
+<!--          <router-link to="/user/profile">-->
+<!--            <el-dropdown-item>个人中心</el-dropdown-item>-->
+<!--          </router-link>-->
+<!--          <el-dropdown-item @click.native="setting = true">-->
+<!--            <span>布局设置</span>-->
+<!--          </el-dropdown-item>-->
+<!--          <el-dropdown-item divided @click.native="logout">-->
+<!--            <span>退出登录</span>-->
+<!--          </el-dropdown-item>-->
+<!--        </el-dropdown-menu>-->
+<!--      </el-dropdown>-->
     </div>
   </div>
 </template>
@@ -48,6 +68,7 @@ import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
 import RuoYiGit from '@/components/RuoYi/Git'
 import RuoYiDoc from '@/components/RuoYi/Doc'
+import {getUserProfile} from "../../api/system/user";
 
 export default {
   components: {
@@ -59,6 +80,11 @@ export default {
     Search,
     RuoYiGit,
     RuoYiDoc
+  },
+  data(){
+    return{
+     username:''
+    }
   },
   computed: {
     ...mapGetters([
@@ -83,7 +109,15 @@ export default {
       }
     }
   },
+  created() {
+    this.getUserName();
+  },
   methods: {
+    getUserName(){
+      getUserProfile().then(response => {
+        this.username = response.data.nickName;
+      });
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -141,27 +175,47 @@ export default {
     float: right;
     height: 100%;
     line-height: 50px;
+    display: flex;
 
     &:focus {
       outline: none;
     }
 
     .right-menu-item {
-      display: inline-block;
-      padding: 0 8px;
+      display: flex;
+      /*padding: 0 8px;*/
       height: 100%;
       font-size: 18px;
-      color: #5a5e66;
+      color: #cbb6af;
       vertical-align: text-bottom;
+      /*margin: 0 10px;*/
 
-      &.hover-effect {
-        cursor: pointer;
-        transition: background .3s;
-
-        &:hover {
-          background: rgba(0, 0, 0, .025)
+      div{
+        :hover{
+          background-color: #d2c2b8;
+          color: #967E76;
+          transition: 0.5s ease all;
         }
       }
+
+      span{
+        font-size: 1rem;
+        display: flex;
+        vertical-align: top;
+        cursor: pointer;
+        width: 100px;
+        justify-content: center;
+        border-radius: 25px;
+
+        i{
+          font-size: 1.3rem;
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .last-one{
+      margin-right: 30px;
     }
 
     .avatar-container {

@@ -59,11 +59,10 @@
     <el-table v-loading="loading" :data="articleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="标题" align="center" prop="title" />
-      <el-table-column label="阅读量" align="center" prop="click" />
-      <el-table-column label="点赞数" align="center" prop="kudos" />
-      <el-table-column label="文章状态" align="center" prop="status" />
       <el-table-column label="分类的id" align="center" prop="categoryId" />
-      <el-table-column label="章节" align="center" prop="chapter" />
+      <el-table-column label="文章状态" align="center" prop="status" />
+      <el-table-column label="点赞数" align="center" prop="kudos" />
+      <el-table-column label="阅读量" align="center" prop="click" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -150,7 +149,7 @@
 import { listArticle, getArticle, delArticle, addArticle, updateArticle } from "@/api/blog/article";
 
 export default {
-  name: "Article",
+  name: "articleList",
   data() {
     return {
       // 根路径
@@ -313,11 +312,12 @@ export default {
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getArticle(id).then(response => {
-        this.form = response.data;
-        this.open = true;
-        this.title = "修改文章";
-      });
+      this.$router.push({name:'articleInfo',query:{id: id, key:'edit'}})
+      // getArticle(id).then(response => {
+      //   this.form = response.data;
+      //   this.open = true;
+      //   this.title = "修改文章";
+      // });
     },
     /** 提交按钮 */
     submitForm() {

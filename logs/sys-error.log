@@ -1958,3 +1958,4 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
+22:07:25.096 [http-nio-8080-exec-25] ERROR c.r.f.w.e.GlobalExceptionHandler - [handleHttpRequestMethodNotSupported,46] - 请求地址'/ruoyi-vue-service/system/user/profile',不支持'POST'请求

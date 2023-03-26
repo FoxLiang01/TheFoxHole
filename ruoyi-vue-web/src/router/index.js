@@ -92,6 +92,21 @@ export const constantRoutes = [
 
 // 动态路由，基于用户权限动态去加载
 export const dynamicRoutes = [
+  //文章和文章详情
+  {
+    path: '/blog/article',
+    component: Layout,
+    hidden: true,
+    permissions: ['blog:article:edit'],
+    children: [
+      {
+        path: '/articleInfo',
+        component: () => import('@/views/blog/article/articleInfo'),
+        name: 'articleInfo',
+        meta: { title: '文章详情', activeMenu: '/blog/articleList' }
+      }
+    ]
+  },
   {
     path: '/system/user-auth',
     component: Layout,

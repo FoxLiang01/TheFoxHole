@@ -4,48 +4,34 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.FoxTagMapper">
 
-    <sql id="querySql">
-        select <include refid="allField"/>
-        from fox_tag A
-        <include refid="search"/>
+    <resultMap type="FoxTag" id="FoxTagResult">
+        <result property="id"    column="id"    />
+        <result property="tagName"    column="tag_name"    />
+        <result property="metaTag"    column="meta_tag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectFoxTagVo">
+        select id, tag_name, meta_tag, create_by, create_time, update_by, update_time, remark, status, del_flag from fox_tag
     </sql>
 
-    <select id="queryList" resultType="com.ruoyi.business.vo.FoxTagVo">
-        <include refid="querySql"/>
-        <if test="entity.tagName != null and entity.tagName != ''">
-            and A.tag_name like concat('%', #{entity.tagName}, '%')
-        </if>
-        <if test="entity.metaTag != null and entity.metaTag != 0">
-            and A.meta_tag = #{entity.metaTag}
-        </if>
-        <if test="entity.remark != null and entity.remark != ''">
-            and A.remark like concat('%', #{entity.remark}, '%')
-        </if>
-        <if test="entity.status != null and entity.status != ''">
-            and A.status like concat('%', #{entity.status}, '%')
-        </if>
-        order by A.create_time desc
+    <select id="selectFoxTagList" parameterType="FoxTag" resultMap="FoxTagResult">
+        <include refid="selectFoxTagVo"/>
+        <where>
+            <if test="tagName != null  and tagName != ''"> and tag_name like concat('%', #{tagName}, '%')</if>
+            <if test="metaTag != null "> and meta_tag = #{metaTag}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
     </select>
 
-    <select id="queryById" resultType="com.ruoyi.business.vo.FoxTagVo">
-        <include refid="querySql"/>
-        and A.id = #{id}
+    <select id="selectFoxTagById" parameterType="Long" resultMap="FoxTagResult">
+        <include refid="selectFoxTagVo"/>
+        where id = #{id}
     </select>
-
-    <sql id="allField">
-        A.id,
-        A.tag_name,
-        A.meta_tag,
-        A.create_by,
-        A.create_time,
-        A.update_by,
-        A.update_time,
-        A.remark,
-        A.status,
-        A.del_flag
-    </sql>
-
-    <sql id="search">
-        where A.delete_status = 1
-    </sql>
 </mapper>

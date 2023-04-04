@@ -16,10 +16,20 @@ import java.util.List;
  */
 public interface FoxSubscribeMapper extends BaseMapper<FoxSubscribe> {
 
-    Page<FoxSubscribeVo> queryList(Page<?> page, @Param("entity") FoxSubscribeVo entity);
+    /**
+     * 查询订阅
+     *
+     * @param id 订阅主键
+     * @return 订阅
+     */
+    public FoxSubscribe selectFoxSubscribeById(Long id);
 
-    List<FoxSubscribeVo> queryList(@Param("entity") FoxSubscribeVo entity);
-
-    FoxSubscribeVo queryById(@Param("id") Long id);
+    /**
+     * 查询订阅列表
+     *
+     * @param foxSubscribe 订阅
+     * @return 订阅集合
+     */
+    public List<FoxSubscribe> selectFoxSubscribeList(FoxSubscribe foxSubscribe);
 
 }

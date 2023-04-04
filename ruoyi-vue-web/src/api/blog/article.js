@@ -9,15 +9,6 @@ export function listArticle(query) {
   })
 }
 
-// 查询文章所有列表
-// export function listAllArticle(query) {
-//   return request({
-//     url: '/business/article/listAll',
-//     method: 'get',
-//     params: query
-//   })
-// }
-
 // 查询文章详细
 export function getArticle(id) {
   return request({

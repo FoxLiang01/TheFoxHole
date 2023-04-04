@@ -1,5 +1,7 @@
 package com.ruoyi.web.controller.business;
 
+import com.ruoyi.business.domain.FoxCategory;
+import com.ruoyi.business.domain.FoxComment;
 import com.ruoyi.business.service.IFoxCommentService;
 import com.ruoyi.business.vo.FoxCommentVo;
 import com.ruoyi.common.annotation.Log;
@@ -34,56 +36,65 @@ public class FoxCommentController extends BaseController {
     private final IFoxCommentService foxCommentService;
 
     @ApiOperation("查询评论列表")
-    @PreAuthorize("@ss.hasPermi('business:comment:list')")
+    @PreAuthorize("@ss.hasPermi('blog:comment:list')")
     @GetMapping("/list")
-    public TableDataInfo<FoxCommentVo> list(FoxCommentVo entity) {
-        return foxCommentService.queryList(entity);
+    public TableDataInfo list(FoxComment foxComment) {
+        startPage();
+        List<FoxComment> list = foxCommentService.selectFoxCommentList(foxComment);
+        return getDataTable(list);
     }
 
-    @ApiOperation("查询评论所有列表")
-    @GetMapping("/listAll")
-    public AjaxResult listAll(FoxCommentVo entity) {
-        return AjaxResult.success("查询成功", foxCommentService.queryAll(entity));
-    }
-
-    @ApiOperation("导出评论列表")
-    @PreAuthorize("@ss.hasPermi('business:comment:export')")
+    /**
+     * 导出评论列表
+     */
+    @PreAuthorize("@ss.hasPermi('blog:comment:export')")
     @Log(title = "评论", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, FoxCommentVo entity) {
-        List<FoxCommentVo> list = foxCommentService.queryAll(entity);
-        ExcelUtil<FoxCommentVo> util = new ExcelUtil<>(FoxCommentVo.class);
-        util.exportExcel(response, list, "评论数据");
+    public void export(HttpServletResponse response, FoxComment foxComment) {
+        List<FoxComment> list = foxCommentService.selectFoxCommentList(foxComment);
+        ExcelUtil<FoxComment> util =new ExcelUtil<FoxComment>(FoxComment.class);
+        util.exportExcel(response, list, "合集管理信息");
     }
 
-    @ApiOperation("获取评论详细信息")
-    @PreAuthorize("@ss.hasPermi('business:comment:query')")
-    @GetMapping(value = "/getInfo/{id}")
+    /**
+     * 获取评论详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('blog:comment:query')")
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success("查询成功", foxCommentService.queryById(id));
+        return AjaxResult.success(foxCommentService.selectFoxCommentById(id));
     }
 
-    @ApiOperation("新增评论")
-    @PreAuthorize("@ss.hasPermi('business:comment:add')")
+    /**
+     * 新增评论
+     */
+    @PreAuthorize("@ss.hasPermi('blog:comment:add')")
     @Log(title = "评论", businessType = BusinessType.INSERT)
-    @PostMapping("add")
-    public AjaxResult add(@RequestBody FoxCommentVo entity) {
-        return toAjax(foxCommentService.save(entity));
+    @PostMapping
+    public AjaxResult add(@RequestBody FoxComment foxComment) {
+        foxCommentService.insertFoxComment(foxComment);
+        return AjaxResult.success();
     }
 
-    @ApiOperation("修改评论")
-    @PreAuthorize("@ss.hasPermi('business:comment:edit')")
+    /**
+     * 修改评论
+     */
+    @PreAuthorize("@ss.hasPermi('blog:comment:edit')")
     @Log(title = "评论", businessType = BusinessType.UPDATE)
-    @PostMapping("edit")
-    public AjaxResult edit(@RequestBody FoxCommentVo entity) {
-        return toAjax(foxCommentService.updateById(entity));
+    @PutMapping
+    public AjaxResult edit(@RequestBody FoxComment foxComment) {
+        foxCommentService.updateFoxComment(foxComment);
+        return AjaxResult.success();
     }
 
-    @ApiOperation("删除评论")
-    @PreAuthorize("@ss.hasPermi('business:comment:remove')")
+    /**
+     * 删除评论
+     */
+    @PreAuthorize("@ss.hasPermi('blog:comment:remove')")
     @Log(title = "评论", businessType = BusinessType.DELETE)
-	@GetMapping("/remove/{ids}")
+	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
-        return toAjax(foxCommentService.removeByIds(Arrays.asList(ids)) ? 1 : 0);
+        foxCommentService.deleteFoxCommentByIds(ids);
+        return AjaxResult.success();
     }
 }

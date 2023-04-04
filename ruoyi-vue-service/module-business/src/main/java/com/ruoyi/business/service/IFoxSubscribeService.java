@@ -16,26 +16,50 @@ import java.util.List;
 public interface IFoxSubscribeService extends IService<FoxSubscribe> {
 
     /**
-     * 分页查询
+     * 查询订阅
      *
-     * @param entity
-     * @return
+     * @param id 订阅主键
+     * @return 订阅
      */
-    TableDataInfo<FoxSubscribeVo> queryList(FoxSubscribeVo entity);
+    public FoxSubscribe selectFoxSubscribeById(Long id);
 
     /**
-     * 查询全部
+     * 查询订阅列表
      *
-     * @param entity
-     * @return
+     * @param foxSubscribe 订阅
+     * @return 订阅集合
      */
-    List<FoxSubscribeVo> queryAll(FoxSubscribeVo entity);
+    public List<FoxSubscribe> selectFoxSubscribeList(FoxSubscribe foxSubscribe);
 
     /**
-     * 根据ID查询
+     * 新增订阅
      *
-     * @param id
-     * @return
+     * @param foxSubscribe 订阅
+     * @return 结果
      */
-    FoxSubscribeVo queryById(Long id);
+    public void insertFoxSubscribe(FoxSubscribe foxSubscribe);
+
+    /**
+     * 修改订阅
+     *
+     * @param foxSubscribe 订阅
+     * @return 结果
+     */
+    public void updateFoxSubscribe(FoxSubscribe foxSubscribe);
+
+    /**
+     * 批量删除订阅
+     *
+     * @param ids 需要删除的订阅主键集合
+     * @return 结果
+     */
+    public void deleteFoxSubscribeByIds(Long[] ids);
+
+    /**
+     * 删除订阅信息
+     *
+     * @param id 订阅主键
+     * @return 结果
+     */
+    public void deleteFoxSubscribeById(Long id);
 }

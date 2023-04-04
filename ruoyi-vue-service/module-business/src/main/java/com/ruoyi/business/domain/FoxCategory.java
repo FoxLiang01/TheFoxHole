@@ -17,10 +17,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author Foxx
  * @date 2023-03-25
  */
-//@Data
-//@Accessors(chain = true)
+@Data
+@Accessors(chain = true)
 //@ToString(callSuper = true)
-//@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class FoxCategory extends BaseEntity {
 
     /**
@@ -51,6 +51,13 @@ public class FoxCategory extends BaseEntity {
      */
     @Excel(name = "备注或描述")
     private String remark;
+
+    private String delFlag;
+
+    /**
+     * 文章列表（0不是 1是）
+     */
+    private String articleList;
 
     public void setId(Long id)
     {
@@ -97,6 +104,26 @@ public class FoxCategory extends BaseEntity {
     public String getRemark()
     {
         return remark;
+    }
+
+    public void setDelFlag(String delFlag)
+    {
+        this.delFlag = delFlag;
+    }
+
+    public String getDelFlag()
+    {
+        return delFlag;
+    }
+
+    public void setArticleList(String articleList)
+    {
+        this.articleList = articleList;
+    }
+
+    public String getArticleList()
+    {
+        return articleList;
     }
 
     @Override

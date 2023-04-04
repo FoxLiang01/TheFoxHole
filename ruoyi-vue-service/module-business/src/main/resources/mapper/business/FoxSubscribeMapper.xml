@@ -4,42 +4,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.FoxSubscribeMapper">
 
-    <sql id="querySql">
-        select <include refid="allField"/>
-        from fox_subscribe A
-        <include refid="search"/>
+    <resultMap type="FoxSubscribe" id="FoxSubscribeResult">
+        <result property="id"    column="id"    />
+        <result property="subscriber"    column="subscriber"    />
+        <result property="email"    column="email"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="workId"    column="work_id"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectFoxSubscribeVo">
+        select id, subscriber, email, create_time, update_time, work_id, del_flag from fox_subscribe
     </sql>
 
-    <select id="queryList" resultType="com.ruoyi.business.vo.FoxSubscribeVo">
-        <include refid="querySql"/>
-        <if test="entity.subscriber != null and entity.subscriber != ''">
-            and A.subscriber like concat('%', #{entity.subscriber}, '%')
-        </if>
-        <if test="entity.email != null and entity.email != ''">
-            and A.email like concat('%', #{entity.email}, '%')
-        </if>
-        <if test="entity.workId != null and entity.workId != 0">
-            and A.work_id = #{entity.workId}
-        </if>
-        order by A.create_time desc
+    <select id="selectFoxSubscribeList" parameterType="FoxSubscribe" resultMap="FoxSubscribeResult">
+        <include refid="selectFoxSubscribeVo"/>
+        <where>
+            <if test="subscriber != null  and subscriber != ''"> and subscriber = #{subscriber}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="workId != null "> and work_id = #{workId}</if>
+        </where>
     </select>
 
-    <select id="queryById" resultType="com.ruoyi.business.vo.FoxSubscribeVo">
-        <include refid="querySql"/>
-        and A.id = #{id}
+    <select id="selectFoxSubscribeById" parameterType="Long" resultMap="FoxSubscribeResult">
+        <include refid="selectFoxSubscribeVo"/>
+        where id = #{id}
     </select>
-
-    <sql id="allField">
-        A.id,
-        A.subscriber,
-        A.email,
-        A.create_time,
-        A.update_time,
-        A.work_id,
-        A.del_flag
-    </sql>
-
-    <sql id="search">
-        where A.delete_status = 1
-    </sql>
 </mapper>

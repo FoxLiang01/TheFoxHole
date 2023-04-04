@@ -16,26 +16,50 @@ import java.util.List;
 public interface IFoxCommentService extends IService<FoxComment> {
 
     /**
-     * 分页查询
+     * 查询评论
      *
-     * @param entity
-     * @return
+     * @param id 评论主键
+     * @return 评论
      */
-    TableDataInfo<FoxCommentVo> queryList(FoxCommentVo entity);
+    public FoxComment selectFoxCommentById(Long id);
 
     /**
-     * 查询全部
+     * 查询评论列表
      *
-     * @param entity
-     * @return
+     * @param foxComment 评论
+     * @return 评论集合
      */
-    List<FoxCommentVo> queryAll(FoxCommentVo entity);
+    public List<FoxComment> selectFoxCommentList(FoxComment foxComment);
 
     /**
-     * 根据ID查询
+     * 新增评论
      *
-     * @param id
-     * @return
+     * @param foxComment 评论
+     * @return 结果
      */
-    FoxCommentVo queryById(Long id);
+    public void insertFoxComment(FoxComment foxComment);
+
+    /**
+     * 修改评论
+     *
+     * @param foxComment 评论
+     * @return 结果
+     */
+    public void updateFoxComment(FoxComment foxComment);
+
+    /**
+     * 批量删除评论
+     *
+     * @param ids 需要删除的评论主键集合
+     * @return 结果
+     */
+    public void deleteFoxCommentByIds(Long[] ids);
+
+    /**
+     * 删除评论信息
+     *
+     * @param id 评论主键
+     * @return 结果
+     */
+    public void deleteFoxCommentById(Long id);
 }

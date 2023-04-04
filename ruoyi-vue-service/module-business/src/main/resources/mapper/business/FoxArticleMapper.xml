@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.FoxArticleMapper">
 
-    <resultMap type="FoxArticle" id="FoxArticleResult">
+    <resultMap type="com.ruoyi.business.domain.FoxArticle" id="FoxArticleResult">
         <result property="id"    column="id"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
@@ -21,31 +21,44 @@
         <result property="isComment"    column="is_comment"    />
         <result property="isTop"    column="is_top"    />
         <result property="banner"    column="banner"    />
-        <result property="workId"    column="work_id"    />
         <result property="categoryId"    column="category_id"    />
         <result property="chapter"    column="chapter"    />
+        <result property="notePosition"    column="note_position"    />
     </resultMap>
 
     <sql id="selectFoxArticleVo">
-        select id, create_by, create_time, update_by, update_time, del_flag, title, summary, note, content, click, kudos, status, is_comment, is_top, banner, work_id, category_id, chapter from fox_article
+        select
+        id,
+        create_by,
+        create_time,
+        update_by,
+        update_time,
+        del_flag,
+        title,
+        summary,
+        note,
+        content,
+        click,
+        kudos,
+        status,
+        is_comment,
+        is_top,
+        banner,
+        category_id,
+        chapter,
+        note_position
+        from fox_article
     </sql>
 
-    <select id="selectFoxArticleList" parameterType="FoxArticle" resultMap="FoxArticleResult">
+    <select id="selectFoxArticleList" resultType="java.util.Map">
         <include refid="selectFoxArticleVo"/>
         <where>
-            <if test="title != null  and title != ''"> and title = #{title}</if>
-            <if test="summary != null  and summary != ''"> and summary = #{summary}</if>
-            <if test="note != null  and note != ''"> and note = #{note}</if>
-            <if test="content != null  and content != ''"> and content = #{content}</if>
-            <if test="click != null "> and click = #{click}</if>
-            <if test="kudos != null "> and kudos = #{kudos}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="isComment != null  and isComment != ''"> and is_comment = #{isComment}</if>
-            <if test="isTop != null  and isTop != ''"> and is_top = #{isTop}</if>
-            <if test="banner != null  and banner != ''"> and banner = #{banner}</if>
-            <if test="workId != null "> and work_id = #{workId}</if>
-            <if test="categoryId != null "> and category_id = #{categoryId}</if>
-            <if test="chapter != null "> and chapter = #{chapter}</if>
+            <if test="params.title != null  and params.title != ''"> and title = #{params.title}</if>
+            <if test="params.click != null "> and click = #{params.click}</if>
+            <if test="params.kudos != null "> and kudos = #{params.kudos}</if>
+            <if test="params.status != null  and params.status != ''"> and status = #{params.status}</if>
+            <if test="params.workId != null "> and work_id = #{params.workId}</if>
+            <if test="params.categoryId != null "> and category_id = #{params.categoryId}</if>
         </where>
     </select>
 

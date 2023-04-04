@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ruoyi.business.domain.FoxCategory;
 import com.ruoyi.business.vo.FoxCategoryVo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 合集Mapper接口
@@ -14,12 +16,23 @@ import java.util.List;
  * @author Foxx
  * @date 2023-03-25
  */
+@Mapper
 public interface FoxCategoryMapper extends BaseMapper<FoxCategory> {
 
-    Page<FoxCategoryVo> queryList(Page<?> page, @Param("entity") FoxCategoryVo entity);
+    /**
+     * 查询合集
+     *
+     * @param id 合集主键
+     * @return 合集
+     */
+    public FoxCategory selectFoxCategoryById(Long id);
 
-    List<FoxCategoryVo> queryList(@Param("entity") FoxCategoryVo entity);
+    /**
+     * 查询合集列表
+     *
+     * @return 合集集合
+     */
+    public List<FoxCategory> selectFoxCategoryList(@Param("params") Map<String, Object> params);
 
-    FoxCategoryVo queryById(@Param("id") Long id);
 
 }

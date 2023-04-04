@@ -4,47 +4,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.FoxCategoryMapper">
 
-    <sql id="querySql">
-        select <include refid="allField"/>
-        from fox_category A
-        <include refid="search"/>
+    <resultMap type="com.ruoyi.business.domain.FoxCategory" id="FoxCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="status"    column="status"    />
+        <result property="metaCategory"    column="meta_category"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="articleList"    column="article_list"    />
+    </resultMap>
+
+    <sql id="selectFoxCategoryVo">
+        select id, name, status, meta_category, create_by, create_time, update_by, update_time, remark,del_flag, article_list from fox_category
     </sql>
 
-    <select id="queryList" resultType="com.ruoyi.business.vo.FoxCategoryVo">
-        <include refid="querySql"/>
-        <if test="entity.name != null and entity.name != ''">
-            and A.name like concat('%', #{entity.name}, '%')
-        </if>
-        <if test="entity.status != null and entity.status != ''">
-            and A.status like concat('%', #{entity.status}, '%')
-        </if>
-        <if test="entity.metaCategory != null and entity.metaCategory != 0">
-            and A.meta_category = #{entity.metaCategory}
-        </if>
-        <if test="entity.remark != null and entity.remark != ''">
-            and A.remark like concat('%', #{entity.remark}, '%')
-        </if>
-        order by A.create_time desc
+    <select id="selectFoxCategoryList" resultType="java.util.Map">
+        <include refid="selectFoxCategoryVo"/>
+        <where>
+            AND del_flag = 0
+            <if test="params.name != null  and params.name != ''"> and name like concat('%', #{params.name}, '%')</if>
+            <if test="params.status != null  and params.status != ''"> and status = #{params.status}</if>
+            <if test="params.metaCategory != null "> and meta_category = #{params.metaCategory}</if>
+        </where>
     </select>
 
-    <select id="queryById" resultType="com.ruoyi.business.vo.FoxCategoryVo">
-        <include refid="querySql"/>
-        and A.id = #{id}
+    <select id="selectFoxCategoryById" parameterType="Long" resultMap="FoxCategoryResult">
+        <include refid="selectFoxCategoryVo"/>
+        where id = #{id}
     </select>
-
-    <sql id="allField">
-        A.id,
-        A.name,
-        A.status,
-        A.meta_category,
-        A.create_by,
-        A.create_time,
-        A.update_by,
-        A.update_time,
-        A.remark
-    </sql>
-
-    <sql id="search">
-        where A.delete_status = 1
-    </sql>
 </mapper>

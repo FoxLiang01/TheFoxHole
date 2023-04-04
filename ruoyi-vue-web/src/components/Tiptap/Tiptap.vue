@@ -84,7 +84,6 @@
       </div>
 
       <editor-content :editor="editor"  class="input"/>
-
     </div>
 
   </template>
@@ -92,10 +91,22 @@
   <script>
   import { Editor, EditorContent } from '@tiptap/vue-2'
   import StarterKit from '@tiptap/starter-kit'
+  import {lowlight} from "lowlight";
 
   export default {
     components: {
       EditorContent,
+    },
+
+    props:{
+      tEditor:{
+        type: Object,
+        default: null
+      },
+      value:{
+        type:String,
+        default:''
+      }
     },
 
     data() {
@@ -106,16 +117,45 @@
 
     mounted() {
       this.editor = new Editor({
-        content: '<p>I’m running Tiptap with Vue.js. 🎉代码块和引用的样式写不进去</p>',
+        content: '',
         extensions: [
           StarterKit,
-
+          lowlight,
         ],
       })
     },
 
+    render(createElement) {
+      return createElement("div");
+    },
+
     beforeDestroy() {
-      this.editor.destroy()
+      // this.editor.destroy()
+      this.editor.element = this.$el;
+    },
+
+    watch:{
+      editor:{
+        immediate:true,
+        handler(editor) {
+          if (!editor || !editor.element) return;
+
+          this.editor.setContent(this.value);
+          this.editor.on("update", ({ getHTML }) => {
+            this.$emit("input", getHTML());
+          });
+
+          this.$nextTick(() => {
+            this.$el.appendChild(editor.element.firstChild);
+            editor.setParentComponent(this);
+          });
+        }
+      },
+      value:{
+        handler(value) {
+          this.editor.setContent(value);
+        }
+      }
     },
   }
   </script>
@@ -153,8 +193,6 @@
     .input{
       margin: 0 10px;
       min-height: 300px;
-
-
     }
   }
 

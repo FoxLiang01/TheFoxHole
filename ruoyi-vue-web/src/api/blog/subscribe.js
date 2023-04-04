@@ -9,19 +9,10 @@ export function listSubscribe(query) {
   })
 }
 
-// 查询订阅所有列表
-export function listAllSubscribe(query) {
-  return request({
-    url: '/business/subscribe/listAll',
-    method: 'get',
-    params: query
-  })
-}
-
 // 查询订阅详细
 export function getSubscribe(id) {
   return request({
-    url: '/business/subscribe/getInfo/' + id,
+    url: '/business/subscribe/' + id,
     method: 'get'
   })
 }
@@ -29,7 +20,7 @@ export function getSubscribe(id) {
 // 新增订阅
 export function addSubscribe(data) {
   return request({
-    url: '/business/subscribe/add',
+    url: '/business/subscribe',
     method: 'post',
     data: data
   })
@@ -38,8 +29,8 @@ export function addSubscribe(data) {
 // 修改订阅
 export function updateSubscribe(data) {
   return request({
-    url: '/business/subscribe/edit',
-    method: 'post',
+    url: '/business/subscribe',
+    method: 'put',
     data: data
   })
 }
@@ -47,7 +38,7 @@ export function updateSubscribe(data) {
 // 删除订阅
 export function delSubscribe(id) {
   return request({
-    url: '/business/subscribe/remove/' + id,
-    method: 'get'
+    url: '/business/subscribe/' + id,
+    method: 'delete'
   })
 }

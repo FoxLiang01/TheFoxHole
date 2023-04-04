@@ -16,26 +16,50 @@ import java.util.List;
 public interface IFoxTagService extends IService<FoxTag> {
 
     /**
-     * 分页查询
+     * 查询标签
      *
-     * @param entity
-     * @return
+     * @param id 标签主键
+     * @return 标签
      */
-    TableDataInfo<FoxTagVo> queryList(FoxTagVo entity);
+    public FoxTag selectFoxTagById(Long id);
 
     /**
-     * 查询全部
+     * 查询标签列表
      *
-     * @param entity
-     * @return
+     * @param foxTag 标签
+     * @return 标签集合
      */
-    List<FoxTagVo> queryAll(FoxTagVo entity);
+    public List<FoxTag> selectFoxTagList(FoxTag foxTag);
 
     /**
-     * 根据ID查询
+     * 新增标签
      *
-     * @param id
-     * @return
+     * @param foxTag 标签
+     * @return 结果
      */
-    FoxTagVo queryById(Long id);
+    public void insertFoxTag(FoxTag foxTag);
+
+    /**
+     * 修改标签
+     *
+     * @param foxTag 标签
+     * @return 结果
+     */
+    public void updateFoxTag(FoxTag foxTag);
+
+    /**
+     * 批量删除标签
+     *
+     * @param ids 需要删除的标签主键集合
+     * @return 结果
+     */
+    public void deleteFoxTagByIds(Long[] ids);
+
+    /**
+     * 删除标签信息
+     *
+     * @param id 标签主键
+     * @return 结果
+     */
+    public void deleteFoxTagById(Long id);
 }

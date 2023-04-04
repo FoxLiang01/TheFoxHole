@@ -70,10 +70,6 @@ public class FoxArticle extends BaseEntity {
     @Excel(name = "顶部图")
     private String banner;
 
-    /** 文章主页的id（默认短篇-1） */
-    @Excel(name = "文章主页的id", readConverterExp = "默=认短篇-1")
-    private Long workId;
-
     /** 分类的id */
     @Excel(name = "分类的id")
     private Long categoryId;
@@ -81,6 +77,8 @@ public class FoxArticle extends BaseEntity {
     /** 章节（默认-1 自动填充） */
     @Excel(name = "章节", readConverterExp = "默=认-1,自=动填充")
     private Long chapter;
+
+    private String notePosition;
 
     public void setId(Long id)
     {
@@ -190,15 +188,6 @@ public class FoxArticle extends BaseEntity {
     {
         return banner;
     }
-    public void setWorkId(Long workId)
-    {
-        this.workId = workId;
-    }
-
-    public Long getWorkId()
-    {
-        return workId;
-    }
     public void setCategoryId(Long categoryId)
     {
         this.categoryId = categoryId;
@@ -216,6 +205,16 @@ public class FoxArticle extends BaseEntity {
     public Long getChapter()
     {
         return chapter;
+    }
+
+    public void setNotePosition(String notePosition)
+    {
+        this.notePosition = notePosition;
+    }
+
+    public String getNotePosition()
+    {
+        return notePosition;
     }
 
     @Override
@@ -237,7 +236,6 @@ public class FoxArticle extends BaseEntity {
                 .append("isComment", getIsComment())
                 .append("isTop", getIsTop())
                 .append("banner", getBanner())
-                .append("workId", getWorkId())
                 .append("categoryId", getCategoryId())
                 .append("chapter", getChapter())
                 .toString();

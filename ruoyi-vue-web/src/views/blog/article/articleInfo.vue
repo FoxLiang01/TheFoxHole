@@ -48,7 +48,8 @@
         </el-form-item>
       </el-form>
 
-      <tiptap />
+      <tiptap/>
+
     </div>
     <div class="btn-list">
       <el-button type="primary" round>发布</el-button>
@@ -71,9 +72,11 @@
           type:'',
           tag:[],
           rating:'',
-          options:[]
-
+          options:[],
         }
+      },
+      computed:{
+
       },
       created() {
 

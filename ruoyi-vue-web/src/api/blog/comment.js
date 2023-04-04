@@ -9,19 +9,10 @@ export function listComment(query) {
   })
 }
 
-// 查询评论所有列表
-export function listAllComment(query) {
-  return request({
-    url: '/business/comment/listAll',
-    method: 'get',
-    params: query
-  })
-}
-
 // 查询评论详细
 export function getComment(id) {
   return request({
-    url: '/business/comment/getInfo/' + id,
+    url: '/business/comment/' + id,
     method: 'get'
   })
 }
@@ -29,7 +20,7 @@ export function getComment(id) {
 // 新增评论
 export function addComment(data) {
   return request({
-    url: '/business/comment/add',
+    url: '/business/comment',
     method: 'post',
     data: data
   })
@@ -38,8 +29,8 @@ export function addComment(data) {
 // 修改评论
 export function updateComment(data) {
   return request({
-    url: '/business/comment/edit',
-    method: 'post',
+    url: '/business/comment',
+    method: 'put',
     data: data
   })
 }
@@ -47,7 +38,7 @@ export function updateComment(data) {
 // 删除评论
 export function delComment(id) {
   return request({
-    url: '/business/comment/remove/' + id,
-    method: 'get'
+    url: '/business/comment/' + id,
+    method: 'delete'
   })
 }

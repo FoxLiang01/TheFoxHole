@@ -7,6 +7,7 @@ import com.ruoyi.business.mapper.FoxArticleMapper;
 import com.ruoyi.business.service.IFoxArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class FoxArticleServiceImpl extends ServiceImpl<FoxArticleMapper, FoxArti
      * @return 结果
      */
     @Override
+    @Transactional
     public void insertFoxArticle(FoxArticle foxArticle)
     {
         this.save(foxArticle);
@@ -64,6 +66,7 @@ public class FoxArticleServiceImpl extends ServiceImpl<FoxArticleMapper, FoxArti
      * @param foxArticle 文章
      */
     @Override
+    @Transactional
     public void updateFoxArticle(FoxArticle foxArticle)
     {
 //        List<FoxArticle> list =this.list(newQueryWrapper<FoxArticle>()
@@ -84,7 +87,7 @@ public class FoxArticleServiceImpl extends ServiceImpl<FoxArticleMapper, FoxArti
     public void deleteFoxArticleByIds(Long[] ids)
     {
         UpdateWrapper<FoxArticle> updateWrapper =new UpdateWrapper();
-        updateWrapper.eq("id", ids);
+        updateWrapper.in("id", ids);
         updateWrapper.eq("del_flag", "0");
         updateWrapper.set("del_flag", "2");
         this.update(updateWrapper);

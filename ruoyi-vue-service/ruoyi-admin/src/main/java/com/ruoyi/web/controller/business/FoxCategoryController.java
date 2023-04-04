@@ -1,5 +1,7 @@
 package com.ruoyi.web.controller.business;
 
+import com.ruoyi.business.domain.FoxArticle;
+import com.ruoyi.business.domain.FoxCategory;
 import com.ruoyi.business.service.IFoxCategoryService;
 import com.ruoyi.business.vo.FoxCategoryVo;
 import com.ruoyi.common.annotation.Log;
@@ -9,6 +11,8 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 合集Controller
@@ -33,57 +38,71 @@ public class FoxCategoryController extends BaseController {
 
     private final IFoxCategoryService foxCategoryService;
 
-    @ApiOperation("查询合集列表")
-    @PreAuthorize("@ss.hasPermi('business:category:list')")
+    /**
+     * 查询合集列表
+     */
+    @PreAuthorize("@ss.hasPermi('blog:category:list')")
+//    @ApiOperation("文章列表")
+//    @ApiImplicitParams({@ApiImplicitParam(name = "foxArticle", value = "文章对象", dataType = "FoxArticle", dataTypeClass = FoxArticle.class)})
     @GetMapping("/list")
-    public TableDataInfo<FoxCategoryVo> list(FoxCategoryVo entity) {
-        return foxCategoryService.queryList(entity);
+    public TableDataInfo list(@RequestParam Map<String, Object> params) {
+        startPage();
+        List<FoxCategory> list = foxCategoryService.selectFoxCategoryList(params);
+        return getDataTable(list);
     }
 
-    @ApiOperation("查询合集所有列表")
-    @GetMapping("/listAll")
-    public AjaxResult listAll(FoxCategoryVo entity) {
-        return AjaxResult.success("查询成功", foxCategoryService.queryAll(entity));
-    }
-
-    @ApiOperation("导出合集列表")
-    @PreAuthorize("@ss.hasPermi('business:category:export')")
+    /**
+     * 导出合集列表
+     */
+    @PreAuthorize("@ss.hasPermi('blog:category:export')")
     @Log(title = "合集", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, FoxCategoryVo entity) {
-        List<FoxCategoryVo> list = foxCategoryService.queryAll(entity);
-        ExcelUtil<FoxCategoryVo> util = new ExcelUtil<>(FoxCategoryVo.class);
-        util.exportExcel(response, list, "合集数据");
+    public void export(HttpServletResponse response, @RequestParam Map<String, Object> params) {
+        List<FoxCategory> list = foxCategoryService.selectFoxCategoryList(params);
+        ExcelUtil<FoxCategory> util =new ExcelUtil<FoxCategory>(FoxCategory.class);
+        util.exportExcel(response, list, "合集管理信息");
     }
 
-    @ApiOperation("获取合集详细信息")
-    @PreAuthorize("@ss.hasPermi('business:category:query')")
-    @GetMapping(value = "/getInfo/{id}")
+    /**
+     * 获取合集详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('blog:category:query')")
+//    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "文章id", dataType = "Long", dataTypeClass = Long.class)})
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success("查询成功", foxCategoryService.queryById(id));
+        return AjaxResult.success(foxCategoryService.selectFoxCategoryById(id));
     }
 
-    @ApiOperation("新增合集")
-    @PreAuthorize("@ss.hasPermi('business:category:add')")
+    /**
+     * 新增合集
+     */
+    @PreAuthorize("@ss.hasPermi('blog:category:add')")
     @Log(title = "合集", businessType = BusinessType.INSERT)
-    @PostMapping("add")
-    public AjaxResult add(@RequestBody FoxCategoryVo entity) {
-        return toAjax(foxCategoryService.save(entity));
+    @PostMapping
+    public AjaxResult add(@RequestBody FoxCategory foxCategory) {
+        foxCategoryService.insertFoxCategory(foxCategory);
+        return AjaxResult.success();
     }
 
-    @ApiOperation("修改合集")
-    @PreAuthorize("@ss.hasPermi('business:category:edit')")
+    /**
+     * 修改合集
+     */
+    @PreAuthorize("@ss.hasPermi('blog:category:edit')")
     @Log(title = "合集", businessType = BusinessType.UPDATE)
-    @PostMapping("edit")
-    public AjaxResult edit(@RequestBody FoxCategoryVo entity) {
-        return toAjax(foxCategoryService.updateById(entity));
+    @PutMapping
+    public AjaxResult edit(@RequestBody FoxCategory foxCategory) {
+        foxCategoryService.updateFoxCategory(foxCategory);
+        return AjaxResult.success();
     }
 
-    @ApiOperation("删除合集")
-    @PreAuthorize("@ss.hasPermi('business:category:remove')")
+    /**
+     * 删除合集
+     */
+    @PreAuthorize("@ss.hasPermi('blog:category:remove')")
     @Log(title = "合集", businessType = BusinessType.DELETE)
-	@GetMapping("/remove/{ids}")
+	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
-        return toAjax(foxCategoryService.removeByIds(Arrays.asList(ids)) ? 1 : 0);
+        foxCategoryService.deleteFoxCategoryByIds(ids);
+        return AjaxResult.success();
     }
 }

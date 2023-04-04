@@ -1,5 +1,7 @@
 package com.ruoyi.web.controller.business;
 
+import com.ruoyi.business.domain.FoxArticle;
+import com.ruoyi.business.domain.FoxSubscribe;
 import com.ruoyi.business.service.IFoxSubscribeService;
 import com.ruoyi.business.vo.FoxSubscribeVo;
 import com.ruoyi.common.annotation.Log;
@@ -36,54 +38,63 @@ public class FoxSubscribeController extends BaseController {
     @ApiOperation("查询订阅列表")
     @PreAuthorize("@ss.hasPermi('business:subscribe:list')")
     @GetMapping("/list")
-    public TableDataInfo<FoxSubscribeVo> list(FoxSubscribeVo entity) {
-        return foxSubscribeService.queryList(entity);
+    public TableDataInfo list(FoxSubscribe foxSubscribe) {
+        startPage();
+        List<FoxSubscribe> list = foxSubscribeService.selectFoxSubscribeList(foxSubscribe);
+        return getDataTable(list);
     }
 
-    @ApiOperation("查询订阅所有列表")
-    @GetMapping("/listAll")
-    public AjaxResult listAll(FoxSubscribeVo entity) {
-        return AjaxResult.success("查询成功", foxSubscribeService.queryAll(entity));
-    }
-
-    @ApiOperation("导出订阅列表")
+    /**
+     * 导出订阅列表
+     */
     @PreAuthorize("@ss.hasPermi('business:subscribe:export')")
     @Log(title = "订阅", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, FoxSubscribeVo entity) {
-        List<FoxSubscribeVo> list = foxSubscribeService.queryAll(entity);
-        ExcelUtil<FoxSubscribeVo> util = new ExcelUtil<>(FoxSubscribeVo.class);
-        util.exportExcel(response, list, "订阅数据");
+    public void export(HttpServletResponse response, FoxSubscribe foxSubscribe) {
+        List<FoxSubscribe> list = foxSubscribeService.selectFoxSubscribeList(foxSubscribe);
+        ExcelUtil<FoxSubscribe> util =new ExcelUtil<FoxSubscribe>(FoxSubscribe.class);
+        util.exportExcel(response, list, "文章管理信息");
     }
 
-    @ApiOperation("获取订阅详细信息")
+    /**
+     * 获取订阅详细信息
+     */
     @PreAuthorize("@ss.hasPermi('business:subscribe:query')")
-    @GetMapping(value = "/getInfo/{id}")
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success("查询成功", foxSubscribeService.queryById(id));
+        return AjaxResult.success(foxSubscribeService.selectFoxSubscribeById(id));
     }
 
-    @ApiOperation("新增订阅")
+    /**
+     * 新增订阅
+     */
     @PreAuthorize("@ss.hasPermi('business:subscribe:add')")
     @Log(title = "订阅", businessType = BusinessType.INSERT)
-    @PostMapping("add")
-    public AjaxResult add(@RequestBody FoxSubscribeVo entity) {
-        return toAjax(foxSubscribeService.save(entity));
+    @PostMapping
+    public AjaxResult add(@RequestBody FoxSubscribe foxSubscribe) {
+        foxSubscribeService.insertFoxSubscribe(foxSubscribe);
+        return AjaxResult.success();
     }
 
-    @ApiOperation("修改订阅")
+    /**
+     * 修改订阅
+     */
     @PreAuthorize("@ss.hasPermi('business:subscribe:edit')")
     @Log(title = "订阅", businessType = BusinessType.UPDATE)
-    @PostMapping("edit")
-    public AjaxResult edit(@RequestBody FoxSubscribeVo entity) {
-        return toAjax(foxSubscribeService.updateById(entity));
+    @PutMapping
+    public AjaxResult edit(@RequestBody FoxSubscribe foxSubscribe) {
+        foxSubscribeService.updateFoxSubscribe(foxSubscribe);
+        return AjaxResult.success();
     }
 
-    @ApiOperation("删除订阅")
+    /**
+     * 删除订阅
+     */
     @PreAuthorize("@ss.hasPermi('business:subscribe:remove')")
     @Log(title = "订阅", businessType = BusinessType.DELETE)
-	@GetMapping("/remove/{ids}")
+	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
-        return toAjax(foxSubscribeService.removeByIds(Arrays.asList(ids)) ? 1 : 0);
+        foxSubscribeService.deleteFoxSubscribeByIds(ids);
+        return AjaxResult.success();
     }
 }

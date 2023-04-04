@@ -9,19 +9,10 @@ export function listTag(query) {
   })
 }
 
-// 查询标签所有列表
-export function listAllTag(query) {
-  return request({
-    url: '/business/tag/listAll',
-    method: 'get',
-    params: query
-  })
-}
-
 // 查询标签详细
 export function getTag(id) {
   return request({
-    url: '/business/tag/getInfo/' + id,
+    url: '/business/tag/' + id,
     method: 'get'
   })
 }
@@ -29,7 +20,7 @@ export function getTag(id) {
 // 新增标签
 export function addTag(data) {
   return request({
-    url: '/business/tag/add',
+    url: '/business/tag',
     method: 'post',
     data: data
   })
@@ -38,8 +29,8 @@ export function addTag(data) {
 // 修改标签
 export function updateTag(data) {
   return request({
-    url: '/business/tag/edit',
-    method: 'post',
+    url: '/business/tag',
+    method: 'put',
     data: data
   })
 }
@@ -47,7 +38,7 @@ export function updateTag(data) {
 // 删除标签
 export function delTag(id) {
   return request({
-    url: '/business/tag/remove/' + id,
-    method: 'get'
+    url: '/business/tag/' + id,
+    method: 'delete'
   })
 }

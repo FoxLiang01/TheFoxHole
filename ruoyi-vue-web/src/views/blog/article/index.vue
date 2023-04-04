@@ -304,9 +304,10 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加文章";
+      // this.reset();
+      // this.open = true;
+      // this.title = "添加文章";
+      this.$router.push({name:'articleInfo',query:{key:'add'}})
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

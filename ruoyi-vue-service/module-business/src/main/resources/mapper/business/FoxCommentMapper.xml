@@ -4,44 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.FoxCommentMapper">
 
-    <sql id="querySql">
-        select <include refid="allField"/>
-        from fox_comment A
-        <include refid="search"/>
+    <resultMap type="FoxComment" id="FoxCommentResult">
+        <result property="id"    column="id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="email"    column="email"    />
+        <result property="content"    column="content"    />
+        <result property="metaComment"    column="meta_comment"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectFoxCommentVo">
+        select id, create_by, create_time, update_by, update_time, email, content, meta_comment, del_flag from fox_comment
     </sql>
 
-    <select id="queryList" resultType="com.ruoyi.business.vo.FoxCommentVo">
-        <include refid="querySql"/>
-        <if test="entity.email != null and entity.email != ''">
-            and A.email like concat('%', #{entity.email}, '%')
-        </if>
-        <if test="entity.content != null and entity.content != ''">
-            and A.content like concat('%', #{entity.content}, '%')
-        </if>
-        <if test="entity.metaComment != null and entity.metaComment != 0">
-            and A.meta_comment = #{entity.metaComment}
-        </if>
-        order by A.create_time desc
+    <select id="selectFoxCommentList" parameterType="FoxComment" resultMap="FoxCommentResult">
+        <include refid="selectFoxCommentVo"/>
+        <where>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="metaComment != null "> and meta_comment = #{metaComment}</if>
+        </where>
     </select>
 
-    <select id="queryById" resultType="com.ruoyi.business.vo.FoxCommentVo">
-        <include refid="querySql"/>
-        and A.id = #{id}
+    <select id="selectFoxCommentById" parameterType="Long" resultMap="FoxCommentResult">
+        <include refid="selectFoxCommentVo"/>
+        where id = #{id}
     </select>
-
-    <sql id="allField">
-        A.id,
-        A.create_by,
-        A.create_time,
-        A.update_by,
-        A.update_time,
-        A.email,
-        A.content,
-        A.meta_comment,
-        A.del_flag
-    </sql>
-
-    <sql id="search">
-        where A.delete_status = 1
-    </sql>
 </mapper>

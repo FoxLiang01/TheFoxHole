@@ -1,5 +1,7 @@
 package com.ruoyi.web.controller.business;
 
+import com.ruoyi.business.domain.FoxArticle;
+import com.ruoyi.business.domain.FoxTag;
 import com.ruoyi.business.service.IFoxTagService;
 import com.ruoyi.business.vo.FoxTagVo;
 import com.ruoyi.common.annotation.Log;
@@ -33,57 +35,68 @@ public class FoxTagController extends BaseController {
 
     private final IFoxTagService foxTagService;
 
-    @ApiOperation("查询标签列表")
-    @PreAuthorize("@ss.hasPermi('business:tag:list')")
+    /**
+     * 查询标签列表
+     */
+    @PreAuthorize("@ss.hasPermi('blog:tag:list')")
     @GetMapping("/list")
-    public TableDataInfo<FoxTagVo> list(FoxTagVo entity) {
-        return foxTagService.queryList(entity);
+    public TableDataInfo list(FoxTag foxTag) {
+        startPage();
+        List<FoxTag> list = foxTagService.selectFoxTagList(foxTag);
+        return getDataTable(list);
     }
 
-    @ApiOperation("查询标签所有列表")
-    @GetMapping("/listAll")
-    public AjaxResult listAll(FoxTagVo entity) {
-        return AjaxResult.success("查询成功", foxTagService.queryAll(entity));
-    }
-
-    @ApiOperation("导出标签列表")
-    @PreAuthorize("@ss.hasPermi('business:tag:export')")
+    /**
+     * 导出标签列表
+     */
+    @PreAuthorize("@ss.hasPermi('blog:tag:export')")
     @Log(title = "标签", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, FoxTagVo entity) {
-        List<FoxTagVo> list = foxTagService.queryAll(entity);
-        ExcelUtil<FoxTagVo> util = new ExcelUtil<>(FoxTagVo.class);
-        util.exportExcel(response, list, "标签数据");
+    public void export(HttpServletResponse response, FoxTag foxTag) {
+        List<FoxTag> list = foxTagService.selectFoxTagList(foxTag);
+        ExcelUtil<FoxTag> util =new ExcelUtil<FoxTag>(FoxTag.class);
+        util.exportExcel(response, list, "文章管理信息");
     }
 
-    @ApiOperation("获取标签详细信息")
-    @PreAuthorize("@ss.hasPermi('business:tag:query')")
-    @GetMapping(value = "/getInfo/{id}")
+    /**
+     * 获取标签详细信息
+     */
+    @PreAuthorize("@ss.hasPermi('blog:tag:query')")
+    @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id) {
-        return AjaxResult.success("查询成功", foxTagService.queryById(id));
+        return AjaxResult.success(foxTagService.selectFoxTagById(id));
     }
 
-    @ApiOperation("新增标签")
-    @PreAuthorize("@ss.hasPermi('business:tag:add')")
+    /**
+     * 新增标签
+     */
+    @PreAuthorize("@ss.hasPermi('blog:tag:add')")
     @Log(title = "标签", businessType = BusinessType.INSERT)
-    @PostMapping("add")
-    public AjaxResult add(@RequestBody FoxTagVo entity) {
-        return toAjax(foxTagService.save(entity));
+    @PostMapping
+    public AjaxResult add(@RequestBody FoxTag foxTag) {
+        foxTagService.insertFoxTag(foxTag);
+        return AjaxResult.success();
     }
 
-    @ApiOperation("修改标签")
-    @PreAuthorize("@ss.hasPermi('business:tag:edit')")
+    /**
+     * 修改标签
+     */
+    @PreAuthorize("@ss.hasPermi('blog:tag:edit')")
     @Log(title = "标签", businessType = BusinessType.UPDATE)
-    @PostMapping("edit")
-    public AjaxResult edit(@RequestBody FoxTagVo entity) {
-        return toAjax(foxTagService.updateById(entity));
+    @PutMapping
+    public AjaxResult edit(@RequestBody FoxTag foxTag) {
+        foxTagService.updateFoxTag(foxTag);
+        return AjaxResult.success();
     }
 
-    @ApiOperation("删除标签")
-    @PreAuthorize("@ss.hasPermi('business:tag:remove')")
+    /**
+     * 删除标签
+     */
+    @PreAuthorize("@ss.hasPermi('blog:tag:remove')")
     @Log(title = "标签", businessType = BusinessType.DELETE)
-	@GetMapping("/remove/{ids}")
+	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids) {
-        return toAjax(foxTagService.removeByIds(Arrays.asList(ids)) ? 1 : 0);
+        foxTagService.deleteFoxTagByIds(ids);
+        return AjaxResult.success();
     }
 }

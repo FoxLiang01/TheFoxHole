@@ -15,11 +15,20 @@ import java.util.List;
  * @date 2023-03-25
  */
 public interface FoxCommentMapper extends BaseMapper<FoxComment> {
+    /**
+     * 查询评论
+     *
+     * @param id 评论主键
+     * @return 评论
+     */
+    public FoxComment selectFoxCommentById(Long id);
 
-    Page<FoxCommentVo> queryList(Page<?> page, @Param("entity") FoxCommentVo entity);
-
-    List<FoxCommentVo> queryList(@Param("entity") FoxCommentVo entity);
-
-    FoxCommentVo queryById(@Param("id") Long id);
+    /**
+     * 查询评论列表
+     *
+     * @param foxComment 评论
+     * @return 评论集合
+     */
+    public List<FoxComment> selectFoxCommentList(FoxComment foxComment);
 
 }

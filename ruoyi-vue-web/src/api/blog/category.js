@@ -9,19 +9,10 @@ export function listCategory(query) {
   })
 }
 
-// 查询合集所有列表
-export function listAllCategory(query) {
-  return request({
-    url: '/business/category/listAll',
-    method: 'get',
-    params: query
-  })
-}
-
 // 查询合集详细
 export function getCategory(id) {
   return request({
-    url: '/business/category/getInfo/' + id,
+    url: '/business/category/' + id,
     method: 'get'
   })
 }
@@ -29,7 +20,7 @@ export function getCategory(id) {
 // 新增合集
 export function addCategory(data) {
   return request({
-    url: '/business/category/add',
+    url: '/business/category',
     method: 'post',
     data: data
   })
@@ -38,8 +29,8 @@ export function addCategory(data) {
 // 修改合集
 export function updateCategory(data) {
   return request({
-    url: '/business/category/edit',
-    method: 'post',
+    url: '/business/category',
+    method: 'put',
     data: data
   })
 }
@@ -47,7 +38,7 @@ export function updateCategory(data) {
 // 删除合集
 export function delCategory(id) {
   return request({
-    url: '/business/category/remove/' + id,
-    method: 'get'
+    url: '/business/category/' + id,
+    method: 'delete'
   })
 }

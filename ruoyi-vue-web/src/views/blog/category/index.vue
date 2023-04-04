@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <h2>合集，也是目录</h2>
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="合集名称" prop="name">
         <el-input
@@ -36,17 +37,6 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['business:category:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
           type="danger"
           plain
           icon="el-icon-delete"
@@ -56,26 +46,20 @@
           v-hasPermi="['business:category:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['business:category:export']"
-        >导出</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="categoryList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
       <el-table-column label="合集名称" align="center" prop="name" />
-      <el-table-column label="状态" align="center" prop="status" />
-      <el-table-column label="父级合集" align="center" prop="metaCategory" />
+<!--      <el-table-column label="父级合集" align="center" prop="metaCategory" />-->
       <el-table-column label="备注或描述" align="center" prop="remark" />
+      <el-table-column label="状态" align="center" prop="status">
+        <template scope="scope">
+          <el-tag type="success" v-if="scope.row.status === '0'">启用</el-tag>
+          <el-tag type="info" v-if="scope.row.status === '1'">停用</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -105,17 +89,51 @@
     />
 
     <!-- 添加或修改合集对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+    <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="110px">
         <el-form-item label="合集名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入合集名称" />
         </el-form-item>
         <el-form-item label="父级合集" prop="metaCategory">
-          <el-input v-model="form.metaCategory" placeholder="请输入父级合集" />
+<!--          <el-input v-model="form.metaCategory" placeholder="请输入父级合集" />-->
+          <el-switch
+            v-model="metaCategoryExist">
+          </el-switch>
+          <el-select v-model="form.metaCategory"
+                     clearable
+                     filterable
+                     placeholder="请选择父级合集"
+                     style="width: 80%;margin-left: 10%"
+                     v-if="metaCategoryExist">
+            <el-option
+              v-for="(item,index) in metaCategoryList"
+              :key="index"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="备注或描述" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
+        <el-form-item label="描述" prop="remark">
+          <el-input v-model="form.remark"
+                    type="textarea"
+                    placeholder="如果是文章列表的话，描述会显示在文章描述中；如果不是那就不显示，只有后台能看得到"
+                    :autosize="{minRows: 4}"/>
         </el-form-item>
+        <el-form-item label="是否为文章列表" prop="articleList">
+          <el-switch
+            v-model="form.articleList"
+            active-value="1"
+            inactive-value="0">
+          </el-switch>
+        </el-form-item>
+        <el-form-item label="使用状态" prop="status">
+          <el-switch
+            v-model="form.status"
+            active-value="0"
+            inactive-value="1">
+          </el-switch>
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -165,22 +183,12 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        id: [
-          { required: true, message: "$comment不能为空", trigger: "blur" }
-        ],
         name: [
           { required: true, message: "合集名称不能为空", trigger: "blur" }
         ],
-        status: [
-          { required: true, message: "状态不能为空", trigger: "blur" }
-        ],
-        metaCategory: [
-          { required: true, message: "父级合集不能为空", trigger: "blur" }
-        ],
-        remark: [
-          { required: true, message: "备注或描述不能为空", trigger: "blur" }
-        ]
-      }
+      },
+      metaCategoryExist:false,
+      metaCategoryList:[]
     };
   },
   created() {
@@ -194,6 +202,10 @@ export default {
         this.categoryList = response.rows;
         this.total = response.total;
         this.loading = false;
+        this.metaCategoryList = response.rows.map(item => ({
+          id:item.id,
+          name:item.name
+        }))
       });
     },
     // 取消按钮
@@ -231,8 +243,10 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      this.form.delFlag = '0';
+      this.form.articleList = '0';
       this.open = true;
-      this.title = "添加合集";
+      this.title = "新增合集";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -241,7 +255,7 @@ export default {
       getCategory(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改合集";
+        this.title = "修改合集信息";
       });
     },
     /** 提交按钮 */
@@ -274,12 +288,6 @@ export default {
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('business/category/export', {
-        ...this.queryParams
-      }, `category_${new Date().getTime()}.xlsx`)
-    }
   }
 };
 </script>

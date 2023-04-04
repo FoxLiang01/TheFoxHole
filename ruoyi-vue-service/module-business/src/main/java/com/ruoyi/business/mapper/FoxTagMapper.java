@@ -16,10 +16,20 @@ import java.util.List;
  */
 public interface FoxTagMapper extends BaseMapper<FoxTag> {
 
-    Page<FoxTagVo> queryList(Page<?> page, @Param("entity") FoxTagVo entity);
+    /**
+     * 查询标签
+     *
+     * @param id 标签主键
+     * @return 标签
+     */
+    public FoxTag selectFoxTagById(Long id);
 
-    List<FoxTagVo> queryList(@Param("entity") FoxTagVo entity);
-
-    FoxTagVo queryById(@Param("id") Long id);
+    /**
+     * 查询标签列表
+     *
+     * @param foxTag 标签
+     * @return 标签集合
+     */
+    public List<FoxTag> selectFoxTagList(FoxTag foxTag);
 
 }

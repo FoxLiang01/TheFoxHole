@@ -1,28 +1,28 @@
 <template>
   <div class="app-container">
     <h2>合集，也是目录</h2>
-    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="合集名称" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入合集名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="父级合集" prop="metaCategory">
-        <el-input
-          v-model="queryParams.metaCategory"
-          placeholder="请输入父级合集"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
+<!--    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">-->
+<!--      <el-form-item label="合集名称" prop="name">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.name"-->
+<!--          placeholder="请输入合集名称"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="父级合集" prop="metaCategory">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.metaCategory"-->
+<!--          placeholder="请输入父级合集"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
+<!--      <el-form-item>-->
+<!--        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>-->
+<!--        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>-->
+<!--      </el-form-item>-->
+<!--    </el-form>-->
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
@@ -49,18 +49,21 @@
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="categoryList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading"
+              :data="categoryList"
+              @selection-change="handleSelectionChange"
+              row-key="id"
+              :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="合集名称" align="center" prop="name" />
-<!--      <el-table-column label="父级合集" align="center" prop="metaCategory" />-->
-      <el-table-column label="备注或描述" align="center" prop="remark" />
-      <el-table-column label="状态" align="center" prop="status">
+      <el-table-column label="合集名称" align="left" prop="name" />
+<!--      <el-table-column label="备注或描述" align="left" prop="remark" />-->
+      <el-table-column label="状态" align="center" prop="status" width="100">
         <template scope="scope">
           <el-tag type="success" v-if="scope.row.status === '0'">启用</el-tag>
           <el-tag type="info" v-if="scope.row.status === '1'">停用</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -95,23 +98,16 @@
           <el-input v-model="form.name" placeholder="请输入合集名称" />
         </el-form-item>
         <el-form-item label="父级合集" prop="metaCategory">
-<!--          <el-input v-model="form.metaCategory" placeholder="请输入父级合集" />-->
           <el-switch
             v-model="metaCategoryExist">
           </el-switch>
-          <el-select v-model="form.metaCategory"
-                     clearable
-                     filterable
-                     placeholder="请选择父级合集"
-                     style="width: 80%;margin-left: 10%"
-                     v-if="metaCategoryExist">
-            <el-option
-              v-for="(item,index) in metaCategoryList"
-              :key="index"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
+          <el-cascader
+            v-model="metaCategoryPath"
+            :options="metaCategoryList"
+            placeholder="请选择父级合集"
+            :props="{checkStrictly: true }"
+            style="width: 80%;margin-left: 10%"
+            v-if="metaCategoryExist"></el-cascader>
         </el-form-item>
         <el-form-item label="描述" prop="remark">
           <el-input v-model="form.remark"
@@ -188,7 +184,8 @@ export default {
         ],
       },
       metaCategoryExist:false,
-      metaCategoryList:[]
+      metaCategoryList:[], //所有合集的查询结果
+      metaCategoryPath:[], //父级合集的路径
     };
   },
   created() {
@@ -203,10 +200,19 @@ export default {
         this.total = response.total;
         this.loading = false;
         this.metaCategoryList = response.rows.map(item => ({
-          id:item.id,
-          name:item.name
+          value:item.id,
+          label:item.name,
+          children: item.children ? this.getChildren(item.children) : null
         }))
       });
+    },
+    //获取子项
+    getChildren(children){
+      return children.map(child => ({
+        value:child.id,
+        label:child.name,
+        children: child.children ? this.getChildren(child.children) : null
+      }))
     },
     // 取消按钮
     cancel() {
@@ -254,14 +260,26 @@ export default {
       const id = row.id || this.ids
       getCategory(id).then(response => {
         this.form = response.data;
+        this.metaCategoryExist = this.form.metaCategory !== 0;  //有父级合集时才打开级联选择器
+        if(this.metaCategoryExist){
+          this.metaCategoryPath = this.form.path.split('/').map(Number);
+        }
         this.open = true;
         this.title = "修改合集信息";
+        console.log(this.form)
+        console.log(this.metaCategoryPath)
       });
     },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          if(this.metaCategoryExist === false){
+            this.form.metaCategory = 0;
+          }else{
+            this.form.metaCategory= this.metaCategoryPath[this.metaCategoryPath.length-1];
+            this.form.path = this.metaCategoryPath.join('/')
+          }
           if (this.form.id != null) {
             updateCategory(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
@@ -281,7 +299,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除合集编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除合集【 ' + row.name + ' 】？').then(function() {
         return delCategory(ids);
       }).then(() => {
         this.getList();

@@ -11,6 +11,8 @@ import lombok.experimental.Accessors;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.util.List;
+
 /**
  * 合集对象 fox_category
  *
@@ -24,7 +26,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class FoxCategory extends BaseEntity {
 
     /**
-     * $column.columnComment
+     * 主键id
      */
     private Long id;
 
@@ -54,10 +56,14 @@ public class FoxCategory extends BaseEntity {
 
     private String delFlag;
 
+    private List<FoxCategory> children;
+
     /**
      * 文章列表（0不是 1是）
      */
     private String articleList;
+
+    private String path;
 
     public void setId(Long id)
     {
@@ -126,6 +132,21 @@ public class FoxCategory extends BaseEntity {
         return articleList;
     }
 
+    public void setChildren(List<FoxCategory> children)
+    {
+        this.children = children;
+    }
+
+    public void setPath(String path)
+    {
+        this.path = path;
+    }
+
+    public String getPath()
+    {
+        return path;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -138,6 +159,7 @@ public class FoxCategory extends BaseEntity {
                 .append("updateBy", getUpdateBy())
                 .append("updateTime", getUpdateTime())
                 .append("remark", getRemark())
+                .append("path", getPath())
                 .toString();
     }
 }

@@ -29,7 +29,9 @@ public interface IFoxCategoryService extends IService<FoxCategory> {
      *
      * @return 合集集合
      */
-    public List<FoxCategory> selectFoxCategoryList(Map<String, Object> params);
+    public List<Map<String, Object>> selectFoxCategoryList(Map<String, Object> params);
+
+
 
     /**
      * 新增合集
@@ -58,4 +60,9 @@ public interface IFoxCategoryService extends IService<FoxCategory> {
      * @param id 合集主键
      */
     public void deleteFoxCategoryById(Long id);
+
+//    构造树状结构
+    public List<Map<String, Object>> getTreeList(List<Map<String, Object>> allList);
+
+    public void buildTree(Long parentId, Map<String,Object> map, List<FoxCategory> second);
 }

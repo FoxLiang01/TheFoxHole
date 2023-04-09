@@ -1,18 +1,26 @@
 package com.ruoyi.business.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.business.domain.FoxArticle;
 import com.ruoyi.business.domain.FoxCategory;
 import com.ruoyi.business.mapper.FoxCategoryMapper;
 import com.ruoyi.business.service.IFoxCategoryService;
+import com.ruoyi.common.core.domain.TreeSelect;
+import com.sun.org.apache.bcel.internal.generic.FCMPG;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 合集Service业务层处理
@@ -44,7 +52,7 @@ public class FoxCategoryServiceImpl extends ServiceImpl<FoxCategoryMapper, FoxCa
      * @return 合集
      */
     @Override
-    public List<FoxCategory> selectFoxCategoryList(Map<String, Object> params)
+    public List<Map<String, Object>> selectFoxCategoryList(Map<String, Object> params)
     {
         return foxCategoryMapper.selectFoxCategoryList(params);
     }
@@ -102,5 +110,46 @@ public class FoxCategoryServiceImpl extends ServiceImpl<FoxCategoryMapper, FoxCa
         updateWrapper.eq("del_flag", "0");
         updateWrapper.set("del_flag", "2");
         this.update(updateWrapper);
+    }
+
+    /**
+     * 获取根节点
+     *
+     */
+    @Override
+    public List<Map<String, Object>> getTreeList(List<Map<String, Object>> allList){
+        List<FoxCategory> second = baseMapper.selectFoxCategoryChildList();
+        List<Map<String, Object>> rlist = new ArrayList<>();
+        for(int i = 0 ; i < allList.size();i++){
+            Map<String, Object> map = allList.get(i);
+            Long firstId = Long.valueOf(allList.get(i).get("id").toString());
+            buildTree(firstId,map,second);
+            rlist.add(map);
+        }
+        return rlist;
+    }
+
+    /**
+     * 构造树结构
+     *
+//     * @param node 根节点
+//     * @param allList 列表所有的数据
+     */
+    @Override
+    public void buildTree(Long parentId, Map<String,Object> map, List<FoxCategory> second){
+        List<FoxCategory> seconds = second.stream().filter(temp-> temp.getMetaCategory()!=null && temp.getMetaCategory().equals(parentId)).collect(Collectors.toList());
+        if(seconds.size()>0){
+           List<Map<String,Object>> childList = new ArrayList<>();
+            for(int j = 0 ; j < seconds.size(); j ++){
+                Map<String,Object> child = new HashMap<>();
+                child.put("id",seconds.get(j).getId());
+                child.put("name",seconds.get(j).getName());
+                child.put("status",seconds.get(j).getStatus());
+                child.put("path",seconds.get(j).getPath());
+                childList.add(child);
+                buildTree(seconds.get(j).getId(), child, second);
+            }
+            map.put("children",childList);
+        }
     }
 }

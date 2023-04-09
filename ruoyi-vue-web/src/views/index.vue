@@ -57,11 +57,11 @@ export default {
 <style lang="scss" scoped>
 .dashboard-editor-container {
   padding: 32px;
-  background-color: rgb(240, 242, 245);
+  background-color: #F9F4EF;
   position: relative;
 
   .chart-wrapper {
-    background: #fff;
+    background: #F9F4EF;
     padding: 16px 16px 0;
     margin-bottom: 32px;
   }

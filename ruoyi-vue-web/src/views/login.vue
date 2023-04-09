@@ -5,7 +5,7 @@
       <h2 class="title-en">Welcome to The FoxHole</h2>
 
       <el-form-item prop="username" class="input-box" @hover="input">
-        <i class="ri-mail-line icon"></i>
+        <i class="ri-map-pin-user-line icon"></i>
         <el-input
           v-model="loginForm.username"
           type="text"

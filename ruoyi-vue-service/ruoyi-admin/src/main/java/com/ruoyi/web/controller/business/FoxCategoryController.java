@@ -47,8 +47,9 @@ public class FoxCategoryController extends BaseController {
     @GetMapping("/list")
     public TableDataInfo list(@RequestParam Map<String, Object> params) {
         startPage();
-        List<FoxCategory> list = foxCategoryService.selectFoxCategoryList(params);
-        return getDataTable(list);
+        List<Map<String, Object>> list = foxCategoryService.selectFoxCategoryList(params);
+        List<Map<String, Object>> resultList = foxCategoryService.getTreeList(list);
+        return getDataTable(resultList);
     }
 
     /**
@@ -58,9 +59,9 @@ public class FoxCategoryController extends BaseController {
     @Log(title = "合集", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, @RequestParam Map<String, Object> params) {
-        List<FoxCategory> list = foxCategoryService.selectFoxCategoryList(params);
-        ExcelUtil<FoxCategory> util =new ExcelUtil<FoxCategory>(FoxCategory.class);
-        util.exportExcel(response, list, "合集管理信息");
+//        List<Map<String, Object>> list = foxCategoryService.selectFoxCategoryList(params);
+//        ExcelUtil<FoxCategory> util =new ExcelUtil<FoxCategory>(FoxCategory.class);
+//        util.exportExcel(response, list, "合集管理信息");
     }
 
     /**

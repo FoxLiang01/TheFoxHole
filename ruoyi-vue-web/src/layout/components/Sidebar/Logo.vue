@@ -2,7 +2,7 @@
   <div class="sidebar-logo-container" :class="{'collapse':collapse}" :style="{ backgroundColor: sideTheme === 'theme-dark' ? variables.menuBackground : variables.menuLightBackground }">
     <transition name="sidebarLogoFade">
       <router-link v-if="collapse" key="collapse" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo" />
+        <img v-if="logo" :src="logo" class="sidebar-logo-small" />
         <h1 v-else class="sidebar-title" :style="{ color: sideTheme === 'theme-dark' ? variables.logoTitleColor : variables.logoLightTitleColor }">{{ title }} </h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
@@ -55,8 +55,8 @@ export default {
 .sidebar-logo-container {
   position: relative;
   width: 100%;
-  height: 50px;
-  line-height: 50px;
+  height: 150px;
+  line-height: 90px;
   background: #2b2f3a;
   text-align: center;
   overflow: hidden;
@@ -66,19 +66,26 @@ export default {
     width: 100%;
 
     & .sidebar-logo {
-      width: 32px;
-      height: 32px;
+      width: 70px;
+      height: 70px;
       vertical-align: middle;
       margin-right: 12px;
+      margin-top: 10px;
+    }
+
+    & .sidebar-logo-small {
+      width: 35px;
+      height: 35px;
+      vertical-align: middle;
     }
 
     & .sidebar-title {
-      display: inline-block;
+      display: block;
       margin: 0;
-      color: #fff;
+      color: #716040;
       font-weight: 600;
       line-height: 50px;
-      font-size: 14px;
+      font-size: 19px;
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
       vertical-align: middle;
     }

@@ -239,11 +239,13 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 34px;
-  width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  height: 40px;
+  width: 95%;
+  background: #EADDCF;
+  /*border-bottom: 1px solid #d8dce5;*/
+  /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);*/
+  border-radius: 0 0 25px 25px;
+  margin: auto;
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
@@ -251,13 +253,14 @@ export default {
       cursor: pointer;
       height: 26px;
       line-height: 26px;
-      border: 1px solid #d8dce5;
-      color: #495060;
-      background: #fff;
+      border: 2px solid #716040;
+      color: #716040;
+      background: transparent;
       padding: 0 8px;
-      font-size: 12px;
-      margin-left: 5px;
-      margin-top: 4px;
+      font-size: 13px;
+      margin-left: 10px;
+      margin-top: 5px;
+      border-radius: 15px;
       &:first-of-type {
         margin-left: 15px;
       }

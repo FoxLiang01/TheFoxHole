@@ -9,7 +9,7 @@
       <template v-if="device!=='mobile'">
         <router-link class="right-menu-item" to="/user/profile">
           <div>
-            <span><i class="ri-user-3-line"></i>{{username}}</span>
+            <span><i class="ri-map-pin-user-line"></i>{{username}}</span>
           </div>
         </router-link>
         <div class="right-menu-item">
@@ -23,37 +23,6 @@
           </div>
         </div>
       </template>
-
-
-
-<!--      <template v-if="device!=='mobile'">-->
-<!--        <search id="header-search" class="right-menu-item" />-->
-
-<!--        <screenfull id="screenfull" class="right-menu-item hover-effect" />-->
-
-<!--        <el-tooltip content="布局大小" effect="dark" placement="bottom">-->
-<!--          <size-select id="size-select" class="right-menu-item hover-effect" />-->
-<!--        </el-tooltip>-->
-
-<!--      </template>-->
-
-<!--      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">-->
-<!--        <div class="avatar-wrapper">-->
-<!--          <img :src="avatar" class="user-avatar">-->
-<!--          <i class="el-icon-caret-bottom" />-->
-<!--        </div>-->
-<!--        <el-dropdown-menu slot="dropdown">-->
-<!--          <router-link to="/user/profile">-->
-<!--            <el-dropdown-item>个人中心</el-dropdown-item>-->
-<!--          </router-link>-->
-<!--          <el-dropdown-item @click.native="setting = true">-->
-<!--            <span>布局设置</span>-->
-<!--          </el-dropdown-item>-->
-<!--          <el-dropdown-item divided @click.native="logout">-->
-<!--            <span>退出登录</span>-->
-<!--          </el-dropdown-item>-->
-<!--        </el-dropdown-menu>-->
-<!--      </el-dropdown>-->
     </div>
   </div>
 </template>
@@ -141,8 +110,11 @@ export default {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  background: #EADDCF;
+  width: 95%;
+  border-radius: 25px 25px 0 0;
+  margin: auto;
+  /*box-shadow: 0 1px 4px rgba(0,21,41,.08);*/
 
   .hamburger-container {
     line-height: 46px;
@@ -174,7 +146,7 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    line-height: 50px;
+    line-height: 30px;
     display: flex;
 
     &:focus {
@@ -183,17 +155,17 @@ export default {
 
     .right-menu-item {
       display: flex;
-      /*padding: 0 8px;*/
-      height: 100%;
+      align-self: center;
+      height: 70%;
       font-size: 18px;
-      color: #cbb6af;
+      color: #716040;
       vertical-align: text-bottom;
-      /*margin: 0 10px;*/
+      margin: 0 15px;
 
       div{
         :hover{
-          background-color: #d2c2b8;
-          color: #967E76;
+          background-color: #716040;
+          color: #F9F4EF;
           transition: 0.5s ease all;
         }
       }
@@ -203,9 +175,11 @@ export default {
         display: flex;
         vertical-align: top;
         cursor: pointer;
-        width: 100px;
+        min-width: 100px;
         justify-content: center;
+        padding: 0 10px;
         border-radius: 25px;
+        border: 2px solid #716040;
 
         i{
           font-size: 1.3rem;

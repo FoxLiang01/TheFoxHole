@@ -32,7 +32,8 @@ public interface FoxCategoryMapper extends BaseMapper<FoxCategory> {
      *
      * @return 合集集合
      */
-    public List<FoxCategory> selectFoxCategoryList(@Param("params") Map<String, Object> params);
+    public List<Map<String, Object>> selectFoxCategoryList(@Param("params") Map<String, Object> params);
 
+    public List<FoxCategory> selectFoxCategoryChildList();
 
 }

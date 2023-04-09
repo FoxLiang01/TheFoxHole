@@ -16,24 +16,61 @@
         <result property="remark"    column="remark"    />
         <result property="delFlag"    column="del_flag"    />
         <result property="articleList"    column="article_list"    />
+        <result property="path"    column="path"    />
     </resultMap>
 
     <sql id="selectFoxCategoryVo">
-        select id, name, status, meta_category, create_by, create_time, update_by, update_time, remark,del_flag, article_list from fox_category
+        select id, name, status, meta_category, create_by, create_time, update_by, update_time, remark,del_flag, article_list, path from fox_category
     </sql>
 
     <select id="selectFoxCategoryList" resultType="java.util.Map">
-        <include refid="selectFoxCategoryVo"/>
+        SELECT
+            id,
+            name,
+            status,
+            meta_category as metaCategory,
+            create_by as createBy,
+            create_time as createTime,
+            update_by as updateBy,
+            update_time as updateTime,
+            remark,
+            del_flag as delFlag,
+            path,
+            article_list as articleList from fox_category
         <where>
             AND del_flag = 0
+            AND meta_category = 0
             <if test="params.name != null  and params.name != ''"> and name like concat('%', #{params.name}, '%')</if>
             <if test="params.status != null  and params.status != ''"> and status = #{params.status}</if>
             <if test="params.metaCategory != null "> and meta_category = #{params.metaCategory}</if>
         </where>
+        order by create_time
     </select>
 
     <select id="selectFoxCategoryById" parameterType="Long" resultMap="FoxCategoryResult">
         <include refid="selectFoxCategoryVo"/>
         where id = #{id}
+    </select>
+
+    <select id="selectFoxCategoryChildList" resultType="com.ruoyi.business.domain.FoxCategory">
+        SELECT
+            id,
+            name,
+            status,
+            meta_category as metaCategory,
+            create_by as createBy,
+            create_time as createTime,
+            update_by as updateBy,
+            update_time as updateTime,
+            remark,
+            del_flag as delFlag,
+            path,
+            article_list as articleList
+        from fox_category
+        <where>
+            AND del_flag = 0
+            AND meta_category != 0
+        </where>
+        order by create_time
     </select>
 </mapper>

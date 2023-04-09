@@ -1,1 +1,0 @@
-23:23:19.797 [http-nio-8080-exec-39] ERROR c.r.f.w.e.GlobalExceptionHandler - [handleHttpRequestMethodNotSupported,46] - 请求地址'/ruoyi-vue-service/system/user/profile',不支持'POST'请求

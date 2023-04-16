@@ -60,6 +60,19 @@
         <span v-if="!loading">登 录</span>
         <span v-else>登 录 中...</span>
       </el-button>
+
+<!--      <el-button-->
+<!--        round-->
+<!--        :loading="loading"-->
+<!--        size="medium"-->
+<!--        type="primary"-->
+<!--        style="width:100%;margin:0 auto 30px auto"-->
+<!--        @click.native.prevent="handleLogin"-->
+<!--      >-->
+<!--        <span v-if="!loading">读者访问</span>-->
+<!--        <span v-else>登 录 中...</span>-->
+<!--      </el-button>-->
+
       <div style="float: right;" v-if="register">
         <router-link class="link-type" :to="'/register'">立即注册</router-link>
       </div>
@@ -147,7 +160,6 @@
         };
       },
       handleLogin() {
-        console.log(this.loginForm)
         this.$refs.loginForm.validate(valid => {
           if (valid) {
             this.loading = true;

@@ -9,11 +9,13 @@ import com.ruoyi.business.domain.FoxSubscribe;
 import com.ruoyi.business.vo.FoxSubscribeVo;
 import com.ruoyi.business.mapper.FoxSubscribeMapper;
 import com.ruoyi.business.service.IFoxSubscribeService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订阅Service业务层处理
@@ -46,9 +48,9 @@ public class FoxSubscribeServiceImpl extends ServiceImpl<FoxSubscribeMapper, Fox
      * @return 订阅
      */
     @Override
-    public List<FoxSubscribe> selectFoxSubscribeList(FoxSubscribe foxSubscribe)
+    public List<Map<String, Object>> selectFoxSubscribeList(@Param("params") Map<String, Object> params)
     {
-        return foxSubscribeMapper.selectFoxSubscribeList(foxSubscribe);
+        return foxSubscribeMapper.selectFoxSubscribeList(params);
     }
 
     /**

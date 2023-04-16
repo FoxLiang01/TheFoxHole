@@ -74,11 +74,16 @@ public class FoxArticle extends BaseEntity {
     @Excel(name = "分类的id")
     private Long categoryId;
 
+    private String categoryPath;
+
     /** 章节（默认-1 自动填充） */
     @Excel(name = "章节", readConverterExp = "默=认-1,自=动填充")
-    private Long chapter;
+    private int chapter;
 
     private String notePosition;
+
+    /** 限制级（0清水 1R18） */
+    private String rating;
 
     public void setId(Long id)
     {
@@ -197,12 +202,21 @@ public class FoxArticle extends BaseEntity {
     {
         return categoryId;
     }
-    public void setChapter(Long chapter)
+    public void setCategoryPath(String categoryPath)
+    {
+        this.categoryPath = categoryPath;
+    }
+
+    public String getCategoryPath()
+    {
+        return categoryPath;
+    }
+    public void setChapter(int chapter)
     {
         this.chapter = chapter;
     }
 
-    public Long getChapter()
+    public int getChapter()
     {
         return chapter;
     }
@@ -215,6 +229,16 @@ public class FoxArticle extends BaseEntity {
     public String getNotePosition()
     {
         return notePosition;
+    }
+
+    public void setRating(String rating)
+    {
+        this.rating = rating;
+    }
+
+    public String getRating()
+    {
+        return rating;
     }
 
     @Override
@@ -238,6 +262,7 @@ public class FoxArticle extends BaseEntity {
                 .append("banner", getBanner())
                 .append("categoryId", getCategoryId())
                 .append("chapter", getChapter())
+                .append("rating", getRating())
                 .toString();
     }
 

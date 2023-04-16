@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文章Controller
@@ -36,25 +37,25 @@ public class FoxArticleController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('blog:article:list')")
     @GetMapping("/list")
-    public TableDataInfo list(FoxArticle foxArticle)
+    public TableDataInfo list(@RequestParam Map<String, Object> params)
     {
         startPage();
-        List<FoxArticle> list = foxArticleService.selectFoxArticleList(foxArticle);
+        List<Map<String, Object>> list = foxArticleService.selectFoxArticleList(params);
         return getDataTable(list);
     }
 
     /**
      * 导出文章列表
      */
-    @PreAuthorize("@ss.hasPermi('blog:article:export')")
-    @Log(title = "文章", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, FoxArticle foxArticle)
-    {
-        List<FoxArticle> list = foxArticleService.selectFoxArticleList(foxArticle);
-        ExcelUtil<FoxArticle> util =new ExcelUtil<FoxArticle>(FoxArticle.class);
-        util.exportExcel(response, list, "文章管理信息");
-    }
+//    @PreAuthorize("@ss.hasPermi('blog:article:export')")
+//    @Log(title = "文章", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, FoxArticle foxArticle)
+//    {
+//        List<FoxArticle> list = foxArticleService.selectFoxArticleList(foxArticle);
+//        ExcelUtil<FoxArticle> util =new ExcelUtil<FoxArticle>(FoxArticle.class);
+//        util.exportExcel(response, list, "文章管理信息");
+//    }
 
     /**
      * 获取文章详细信息

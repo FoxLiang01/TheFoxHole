@@ -41,12 +41,6 @@ public class FoxSubscribe extends BaseEntity {
     private String email;
 
     /**
-     * 订阅文章的id
-     */
-    @Excel(name = "订阅文章的id")
-    private Long workId;
-
-    /**
      * 删除标志（0存在 2删除）
      */
     private String delFlag;
@@ -78,15 +72,6 @@ public class FoxSubscribe extends BaseEntity {
     {
         return email;
     }
-    public void setWorkId(Long workId)
-    {
-        this.workId = workId;
-    }
-
-    public Long getWorkId()
-    {
-        return workId;
-    }
     public void setDelFlag(String delFlag)
     {
         this.delFlag = delFlag;
@@ -105,7 +90,6 @@ public class FoxSubscribe extends BaseEntity {
                 .append("email", getEmail())
                 .append("createTime", getCreateTime())
                 .append("updateTime", getUpdateTime())
-                .append("workId", getWorkId())
                 .append("delFlag", getDelFlag())
                 .toString();
     }

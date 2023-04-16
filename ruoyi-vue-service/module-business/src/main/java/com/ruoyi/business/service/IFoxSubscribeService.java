@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.business.domain.FoxSubscribe;
 import com.ruoyi.business.vo.FoxSubscribeVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订阅Service接口
@@ -29,7 +31,7 @@ public interface IFoxSubscribeService extends IService<FoxSubscribe> {
      * @param foxSubscribe 订阅
      * @return 订阅集合
      */
-    public List<FoxSubscribe> selectFoxSubscribeList(FoxSubscribe foxSubscribe);
+    public List<Map<String, Object>> selectFoxSubscribeList(@Param("params") Map<String, Object> params);
 
     /**
      * 新增订阅

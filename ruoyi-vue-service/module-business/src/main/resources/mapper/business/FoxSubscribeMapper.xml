@@ -10,21 +10,28 @@
         <result property="email"    column="email"    />
         <result property="createTime"    column="create_time"    />
         <result property="updateTime"    column="update_time"    />
-        <result property="workId"    column="work_id"    />
         <result property="delFlag"    column="del_flag"    />
     </resultMap>
 
     <sql id="selectFoxSubscribeVo">
-        select id, subscriber, email, create_time, update_time, work_id, del_flag from fox_subscribe
+        select id, subscriber, email, create_time, update_time, del_flag from fox_subscribe
     </sql>
 
-    <select id="selectFoxSubscribeList" parameterType="FoxSubscribe" resultMap="FoxSubscribeResult">
-        <include refid="selectFoxSubscribeVo"/>
+    <select id="selectFoxSubscribeList" resultType="java.util.Map">
+        select
+        id,
+        subscriber,
+        email,
+        create_time as createTime,
+        update_time as updateTime,
+        del_flag as delFlag
+        from fox_subscribe
         <where>
-            <if test="subscriber != null  and subscriber != ''"> and subscriber = #{subscriber}</if>
-            <if test="email != null  and email != ''"> and email = #{email}</if>
-            <if test="workId != null "> and work_id = #{workId}</if>
+            and del_flag = 0
+            <if test="params.subscriber != null  and params.subscriber != ''"> and subscriber = #{params.subscriber}</if>
+            <if test="params.email != null  and params.email != ''"> and email = #{params.email}</if>
         </where>
+        order by create_time
     </select>
 
     <select id="selectFoxSubscribeById" parameterType="Long" resultMap="FoxSubscribeResult">

@@ -6,6 +6,7 @@ import com.ruoyi.business.domain.FoxTag;
 import com.ruoyi.business.vo.FoxTagVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 标签Service接口
@@ -29,7 +30,7 @@ public interface IFoxTagService extends IService<FoxTag> {
      * @param foxTag 标签
      * @return 标签集合
      */
-    public List<FoxTag> selectFoxTagList(FoxTag foxTag);
+    public List<Map<String, Object>> selectFoxTagList(Map<String, Object> params);
 
     /**
      * 新增标签

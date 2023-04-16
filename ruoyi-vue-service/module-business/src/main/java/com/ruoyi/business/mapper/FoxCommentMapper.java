@@ -7,6 +7,7 @@ import com.ruoyi.business.vo.FoxCommentVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 评论Mapper接口
@@ -26,9 +27,8 @@ public interface FoxCommentMapper extends BaseMapper<FoxComment> {
     /**
      * 查询评论列表
      *
-     * @param foxComment 评论
      * @return 评论集合
      */
-    public List<FoxComment> selectFoxCommentList(FoxComment foxComment);
+    public List<Map<String, Object>> selectFoxCommentList(@Param("params") Map<String, Object> params);
 
 }

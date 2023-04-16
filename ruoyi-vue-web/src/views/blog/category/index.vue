@@ -63,6 +63,7 @@
           <el-tag type="info" v-if="scope.row.status === '1'">停用</el-tag>
         </template>
       </el-table-column>
+      <el-table-column label="排序" align="center" prop="listOrder" width="100"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="200">
         <template slot-scope="scope">
           <el-button
@@ -107,13 +108,16 @@
             placeholder="请选择父级合集"
             :props="{checkStrictly: true }"
             style="width: 80%;margin-left: 10%"
-            v-if="metaCategoryExist"></el-cascader>
+            v-if="metaCategoryExist" clearable ></el-cascader>
         </el-form-item>
         <el-form-item label="描述" prop="remark">
           <el-input v-model="form.remark"
                     type="textarea"
                     placeholder="如果是文章列表的话，描述会显示在文章描述中；如果不是那就不显示，只有后台能看得到"
                     :autosize="{minRows: 4}"/>
+        </el-form-item>
+        <el-form-item label="排序" prop="listOrder">
+          <el-input-number v-model="form.listOrder" ></el-input-number>
         </el-form-item>
         <el-form-item label="是否为文章列表" prop="articleList">
           <el-switch
@@ -182,6 +186,9 @@ export default {
         name: [
           { required: true, message: "合集名称不能为空", trigger: "blur" }
         ],
+        listOrder: [
+          { required: true, message: "排序不能为空", trigger: "change" }
+        ],
       },
       metaCategoryExist:false,
       metaCategoryList:[], //所有合集的查询结果
@@ -226,7 +233,8 @@ export default {
         name: null,
         status: "0",
         metaCategory: null,
-        remark: null
+        remark: null,
+        listOrder:"1"
       };
       this.resetForm("form");
     },

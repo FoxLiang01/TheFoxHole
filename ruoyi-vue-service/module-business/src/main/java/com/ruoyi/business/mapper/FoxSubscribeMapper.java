@@ -7,6 +7,7 @@ import com.ruoyi.business.vo.FoxSubscribeVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订阅Mapper接口
@@ -30,6 +31,6 @@ public interface FoxSubscribeMapper extends BaseMapper<FoxSubscribe> {
      * @param foxSubscribe 订阅
      * @return 订阅集合
      */
-    public List<FoxSubscribe> selectFoxSubscribeList(FoxSubscribe foxSubscribe);
+    public List<Map<String, Object>> selectFoxSubscribeList(@Param("params") Map<String, Object> params);
 
 }

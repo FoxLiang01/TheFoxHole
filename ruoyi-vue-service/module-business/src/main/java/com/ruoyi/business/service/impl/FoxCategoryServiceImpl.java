@@ -146,6 +146,7 @@ public class FoxCategoryServiceImpl extends ServiceImpl<FoxCategoryMapper, FoxCa
                 child.put("name",seconds.get(j).getName());
                 child.put("status",seconds.get(j).getStatus());
                 child.put("path",seconds.get(j).getPath());
+                child.put("listOrder",seconds.get(j).getListOrder());
                 childList.add(child);
                 buildTree(seconds.get(j).getId(), child, second);
             }

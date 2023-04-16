@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文章Service业务层处理
@@ -38,13 +39,12 @@ public class FoxArticleServiceImpl extends ServiceImpl<FoxArticleMapper, FoxArti
     /**
      * 查询文章列表
      *
-     * @param foxArticle 文章
      * @return 文章
      */
     @Override
-    public List<FoxArticle> selectFoxArticleList(FoxArticle foxArticle)
+    public List<Map<String, Object>> selectFoxArticleList(Map<String, Object> params)
     {
-        return foxArticleMapper.selectFoxArticleList(foxArticle);
+        return foxArticleMapper.selectFoxArticleList(params);
     }
 
     /**

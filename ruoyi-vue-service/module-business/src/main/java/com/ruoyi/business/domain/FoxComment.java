@@ -46,6 +46,10 @@ public class FoxComment extends BaseEntity {
     @Excel(name = "父级评论的id")
     private Long metaComment;
 
+    private String name;
+
+    private Long articleId;
+
     /**
      * 删除标志（0存在 2删除）
      */
@@ -95,6 +99,25 @@ public class FoxComment extends BaseEntity {
     public String getDelFlag()
     {
         return delFlag;
+    }
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setArticleId(Long articleId)
+    {
+        this.articleId = articleId;
+    }
+
+    public Long getArticleId()
+    {
+        return articleId;
     }
 
     @Override

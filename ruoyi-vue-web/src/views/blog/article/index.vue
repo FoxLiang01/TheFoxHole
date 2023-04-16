@@ -17,7 +17,7 @@
 <!--          :value="item.value">-->
 <!--        </el-option>-->
 <!--      </el-select>-->
-      <el-form-item label="分类的id" prop="categoryId">
+      <el-form-item label="合集" prop="categoryId">
         <el-input
           v-model="queryParams.categoryId"
           placeholder="请输入分类的id"
@@ -59,8 +59,13 @@
     <el-table v-loading="loading" :data="articleList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="标题" align="center" prop="title" />
-      <el-table-column label="分类的id" align="center" prop="categoryId" />
-      <el-table-column label="文章状态" align="center" prop="status" />
+      <el-table-column label="合集" align="center" prop="categoryName" />
+      <el-table-column label="文章状态" align="center" prop="delFlag">
+        <template scope="scope">
+          <el-tag type="success" v-if="scope.row.delFlag === '0'">已发布</el-tag>
+          <el-tag type="info" v-if="scope.row.delFlag === '1'">草稿</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="点赞数" align="center" prop="kudos" />
       <el-table-column label="阅读量" align="center" prop="click" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
@@ -90,58 +95,6 @@
       :limit.sync="queryParams.pageSize"
       @pagination="getList"
     />
-
-    <!-- 添加或修改文章对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="删除标志" prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入删除标志" />
-        </el-form-item>
-        <el-form-item label="标题" prop="title">
-          <el-input v-model="form.title" placeholder="请输入标题" />
-        </el-form-item>
-        <el-form-item label="概述" prop="summary">
-          <el-input v-model="form.summary" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="笔记" prop="note">
-          <el-input v-model="form.note" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="文章内容" prop="content">
-          <editor v-model="form.content" :min-height="192"/>
-        </el-form-item>
-        <el-form-item label="阅读量" prop="click">
-          <el-input v-model="form.click" placeholder="请输入阅读量" />
-        </el-form-item>
-        <el-form-item label="点赞数" prop="kudos">
-          <el-input v-model="form.kudos" placeholder="请输入点赞数" />
-        </el-form-item>
-        <el-form-item label="是否能被评论" prop="isComment">
-          <el-input v-model="form.isComment" placeholder="请输入是否能被评论" />
-        </el-form-item>
-        <el-form-item label="是否置顶" prop="isTop">
-          <el-input v-model="form.isTop" placeholder="请输入是否置顶" />
-        </el-form-item>
-        <el-form-item label="顶部图" prop="banner">
-          <el-input v-model="form.banner" placeholder="请输入顶部图" />
-        </el-form-item>
-        <el-form-item label="文章主页的id" prop="workId">
-          <el-input v-model="form.workId" placeholder="请输入文章主页的id" />
-        </el-form-item>
-        <el-form-item label="分类的id" prop="categoryId">
-          <el-input v-model="form.categoryId" placeholder="请输入分类的id" />
-        </el-form-item>
-        <el-form-item label="章节" prop="chapter">
-          <el-input v-model="form.chapter" placeholder="请输入章节" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -194,56 +147,7 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-        id: [
-          { required: true, message: "$comment不能为空", trigger: "blur" }
-        ],
-        remark: [
-          { required: true, message: "备注不能为空", trigger: "blur" }
-        ],
-        delFlag: [
-          { required: true, message: "删除标志不能为空", trigger: "blur" }
-        ],
-        title: [
-          { required: true, message: "标题不能为空", trigger: "blur" }
-        ],
-        summary: [
-          { required: true, message: "概述不能为空", trigger: "blur" }
-        ],
-        note: [
-          { required: true, message: "笔记不能为空", trigger: "blur" }
-        ],
-        content: [
-          { required: true, message: "文章内容不能为空", trigger: "blur" }
-        ],
-        click: [
-          { required: true, message: "阅读量不能为空", trigger: "blur" }
-        ],
-        kudos: [
-          { required: true, message: "点赞数不能为空", trigger: "blur" }
-        ],
-        status: [
-          { required: true, message: "文章状态不能为空", trigger: "blur" }
-        ],
-        isComment: [
-          { required: true, message: "是否能被评论不能为空", trigger: "blur" }
-        ],
-        isTop: [
-          { required: true, message: "是否置顶不能为空", trigger: "blur" }
-        ],
-        banner: [
-          { required: true, message: "顶部图不能为空", trigger: "blur" }
-        ],
-        workId: [
-          { required: true, message: "文章主页的id不能为空", trigger: "blur" }
-        ],
-        categoryId: [
-          { required: true, message: "分类的id不能为空", trigger: "blur" }
-        ],
-        chapter: [
-          { required: true, message: "章节不能为空", trigger: "blur" }
-        ]
-      }
+      rules: {}
     };
   },
   created() {
@@ -255,36 +159,10 @@ export default {
       this.loading = true;
       listArticle(this.queryParams).then(response => {
         this.articleList = response.rows;
+        console.log(response.rows)
         this.total = response.total;
         this.loading = false;
       });
-    },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
-    // 表单重置
-    reset() {
-      this.form = {
-        id: null,
-        remark: null,
-        delFlag: null,
-        title: null,
-        summary: null,
-        note: null,
-        content: null,
-        click: null,
-        kudos: null,
-        status: "0",
-        isComment: null,
-        isTop: null,
-        banner: null,
-        workId: null,
-        categoryId: null,
-        chapter: null
-      };
-      this.resetForm("form");
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -304,21 +182,12 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      // this.reset();
-      // this.open = true;
-      // this.title = "添加文章";
       this.$router.push({name:'articleInfo',query:{key:'add'}})
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
-      this.reset();
       const id = row.id || this.ids
       this.$router.push({name:'articleInfo',query:{id: id, key:'edit'}})
-      // getArticle(id).then(response => {
-      //   this.form = response.data;
-      //   this.open = true;
-      //   this.title = "修改文章";
-      // });
     },
     /** 提交按钮 */
     submitForm() {
@@ -343,19 +212,14 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除文章编号为"' + ids + '"的数据项？').then(function() {
+      console.log(row)
+      this.$modal.confirm('是否确认删除名称为【' + row.title + '】的文章？').then(function() {
         return delArticle(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('business/article/export', {
-        ...this.queryParams
-      }, `article_${new Date().getTime()}.xlsx`)
-    }
   }
 };
 </script>

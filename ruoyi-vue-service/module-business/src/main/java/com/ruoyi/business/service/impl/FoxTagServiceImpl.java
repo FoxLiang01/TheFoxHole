@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 标签Service业务层处理
@@ -38,13 +39,12 @@ public class FoxTagServiceImpl extends ServiceImpl<FoxTagMapper, FoxTag> impleme
     /**
      * 查询标签列表
      *
-     * @param foxTag 标签
      * @return 标签
      */
     @Override
-    public List<FoxTag> selectFoxTagList(FoxTag foxTag)
+    public List<Map<String, Object>> selectFoxTagList(Map<String, Object> params)
     {
-        return foxTagMapper.selectFoxTagList(foxTag);
+        return foxTagMapper.selectFoxTagList(params);
     }
 
     /**

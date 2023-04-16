@@ -6,6 +6,7 @@ import com.ruoyi.business.domain.FoxComment;
 import com.ruoyi.business.vo.FoxCommentVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 评论Service接口
@@ -29,7 +30,7 @@ public interface IFoxCommentService extends IService<FoxComment> {
      * @param foxComment 评论
      * @return 评论集合
      */
-    public List<FoxComment> selectFoxCommentList(FoxComment foxComment);
+    public List<Map<String, Object>> selectFoxCommentList(Map<String, Object> params);
 
     /**
      * 新增评论

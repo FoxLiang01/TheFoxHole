@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="订阅人名称" prop="subscriber">
+      <el-form-item label="订阅人名称" prop="subscriber" label-width="100">
         <el-input
           v-model="queryParams.subscriber"
           placeholder="请输入订阅人名称"
@@ -13,14 +13,6 @@
         <el-input
           v-model="queryParams.email"
           placeholder="请输入邮箱"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="订阅文章的id" prop="workId">
-        <el-input
-          v-model="queryParams.workId"
-          placeholder="请输入订阅文章的id"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -44,17 +36,6 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['business:subscribe:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
           type="danger"
           plain
           icon="el-icon-delete"
@@ -64,22 +45,11 @@
           v-hasPermi="['business:subscribe:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['business:subscribe:export']"
-        >导出</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="subscribeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
       <el-table-column label="订阅人名称" align="center" prop="subscriber" />
       <el-table-column label="邮箱" align="center" prop="email" />
       <el-table-column label="订阅文章的id" align="center" prop="workId" />
@@ -119,12 +89,6 @@
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="form.email" placeholder="请输入邮箱" />
-        </el-form-item>
-        <el-form-item label="订阅文章的id" prop="workId">
-          <el-input v-model="form.workId" placeholder="请输入订阅文章的id" />
-        </el-form-item>
-        <el-form-item label="删除标志" prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入删除标志" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

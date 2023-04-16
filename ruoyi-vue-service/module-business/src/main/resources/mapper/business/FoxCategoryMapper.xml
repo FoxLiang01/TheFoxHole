@@ -17,10 +17,11 @@
         <result property="delFlag"    column="del_flag"    />
         <result property="articleList"    column="article_list"    />
         <result property="path"    column="path"    />
+        <result property="listOrder"    column="list_order"    />
     </resultMap>
 
     <sql id="selectFoxCategoryVo">
-        select id, name, status, meta_category, create_by, create_time, update_by, update_time, remark,del_flag, article_list, path from fox_category
+        select id, name, status, meta_category, create_by, create_time, update_by, update_time, remark,del_flag, article_list, path,list_order from fox_category
     </sql>
 
     <select id="selectFoxCategoryList" resultType="java.util.Map">
@@ -36,6 +37,7 @@
             remark,
             del_flag as delFlag,
             path,
+            list_order as listOrder,
             article_list as articleList from fox_category
         <where>
             AND del_flag = 0
@@ -44,7 +46,7 @@
             <if test="params.status != null  and params.status != ''"> and status = #{params.status}</if>
             <if test="params.metaCategory != null "> and meta_category = #{params.metaCategory}</if>
         </where>
-        order by create_time
+        order by list_order
     </select>
 
     <select id="selectFoxCategoryById" parameterType="Long" resultMap="FoxCategoryResult">
@@ -65,12 +67,13 @@
             remark,
             del_flag as delFlag,
             path,
+            list_order as listOrder,
             article_list as articleList
         from fox_category
         <where>
             AND del_flag = 0
             AND meta_category != 0
         </where>
-        order by create_time
+        order by list_order
     </select>
 </mapper>

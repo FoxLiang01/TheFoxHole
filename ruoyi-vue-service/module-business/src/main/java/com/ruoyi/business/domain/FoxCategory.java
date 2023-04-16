@@ -58,6 +58,8 @@ public class FoxCategory extends BaseEntity {
 
     private List<FoxCategory> children;
 
+    private String listOrder;
+
     /**
      * 文章列表（0不是 1是）
      */
@@ -147,6 +149,16 @@ public class FoxCategory extends BaseEntity {
         return path;
     }
 
+    public void setListOrder(String listOrder)
+    {
+        this.listOrder = listOrder;
+    }
+
+    public String getListOrder()
+    {
+        return listOrder;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -160,6 +172,7 @@ public class FoxCategory extends BaseEntity {
                 .append("updateTime", getUpdateTime())
                 .append("remark", getRemark())
                 .append("path", getPath())
+                .append("order", getListOrder())
                 .toString();
     }
 }

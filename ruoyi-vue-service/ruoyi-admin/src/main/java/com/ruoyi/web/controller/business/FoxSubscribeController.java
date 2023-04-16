@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订阅Controller
@@ -38,23 +39,23 @@ public class FoxSubscribeController extends BaseController {
     @ApiOperation("查询订阅列表")
     @PreAuthorize("@ss.hasPermi('business:subscribe:list')")
     @GetMapping("/list")
-    public TableDataInfo list(FoxSubscribe foxSubscribe) {
+    public TableDataInfo list(@RequestParam Map<String, Object> params) {
         startPage();
-        List<FoxSubscribe> list = foxSubscribeService.selectFoxSubscribeList(foxSubscribe);
+        List<Map<String, Object>> list = foxSubscribeService.selectFoxSubscribeList(params);
         return getDataTable(list);
     }
 
     /**
      * 导出订阅列表
      */
-    @PreAuthorize("@ss.hasPermi('business:subscribe:export')")
-    @Log(title = "订阅", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, FoxSubscribe foxSubscribe) {
-        List<FoxSubscribe> list = foxSubscribeService.selectFoxSubscribeList(foxSubscribe);
-        ExcelUtil<FoxSubscribe> util =new ExcelUtil<FoxSubscribe>(FoxSubscribe.class);
-        util.exportExcel(response, list, "文章管理信息");
-    }
+//    @PreAuthorize("@ss.hasPermi('business:subscribe:export')")
+//    @Log(title = "订阅", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, FoxSubscribe foxSubscribe) {
+//        List<FoxSubscribe> list = foxSubscribeService.selectFoxSubscribeList(foxSubscribe);
+//        ExcelUtil<FoxSubscribe> util =new ExcelUtil<FoxSubscribe>(FoxSubscribe.class);
+//        util.exportExcel(response, list, "文章管理信息");
+//    }
 
     /**
      * 获取订阅详细信息

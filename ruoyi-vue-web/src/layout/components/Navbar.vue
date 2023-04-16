@@ -9,17 +9,19 @@
       <template v-if="device!=='mobile'">
         <router-link class="right-menu-item" to="/user/profile">
           <div>
-            <span><i class="ri-map-pin-user-line"></i>{{username}}</span>
+            <span><i class="ri-map-pin-user-line icon"></i>{{username}}</span>
           </div>
         </router-link>
         <div class="right-menu-item">
-          <div>
-            <span><i class="ri-settings-3-line"></i>设置</span>
-          </div>
+          <router-link to="/homepage">
+            <div>
+              <span><i class="ri-home-3-line icon"></i>客户端</span>
+            </div>
+          </router-link>
         </div>
         <div class="right-menu-item last-one" @click="logout">
           <div>
-            <span ><i class="ri-logout-circle-r-line"></i>退出</span>
+            <span ><i class="ri-logout-circle-r-line icon"></i>退 出</span>
           </div>
         </div>
       </template>
@@ -167,6 +169,12 @@ export default {
           background-color: #716040;
           color: #F9F4EF;
           transition: 0.5s ease all;
+        }
+
+        .icon{
+          &:hover{
+            background-color: transparent;
+          }
         }
       }
 

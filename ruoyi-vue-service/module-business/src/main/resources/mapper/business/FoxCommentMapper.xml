@@ -14,19 +14,36 @@
         <result property="content"    column="content"    />
         <result property="metaComment"    column="meta_comment"    />
         <result property="delFlag"    column="del_flag"    />
+        <result property="name"    column="name"    />
+        <result property="articleId"    column="article_id"    />
     </resultMap>
 
     <sql id="selectFoxCommentVo">
-        select id, create_by, create_time, update_by, update_time, email, content, meta_comment, del_flag from fox_comment
+        select id, create_by, create_time, update_by, update_time, email, content, meta_comment, del_flag, name, article_id from fox_comment
     </sql>
 
-    <select id="selectFoxCommentList" parameterType="FoxComment" resultMap="FoxCommentResult">
-        <include refid="selectFoxCommentVo"/>
+    <select id="selectFoxCommentList" resultType="java.util.Map">
+        select
+        t.id,
+        t.create_by as createBy,
+        t.create_time as createTime,
+        t.update_by as updateBy,
+        t.update_time as updateTime,
+        t.email,
+        t.content,
+        t.meta_comment as metaComment,
+        t.del_flag as delFlag,
+        t.name,
+        t.article_id as articleId
+        from `fox_comment` t
+        left join fox_article a on a.id = t.article_id
         <where>
-            <if test="email != null  and email != ''"> and email = #{email}</if>
-            <if test="content != null  and content != ''"> and content = #{content}</if>
-            <if test="metaComment != null "> and meta_comment = #{metaComment}</if>
+            and t.del_flag = 0
+            <if test="params.email != null  and params.email != ''"> and t.email = #{params.email}</if>
+            <if test="params.content != null  and params.content != ''"> and t.content = #{params.content}</if>
+            <if test="params.metaComment != null "> and t.meta_comment = #{params.metaComment}</if>
         </where>
+        order by t.create_time
     </select>
 
     <select id="selectFoxCommentById" parameterType="Long" resultMap="FoxCommentResult">

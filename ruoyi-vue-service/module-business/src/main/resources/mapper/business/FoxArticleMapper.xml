@@ -24,6 +24,8 @@
         <result property="categoryId"    column="category_id"    />
         <result property="chapter"    column="chapter"    />
         <result property="notePosition"    column="note_position"    />
+        <result property="rating"    column="rating"    />
+        <result property="categoryPath"    column="category_path"    />
     </resultMap>
 
     <sql id="selectFoxArticleVo">
@@ -45,21 +47,48 @@
         is_top,
         banner,
         category_id,
+        category_path,
         chapter,
-        note_position
+        note_position,
+        rating
         from fox_article
     </sql>
 
     <select id="selectFoxArticleList" resultType="java.util.Map">
-        <include refid="selectFoxArticleVo"/>
+        select
+        t.id,
+        t.create_by as createBy,
+        t.create_time as createTime,
+        t.update_by as updateBy,
+        t.update_time as updateTime,
+        t.del_flag as delFlag,
+        t.title,
+        t.summary,
+        t.note,
+        t.content,
+        t.click,
+        t.kudos,
+        t.status,
+        t.is_comment as isComment,
+        t.is_top as isTop,
+        t.banner,
+        t.category_id as categoryId,
+        t.category_path as categoryPath,
+        s.name as categoryName,
+        t.chapter,
+        t.note_position as notePosition,
+        t.rating
+        from `fox_article` t
+        left join fox_category s on s.id = t.category_id
         <where>
-            <if test="params.title != null  and params.title != ''"> and title = #{params.title}</if>
-            <if test="params.click != null "> and click = #{params.click}</if>
-            <if test="params.kudos != null "> and kudos = #{params.kudos}</if>
-            <if test="params.status != null  and params.status != ''"> and status = #{params.status}</if>
-            <if test="params.workId != null "> and work_id = #{params.workId}</if>
-            <if test="params.categoryId != null "> and category_id = #{params.categoryId}</if>
+            AND t.del_flag = 0
+            <if test="params.title != null  and params.title != ''"> and t.title like concat('%',#{params.title}, '%')</if>
+            <if test="params.click != null "> and t.click = #{params.click}</if>
+            <if test="params.kudos != null "> and t.kudos = #{params.kudos}</if>
+            <if test="params.status != null  and params.status != ''"> and t.status = #{params.status}</if>
+            <if test="params.categoryId != null "> and t.category_id = #{params.categoryId}</if>
         </where>
+        order by t.create_time
     </select>
 
     <select id="selectFoxArticleById" parameterType="Long" resultMap="FoxArticleResult">

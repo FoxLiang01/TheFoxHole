@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 评论Controller
@@ -38,23 +39,23 @@ public class FoxCommentController extends BaseController {
     @ApiOperation("查询评论列表")
     @PreAuthorize("@ss.hasPermi('blog:comment:list')")
     @GetMapping("/list")
-    public TableDataInfo list(FoxComment foxComment) {
+    public TableDataInfo list(@RequestParam Map<String, Object> params) {
         startPage();
-        List<FoxComment> list = foxCommentService.selectFoxCommentList(foxComment);
+        List<Map<String, Object>> list = foxCommentService.selectFoxCommentList(params);
         return getDataTable(list);
     }
 
     /**
      * 导出评论列表
      */
-    @PreAuthorize("@ss.hasPermi('blog:comment:export')")
-    @Log(title = "评论", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, FoxComment foxComment) {
-        List<FoxComment> list = foxCommentService.selectFoxCommentList(foxComment);
-        ExcelUtil<FoxComment> util =new ExcelUtil<FoxComment>(FoxComment.class);
-        util.exportExcel(response, list, "合集管理信息");
-    }
+//    @PreAuthorize("@ss.hasPermi('blog:comment:export')")
+//    @Log(title = "评论", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, FoxComment foxComment) {
+//        List<FoxComment> list = foxCommentService.selectFoxCommentList(foxComment);
+//        ExcelUtil<FoxComment> util =new ExcelUtil<FoxComment>(FoxComment.class);
+//        util.exportExcel(response, list, "合集管理信息");
+//    }
 
     /**
      * 获取评论详细信息

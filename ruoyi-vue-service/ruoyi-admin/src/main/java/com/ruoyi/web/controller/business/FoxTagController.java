@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 标签Controller
@@ -40,23 +41,23 @@ public class FoxTagController extends BaseController {
      */
     @PreAuthorize("@ss.hasPermi('blog:tag:list')")
     @GetMapping("/list")
-    public TableDataInfo list(FoxTag foxTag) {
+    public TableDataInfo list(Map<String, Object> params) {
         startPage();
-        List<FoxTag> list = foxTagService.selectFoxTagList(foxTag);
+        List<Map<String, Object>> list = foxTagService.selectFoxTagList(params);
         return getDataTable(list);
     }
 
     /**
      * 导出标签列表
      */
-    @PreAuthorize("@ss.hasPermi('blog:tag:export')")
-    @Log(title = "标签", businessType = BusinessType.EXPORT)
-    @PostMapping("/export")
-    public void export(HttpServletResponse response, FoxTag foxTag) {
-        List<FoxTag> list = foxTagService.selectFoxTagList(foxTag);
-        ExcelUtil<FoxTag> util =new ExcelUtil<FoxTag>(FoxTag.class);
-        util.exportExcel(response, list, "文章管理信息");
-    }
+//    @PreAuthorize("@ss.hasPermi('blog:tag:export')")
+//    @Log(title = "标签", businessType = BusinessType.EXPORT)
+//    @PostMapping("/export")
+//    public void export(HttpServletResponse response, FoxTag foxTag) {
+//        List<FoxTag> list = foxTagService.selectFoxTagList(foxTag);
+//        ExcelUtil<FoxTag> util =new ExcelUtil<FoxTag>(FoxTag.class);
+//        util.exportExcel(response, list, "文章管理信息");
+//    }
 
     /**
      * 获取标签详细信息

@@ -9,14 +9,6 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="父级评论的id" prop="metaComment">
-        <el-input
-          v-model="queryParams.metaComment"
-          placeholder="请输入父级评论的id"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -36,17 +28,6 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['business:comment:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
           type="danger"
           plain
           icon="el-icon-delete"
@@ -56,34 +37,23 @@
           v-hasPermi="['business:comment:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['business:comment:export']"
-        >导出</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="commentList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="邮箱" align="center" prop="email" />
       <el-table-column label="内容" align="center" prop="content" />
-      <el-table-column label="父级评论的id" align="center" prop="metaComment" />
+      <el-table-column label="评论人" align="center" prop="name" />
+      <el-table-column label="邮箱" align="center" prop="email" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
             size="mini"
             type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
+            icon="el-icon-eye"
+            @click="handleView(scope.row)"
             v-hasPermi="['business:comment:edit']"
-          >修改</el-button>
+          >查看</el-button>
           <el-button
             size="mini"
             type="text"
@@ -114,9 +84,6 @@
         </el-form-item>
         <el-form-item label="父级评论的id" prop="metaComment">
           <el-input v-model="form.metaComment" placeholder="请输入父级评论的id" />
-        </el-form-item>
-        <el-form-item label="删除标志" prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入删除标志" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -165,23 +132,7 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-        id: [
-          { required: true, message: "$comment不能为空", trigger: "blur" }
-        ],
-        email: [
-          { required: true, message: "邮箱不能为空", trigger: "blur" }
-        ],
-        content: [
-          { required: true, message: "内容不能为空", trigger: "blur" }
-        ],
-        metaComment: [
-          { required: true, message: "父级评论的id不能为空", trigger: "blur" }
-        ],
-        delFlag: [
-          { required: true, message: "删除标志不能为空", trigger: "blur" }
-        ]
-      }
+      rules: {}
     };
   },
   created() {
@@ -236,13 +187,13 @@ export default {
       this.title = "添加评论";
     },
     /** 修改按钮操作 */
-    handleUpdate(row) {
+    handleView(row) {
       this.reset();
       const id = row.id || this.ids
       getComment(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改评论";
+        this.title = "查看评论";
       });
     },
     /** 提交按钮 */
@@ -268,19 +219,13 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除评论编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除评论人为【' + row.name + '】的评论？').then(function() {
         return delComment(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
     },
-    /** 导出按钮操作 */
-    handleExport() {
-      this.download('business/comment/export', {
-        ...this.queryParams
-      }, `comment_${new Date().getTime()}.xlsx`)
-    }
   }
 };
 </script>

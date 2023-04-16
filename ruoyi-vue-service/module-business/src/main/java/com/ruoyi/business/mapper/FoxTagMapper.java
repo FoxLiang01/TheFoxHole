@@ -7,6 +7,7 @@ import com.ruoyi.business.vo.FoxTagVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 标签Mapper接口
@@ -27,9 +28,8 @@ public interface FoxTagMapper extends BaseMapper<FoxTag> {
     /**
      * 查询标签列表
      *
-     * @param foxTag 标签
      * @return 标签集合
      */
-    public List<FoxTag> selectFoxTagList(FoxTag foxTag);
+    public List<Map<String, Object>> selectFoxTagList(@Param("params") Map<String, Object> params);
 
 }

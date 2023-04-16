@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 评论Service业务层处理
@@ -46,9 +47,9 @@ public class FoxCommentServiceImpl extends ServiceImpl<FoxCommentMapper, FoxComm
      * @return 评论
      */
     @Override
-    public List<FoxComment> selectFoxCommentList(FoxComment foxComment)
+    public List<Map<String, Object>> selectFoxCommentList(Map<String, Object> params)
     {
-        return foxCommentMapper.selectFoxCommentList(foxComment);
+        return foxCommentMapper.selectFoxCommentList(params);
     }
 
     /**

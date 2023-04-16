@@ -6,6 +6,7 @@ import com.ruoyi.business.domain.FoxArticle;
 import com.ruoyi.business.vo.FoxArticleVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 文章Service接口
@@ -26,10 +27,9 @@ public interface IFoxArticleService extends IService<FoxArticle> {
     /**
      * 查询文章列表
      *
-     * @param foxArticle 文章
      * @return 文章集合
      */
-    public List<FoxArticle> selectFoxArticleList(FoxArticle foxArticle);
+    public List<Map<String, Object>> selectFoxArticleList(Map<String, Object> params);
 
     /**
      * 新增文章

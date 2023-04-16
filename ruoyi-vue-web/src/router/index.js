@@ -87,7 +87,13 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
-  }
+  },
+//  博客访问端-首页
+  {
+    path: '/homepage',
+    hidden: true,
+    component: () => import('@/views/blog/client/homePage/index')
+  },
 ]
 
 // 动态路由，基于用户权限动态去加载

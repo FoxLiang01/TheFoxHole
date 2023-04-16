@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.business.mapper.FoxTagMapper">
 
-    <resultMap type="FoxTag" id="FoxTagResult">
+    <resultMap type="com.ruoyi.business.domain.FoxTag" id="FoxTagResult">
         <result property="id"    column="id"    />
         <result property="tagName"    column="tag_name"    />
         <result property="metaTag"    column="meta_tag"    />
@@ -15,18 +15,28 @@
         <result property="remark"    column="remark"    />
         <result property="status"    column="status"    />
         <result property="delFlag"    column="del_flag"    />
+        <result property="path"    column="path"    />
     </resultMap>
 
     <sql id="selectFoxTagVo">
         select id, tag_name, meta_tag, create_by, create_time, update_by, update_time, remark, status, del_flag from fox_tag
     </sql>
 
-    <select id="selectFoxTagList" parameterType="FoxTag" resultMap="FoxTagResult">
-        <include refid="selectFoxTagVo"/>
+    <select id="selectFoxTagList" resultType="java.util.Map">
+        select id,
+        tag_name as tagName,
+        meta_tag as metaTag,
+        create_by as createBy,
+        create_time as createTime,
+        update_by as updateBy,
+        update_time as updateTime,
+        remark,
+        status,
+        del_flag as delFlag from fox_tag
         <where>
-            <if test="tagName != null  and tagName != ''"> and tag_name like concat('%', #{tagName}, '%')</if>
-            <if test="metaTag != null "> and meta_tag = #{metaTag}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
+        AND del_flag = 0
+            <if test="params.tagName != null  and params.tagName != ''"> and tag_name like concat('%', #{params.tagName}, '%')</if>
+            <if test="params.status != null  and params.status != ''"> and status = #{params.status}</if>
         </where>
     </select>
 

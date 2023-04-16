@@ -9,14 +9,14 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="父级标签" prop="metaTag">
-        <el-input
-          v-model="queryParams.metaTag"
-          placeholder="请输入父级标签"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
+<!--      <el-form-item label="父级标签" prop="metaTag">-->
+<!--        <el-input-->
+<!--          v-model="queryParams.metaTag"-->
+<!--          placeholder="请输入父级标签"-->
+<!--          clearable-->
+<!--          @keyup.enter.native="handleQuery"-->
+<!--        />-->
+<!--      </el-form-item>-->
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -36,17 +36,6 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
-          plain
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['business:tag:edit']"
-        >修改</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
           type="danger"
           plain
           icon="el-icon-delete"
@@ -56,25 +45,12 @@
           v-hasPermi="['business:tag:remove']"
         >删除</el-button>
       </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['business:tag:export']"
-        >导出</el-button>
-      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="tagList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="标签名称" align="center" prop="tagName" />
-      <el-table-column label="父级标签" align="center" prop="metaTag" />
-      <el-table-column label="备注" align="center" prop="remark" />
+      <el-table-column label="标签名称" align="left" prop="tagName" />
       <el-table-column label="状态" align="center" prop="status" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -115,9 +91,6 @@
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容" />
-        </el-form-item>
-        <el-form-item label="删除标志" prop="delFlag">
-          <el-input v-model="form.delFlag" placeholder="请输入删除标志" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -168,23 +141,8 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        id: [
-          { required: true, message: "$comment不能为空", trigger: "blur" }
-        ],
         tagName: [
           { required: true, message: "标签名称不能为空", trigger: "blur" }
-        ],
-        metaTag: [
-          { required: true, message: "父级标签不能为空", trigger: "blur" }
-        ],
-        remark: [
-          { required: true, message: "备注不能为空", trigger: "blur" }
-        ],
-        status: [
-          { required: true, message: "状态不能为空", trigger: "blur" }
-        ],
-        delFlag: [
-          { required: true, message: "删除标志不能为空", trigger: "blur" }
         ]
       }
     };

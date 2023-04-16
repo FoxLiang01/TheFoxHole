@@ -57,6 +57,8 @@ public class FoxTag extends BaseEntity {
      */
     private String delFlag;
 
+    private String path;
+
     public void setId(Long id)
     {
         this.id = id;
@@ -113,6 +115,16 @@ public class FoxTag extends BaseEntity {
         return remark;
     }
 
+    public void setPath(String path)
+    {
+        this.path = path;
+    }
+
+    public String getPath()
+    {
+        return path;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -126,6 +138,7 @@ public class FoxTag extends BaseEntity {
                 .append("remark", getRemark())
                 .append("status", getStatus())
                 .append("delFlag", getDelFlag())
+                .append("path", getPath())
                 .toString();
     }
 }
